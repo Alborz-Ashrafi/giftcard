@@ -1,0 +1,1114 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="راهنمای اجرایی استانداردسازی پاسخگویی، مدیریت مشتری عصبانی، مالکیت پرونده، ارجاع، Playbook و QA برای Giftcard.ir">
+  <meta name="theme-color" content="#0b2138">
+  <title>Giftcard.ir Customer Support Operating System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --navy-950: #071726;
+      --navy-900: #0b2138;
+      --navy-800: #123553;
+      --blue-700: #246394;
+      --blue-600: #2d74ad;
+      --teal-700: #087c7a;
+      --teal-600: #0b918d;
+      --teal-100: #dff4f1;
+      --teal-50: #f0faf8;
+      --ink: #182b3d;
+      --muted: #66788a;
+      --line: #d8e1e8;
+      --surface: #ffffff;
+      --canvas: #f3f6f8;
+      --soft: #f7f9fb;
+      --red: #a83c47;
+      --red-bg: #fff1f2;
+      --green: #167451;
+      --green-bg: #ecf9f2;
+      --amber: #95600d;
+      --amber-bg: #fff7e7;
+      --shadow: 0 14px 42px rgba(11, 33, 56, .09);
+      --radius-lg: 22px;
+      --radius-md: 15px;
+      --sidebar: 288px;
+      --content: 1180px;
+      --font: "Vazirmatn", Tahoma, "Segoe UI", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.82;
+      text-rendering: optimizeLegibility;
+    }
+    body.nav-open { overflow: hidden; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: var(--blue-700); text-underline-offset: 3px; }
+    a:hover { color: var(--teal-700); }
+    bdi, .ltr { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+    .skip-link {
+      position: fixed;
+      inset: 12px auto auto 12px;
+      z-index: 120;
+      padding: 10px 14px;
+      color: white;
+      background: var(--navy-900);
+      border-radius: 10px;
+      transform: translateY(-160%);
+      transition: transform .2s ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 4px;
+      z-index: 110;
+      background: transparent;
+    }
+    .scroll-progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue-600), var(--teal-600));
+    }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 0 0 auto;
+      z-index: 90;
+      width: var(--sidebar);
+      overflow-y: auto;
+      color: #eaf2f7;
+      background:
+        radial-gradient(circle at 22% 2%, rgba(18, 142, 139, .24), transparent 26%),
+        linear-gradient(180deg, var(--navy-950), var(--navy-900));
+      border-left: 1px solid rgba(255,255,255,.08);
+      padding: 30px 22px 24px;
+      transition: transform .25s ease;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 23px;
+      border-bottom: 1px solid rgba(255,255,255,.11);
+    }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      flex: 0 0 auto;
+      border-radius: 13px;
+      background: linear-gradient(145deg, #17aaa5, #08716f);
+      color: white;
+      font-weight: 900;
+      letter-spacing: -.03em;
+      box-shadow: 0 10px 30px rgba(11,145,141,.25);
+    }
+    .brand strong { display: block; font-size: 15px; line-height: 1.35; }
+    .brand small { color: #9fb3c4; font-size: 12px; }
+    .side-label {
+      margin: 22px 8px 8px;
+      color: #7892a6;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+    .side-nav { display: grid; gap: 5px; }
+    .side-nav a {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 43px;
+      padding: 8px 10px;
+      color: #c6d4df;
+      text-decoration: none;
+      border-radius: 11px;
+      transition: color .18s ease, background .18s ease, transform .18s ease;
+    }
+    .side-nav a:hover { color: white; background: rgba(255,255,255,.07); }
+    .side-nav a[aria-current="true"] {
+      color: white;
+      background: rgba(18, 164, 158, .19);
+      box-shadow: inset -3px 0 0 #28b7b1;
+    }
+    .nav-no {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px;
+      color: #88e0dc;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .side-summary {
+      margin-top: 22px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 15px;
+      background: rgba(255,255,255,.045);
+    }
+    .side-summary strong { display: block; color: white; font-size: 13px; }
+    .side-summary p { margin: 6px 0 0; color: #a9bccb; font-size: 12px; line-height: 1.75; }
+
+    .page { margin-right: var(--sidebar); min-height: 100vh; }
+    body.focus-mode .sidebar { display: none; }
+    body.focus-mode .page { margin-right: 0; }
+    .topbar {
+      position: sticky;
+      inset: 0 0 auto 0;
+      z-index: 70;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 66px;
+      padding: 10px clamp(20px, 4vw, 56px);
+      background: rgba(243,246,248,.88);
+      border-bottom: 1px solid rgba(203,215,224,.75);
+      backdrop-filter: blur(14px);
+    }
+    .topbar-title { min-width: 0; }
+    .topbar-title strong { display: block; font-size: 14px; line-height: 1.3; }
+    .topbar-title small { display: block; color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .top-actions { display: flex; gap: 8px; }
+    .icon-btn, .filter-btn, .tab-btn, .reset-btn {
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: white;
+      border-radius: 10px;
+      transition: border-color .18s ease, color .18s ease, background .18s ease, transform .18s ease;
+    }
+    .icon-btn { min-height: 40px; padding: 8px 13px; }
+    .icon-btn:hover, .filter-btn:hover, .tab-btn:hover, .reset-btn:hover { border-color: #8fb6c9; color: var(--blue-700); }
+    .icon-btn:active, .filter-btn:active, .tab-btn:active, .reset-btn:active { transform: translateY(1px); }
+    .menu-btn { display: none; }
+
+    main { max-width: var(--content); margin: 0 auto; padding: 34px clamp(20px, 4vw, 56px) 90px; }
+    section { scroll-margin-top: 86px; }
+    .section-block { margin-top: 58px; }
+    .section-block--first { margin-top: 0; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--teal-700);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .02em;
+    }
+    .eyebrow::before { content: ""; width: 26px; height: 3px; border-radius: 99px; background: var(--teal-600); }
+    h1, h2, h3, h4 { margin: 0; color: var(--navy-900); line-height: 1.42; letter-spacing: -.025em; }
+    h1 { margin-top: 8px; font-size: clamp(28px, 4vw, 43px); }
+    h2 { font-size: clamp(24px, 3vw, 33px); }
+    h3 { font-size: 20px; }
+    h4 { font-size: 17px; }
+    p { margin: 0; }
+    .lead { max-width: 900px; margin-top: 15px; color: #4a6073; font-size: clamp(16px, 1.7vw, 19px); }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 22px; }
+    .section-head p { max-width: 680px; margin-top: 7px; color: var(--muted); font-size: 14px; }
+    .section-index { color: #b3c1cc; font-size: 13px; font-weight: 800; direction: ltr; }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 12px;
+      margin-top: 25px;
+    }
+    .metric {
+      min-height: 96px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 22px rgba(11,33,56,.045);
+    }
+    .metric b { display: block; color: var(--teal-700); font-size: 27px; line-height: 1; }
+    .metric span { display: block; margin-top: 8px; color: var(--muted); font-size: 13px; }
+    .north-star {
+      position: relative;
+      margin-top: 18px;
+      padding: 20px 22px 20px 64px;
+      overflow: hidden;
+      border: 1px solid #a8d9d5;
+      border-radius: var(--radius-md);
+      background: linear-gradient(105deg, var(--teal-50), #fff);
+      color: var(--navy-800);
+      font-weight: 700;
+    }
+    .north-star::after {
+      content: "OS";
+      position: absolute;
+      inset: 50% auto auto 18px;
+      transform: translateY(-50%);
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--teal-700);
+      color: white;
+      font-size: 11px;
+      direction: ltr;
+    }
+    .system-map {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 13px;
+      margin-top: 18px;
+    }
+    .map-card {
+      position: relative;
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+    .map-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; border-radius: 15px 15px 0 0; background: var(--blue-600); }
+    .map-card:nth-child(2)::before { background: var(--teal-600); }
+    .map-card:nth-child(3)::before { background: #c47b25; }
+    .map-card strong { display: block; color: var(--navy-900); }
+    .map-card span { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; }
+
+    .principles-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+    .principle-card {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 14px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: white;
+    }
+    .principle-card:last-child { grid-column: 1 / -1; }
+    .principle-no {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: var(--navy-900);
+      color: white;
+      font-weight: 900;
+      direction: ltr;
+    }
+    .principle-card p { margin-top: 6px; color: var(--muted); font-size: 14px; }
+    .control-tag { display: inline-flex; margin-top: 11px; padding: 4px 8px; border-radius: 7px; color: var(--teal-700); background: var(--teal-50); font-size: 12px; font-weight: 800; }
+
+    .evidence-band {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .evidence-band a {
+      display: block;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: var(--blue-700);
+      background: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .evidence-band a:hover { border-color: #88b8c9; background: var(--teal-50); }
+    .boundary-note, .warning-note, .success-note {
+      margin-top: 17px;
+      padding: 16px 18px;
+      border-radius: 13px;
+      font-size: 14px;
+    }
+    .boundary-note { color: var(--navy-800); background: var(--teal-50); border: 1px solid #b6dfdc; }
+    .warning-note { color: #634616; background: var(--amber-bg); border: 1px solid #efd59d; }
+    .success-note { color: #155d44; background: var(--green-bg); border: 1px solid #b7dfcc; }
+
+    .framework-compare {
+      margin: 0 0 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: white;
+      overflow: hidden;
+    }
+    .framework-compare summary {
+      padding: 15px 18px;
+      color: var(--navy-800);
+      font-weight: 900;
+      cursor: pointer;
+      list-style: none;
+    }
+    .framework-compare summary::-webkit-details-marker { display: none; }
+    .framework-compare summary::before { content: "+"; display: inline-grid; place-items: center; width: 24px; height: 24px; margin-left: 8px; border-radius: 7px; color: var(--teal-700); background: var(--teal-100); }
+    .framework-compare[open] summary::before { content: "−"; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 680px; background: white; }
+    th, td { padding: 12px 13px; border: 1px solid var(--line); text-align: right; vertical-align: top; }
+    th { color: var(--navy-800); background: #e9f0f5; font-size: 13px; }
+    td { font-size: 14px; }
+    tbody tr:nth-child(even) td { background: #fafbfd; }
+
+    .calmer-rail { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 10px; direction: ltr; }
+    .step-card {
+      position: relative;
+      min-height: 184px;
+      padding: 17px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: white;
+      direction: rtl;
+      box-shadow: 0 9px 24px rgba(11,33,56,.045);
+    }
+    .step-card::after {
+      content: "";
+      position: absolute;
+      top: 35px;
+      left: -11px;
+      width: 11px;
+      height: 2px;
+      background: #a9bdcb;
+    }
+    .step-card:last-child::after { display: none; }
+    .step-letter { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; color: white; background: var(--navy-900); font-weight: 900; direction: ltr; }
+    .step-card:nth-child(2n) .step-letter { background: var(--teal-700); }
+    .step-card h3 { margin-top: 10px; font-size: 15px; }
+    .step-card p { margin-top: 7px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .step-output { display: block; margin-top: 9px; color: var(--teal-700); font-size: 11px; font-weight: 900; }
+
+    .tabs { margin-top: 18px; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; overflow: hidden; }
+    .tab-list { display: flex; gap: 4px; padding: 7px; border-bottom: 1px solid var(--line); background: var(--soft); overflow-x: auto; }
+    .tab-btn { flex: 0 0 auto; padding: 8px 13px; font-size: 13px; }
+    .tab-btn[aria-selected="true"] { color: white; border-color: var(--navy-900); background: var(--navy-900); }
+    .tab-panel { display: none; padding: 20px; }
+    .tab-panel.active { display: block; }
+    .customer-line, .agent-line { padding: 14px 16px; border-radius: 13px; }
+    .customer-line { color: #6e2630; background: var(--red-bg); border: 1px solid #f1c5ca; }
+    .agent-line { margin-top: 10px; color: #155e47; background: var(--green-bg); border: 1px solid #b9dfcd; }
+    .agent-line strong, .customer-line strong { display: block; margin-bottom: 4px; }
+
+    .phrase-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+    }
+    .search-box { position: relative; flex: 1 1 280px; }
+    .search-box input {
+      width: 100%;
+      min-height: 44px;
+      padding: 9px 14px 9px 42px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: var(--ink);
+      background: var(--soft);
+      outline: none;
+    }
+    .search-box input:focus { border-color: var(--teal-600); box-shadow: 0 0 0 3px rgba(11,145,141,.12); }
+    .search-box span { position: absolute; inset: 50% auto auto 14px; transform: translateY(-50%); color: var(--muted); font-size: 12px; }
+    .filter-group { display: flex; flex-wrap: wrap; gap: 6px; }
+    .filter-btn { padding: 7px 11px; font-size: 12px; }
+    .filter-btn.active { color: white; border-color: var(--teal-700); background: var(--teal-700); }
+    .visible-count { flex: 0 0 auto; color: var(--muted); font-size: 12px; }
+    .phrase-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+    .phrase-card { padding: 17px; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; box-shadow: 0 8px 22px rgba(11,33,56,.04); }
+    .phrase-card[hidden] { display: none; }
+    .phrase-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+    .phrase-no { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 9px; color: white; background: var(--navy-900); font-size: 12px; font-weight: 900; direction: ltr; }
+    .phrase-tag { padding: 3px 8px; border-radius: 999px; color: var(--teal-700); background: var(--teal-50); font-size: 11px; font-weight: 800; }
+    .phrase-row { display: grid; grid-template-columns: 110px 1fr; gap: 9px; margin-top: 8px; }
+    .phrase-label { padding: 9px; border-radius: 10px; font-size: 12px; font-weight: 900; }
+    .phrase-copy { padding: 9px 11px; border-radius: 10px; font-size: 14px; line-height: 1.72; }
+    .dont .phrase-label, .dont .phrase-copy { color: #7c2934; background: var(--red-bg); }
+    .say .phrase-label, .say .phrase-copy { color: #145e46; background: var(--green-bg); }
+    .phrase-why { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); color: var(--muted); font-size: 13px; }
+    .empty-state { display: none; padding: 34px; text-align: center; color: var(--muted); border: 1px dashed #aabac6; border-radius: var(--radius-md); background: white; }
+    .empty-state.show { display: block; }
+
+    .raise-grid { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; direction: ltr; }
+    .raise-card { padding: 17px 14px; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; direction: rtl; }
+    .raise-letter { color: var(--teal-700); font-size: 25px; font-weight: 950; line-height: 1; direction: ltr; }
+    .raise-card h3 { margin-top: 8px; font-size: 15px; }
+    .raise-card p { margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .decision-rule { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 10px; margin: 16px 0; padding: 17px; border-radius: 14px; color: white; background: var(--navy-900); }
+    .decision-rule div { text-align: center; font-size: 13px; font-weight: 800; }
+    .decision-rule span { color: #5cd4cf; font-size: 20px; direction: ltr; }
+    .handoff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+    .check-card, .message-card { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; }
+    .clean-list { display: grid; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+    .clean-list li { position: relative; padding-right: 24px; color: #43596b; font-size: 14px; }
+    .clean-list li::before { content: "✓"; position: absolute; inset: 0 0 auto auto; color: var(--teal-700); font-weight: 900; }
+    .message-card blockquote { margin: 12px 0 0; padding: 14px; color: var(--navy-800); background: var(--teal-50); border-right: 4px solid var(--teal-600); border-radius: 9px 0 0 9px; font-size: 14px; }
+
+    .playbook-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 11px; }
+    .field-card { display: grid; grid-template-columns: 48px 1fr; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 13px; background: white; }
+    .field-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; color: var(--navy-800); background: #e8f0f5; font-size: 12px; font-weight: 900; direction: ltr; }
+    .field-card p { margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.68; }
+    .script-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 17px; }
+    .script-card { padding: 18px; border-radius: var(--radius-md); }
+    .script-card.fixed { color: #62491d; background: var(--amber-bg); border: 1px solid #edd29d; }
+    .script-card.flexible { color: #175b45; background: var(--green-bg); border: 1px solid #b8ddcb; }
+    .script-card p { margin-top: 7px; font-size: 13px; }
+    .formula { margin-top: 13px; padding: 13px; border: 1px dashed #82bdb9; border-radius: 11px; text-align: center; color: var(--teal-700); background: var(--teal-50); font-weight: 900; direction: ltr; }
+    .issue-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+    .issue-chip { padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; color: #42586a; background: white; font-size: 12px; }
+
+    .qa-layout { display: grid; grid-template-columns: minmax(0,1.5fr) minmax(280px,.7fr); gap: 16px; align-items: start; }
+    .qa-list { display: grid; gap: 8px; }
+    .qa-item, .critical-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 11px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease;
+    }
+    .qa-item:has(input:checked) { border-color: #8dcdb8; background: #f4fcf8; }
+    .qa-item input, .critical-item input { width: 19px; height: 19px; margin-top: 3px; accent-color: var(--teal-700); }
+    .qa-item strong, .critical-item strong { display: block; }
+    .qa-item small, .critical-item small { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .qa-panel { position: sticky; top: 84px; padding: 20px; border-radius: var(--radius-lg); color: white; background: linear-gradient(160deg, var(--navy-900), #123d5d); box-shadow: var(--shadow); }
+    .score-ring {
+      display: grid;
+      place-items: center;
+      width: 128px;
+      height: 128px;
+      margin: 10px auto 16px;
+      border-radius: 50%;
+      background: conic-gradient(#35c7bd var(--score, 0%), rgba(255,255,255,.13) 0);
+    }
+    .score-ring::before { content: ""; grid-area: 1/1; width: 96px; height: 96px; border-radius: 50%; background: var(--navy-900); }
+    .score-value { z-index: 1; grid-area: 1/1; direction: ltr; font-size: 27px; font-weight: 950; }
+    .score-label { text-align: center; }
+    .score-label strong { display: block; font-size: 18px; }
+    .score-label span { color: #b8cad7; font-size: 12px; }
+    .score-bar { height: 7px; margin: 14px 0; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.13); }
+    .score-bar span { display: block; width: 0; height: 100%; border-radius: inherit; background: #35c7bd; transition: width .25s ease; }
+    .reset-btn { width: 100%; margin-top: 13px; padding: 9px 12px; color: white; border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.08); }
+    .critical-box { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,.13); }
+    .critical-box h4 { color: white; font-size: 14px; }
+    .critical-list { display: grid; gap: 6px; margin-top: 9px; }
+    .critical-item { grid-template-columns: 22px 1fr; padding: 8px; color: #e4edf3; border-color: rgba(255,255,255,.1); background: rgba(255,255,255,.035); font-size: 12px; }
+    .critical-item:has(input:checked) { border-color: #f49aa3; background: rgba(205,62,77,.22); }
+    .critical-item input { width: 16px; height: 16px; accent-color: #e76471; }
+    .critical-item small { color: inherit; font-size: 11px; }
+    .metrics-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
+    .metric-chip { padding: 6px 9px; border-radius: 999px; color: var(--blue-700); background: #eaf2f8; font-size: 12px; font-weight: 800; direction: ltr; }
+    .training-steps { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 8px; margin-top: 15px; direction: ltr; }
+    .training-step { padding: 13px 10px; border: 1px solid var(--line); border-radius: 12px; background: white; direction: rtl; text-align: center; }
+    .training-step b { display: block; margin-bottom: 4px; color: var(--teal-700); direction: ltr; }
+    .training-step span { color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+    .actions-table td:first-child, .actions-table th:first-child { width: 54px; text-align: center; direction: ltr; }
+    .priority { display: inline-flex; padding: 3px 8px; border-radius: 999px; color: var(--teal-700); background: var(--teal-50); font-size: 11px; font-weight: 900; direction: ltr; }
+    .priority.phase2 { color: var(--amber); background: var(--amber-bg); }
+    .roadmap { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-top: 17px; direction: ltr; }
+    .week-card { position: relative; padding: 17px; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; direction: rtl; }
+    .week-card::after { content: ""; position: absolute; top: 30px; left: -11px; width: 11px; height: 2px; background: #abc0cd; }
+    .week-card:last-child::after { display: none; }
+    .week-card b { color: var(--blue-700); }
+    .week-card h4 { margin-top: 5px; }
+    .week-card p { margin-top: 7px; color: var(--muted); font-size: 12px; line-height: 1.65; }
+
+    .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .method-card { padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; }
+    .method-card p, .method-card li { color: var(--muted); font-size: 13px; }
+    .method-card ul { margin: 9px 0 0; padding-right: 19px; }
+    .sources { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; margin-top: 15px; padding: 0; list-style: none; counter-reset: sources; }
+    .sources li { counter-increment: sources; position: relative; padding: 12px 45px 12px 13px; border: 1px solid var(--line); border-radius: 12px; color: #506476; background: white; font-size: 12px; line-height: 1.7; }
+    .sources li::before { content: counter(sources); position: absolute; inset: 12px 12px auto auto; display: grid; place-items: center; width: 23px; height: 23px; border-radius: 7px; color: white; background: var(--navy-900); font-weight: 900; direction: ltr; }
+    .sources cite { color: var(--ink); font-style: normal; font-weight: 800; }
+    .final-note { margin-top: 18px; padding: 21px; color: white; background: linear-gradient(125deg, var(--navy-900), var(--teal-700)); border-radius: var(--radius-lg); }
+    .final-note h3 { color: white; }
+    .final-note p { margin-top: 7px; color: #e4f5f3; }
+
+    footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .footer-credit { margin-top: 7px; color: var(--navy-800); font-weight: 800; font-size: 13px; }
+    .overlay { display: none; position: fixed; inset: 0; z-index: 80; background: rgba(3,15,25,.52); }
+    .overlay.show { display: block; }
+    :focus-visible { outline: 3px solid rgba(11,145,141,.35); outline-offset: 3px; }
+
+    @media (max-width: 1120px) {
+      .calmer-rail { grid-template-columns: repeat(3, minmax(0,1fr)); direction: rtl; }
+      .step-card::after { display: none; }
+      .raise-grid { grid-template-columns: repeat(3, minmax(0,1fr)); direction: rtl; }
+      .training-steps { grid-template-columns: repeat(3, minmax(0,1fr)); direction: rtl; }
+    }
+    @media (max-width: 960px) {
+      .sidebar { transform: translateX(105%); box-shadow: -20px 0 55px rgba(0,0,0,.2); }
+      .sidebar.open { transform: translateX(0); }
+      .page { margin-right: 0; }
+      .menu-btn { display: inline-block; }
+      .topbar-title small { max-width: 48vw; }
+      .metric-strip, .evidence-band { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .qa-layout { grid-template-columns: 1fr; }
+      .qa-panel { position: static; }
+    }
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      main { padding-inline: 16px; }
+      .topbar { padding-inline: 14px; }
+      .print-label { display: none; }
+      .system-map, .principles-grid, .phrase-grid, .playbook-grid, .script-grid, .handoff-grid, .method-grid, .sources { grid-template-columns: 1fr; }
+      .principle-card:last-child { grid-column: auto; }
+      .calmer-rail, .raise-grid { grid-template-columns: 1fr 1fr; }
+      .roadmap { grid-template-columns: 1fr 1fr; direction: rtl; }
+      .week-card::after { display: none; }
+      .decision-rule { grid-template-columns: 1fr; }
+      .decision-rule span { transform: rotate(90deg); }
+      .phrase-row { grid-template-columns: 1fr; }
+      .phrase-label { padding-bottom: 2px; background: transparent !important; }
+    }
+    @media (max-width: 480px) {
+      .metric-strip, .evidence-band, .calmer-rail, .raise-grid, .training-steps, .roadmap { grid-template-columns: 1fr; }
+      .section-head { align-items: start; }
+      .section-index { display: none; }
+      .north-star { padding-left: 18px; padding-top: 60px; }
+      .north-star::after { inset: 16px 18px auto auto; transform: none; }
+      .icon-btn { padding-inline: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+    @media print {
+      @page { size: A4; margin: 12mm; }
+      body { background: white; color: #111; font-size: 10.5pt; line-height: 1.55; }
+      .sidebar, .topbar, .scroll-progress, .overlay, .phrase-toolbar, .reset-btn { display: none !important; }
+      .page { margin: 0; }
+      main { max-width: none; padding: 0; }
+      .section-block { margin-top: 28px; }
+      .metric, .map-card, .principle-card, .step-card, .phrase-card, .raise-card, .field-card, .qa-item, .week-card, .method-card, .sources li { box-shadow: none; break-inside: avoid; }
+      .phrase-card[hidden] { display: block; }
+      .qa-panel { position: static; background: #17324d; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .tab-panel { display: block !important; padding: 13px 0; }
+      .tab-list { display: none; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="sidebar" id="sidebar" aria-label="راهنمای بخش‌ها">
+    <div class="brand">
+      <div class="brand-mark">G</div>
+      <div>
+        <strong>Giftcard.ir Support OS</strong>
+        <small>راهنمای اجرایی پاسخگویی</small>
+      </div>
+    </div>
+    <div class="side-label">بخش‌های راهنما</div>
+    <nav class="side-nav" id="sideNav">
+      <a href="#summary" aria-current="true"><span class="nav-no">01</span><span>خلاصه اجرایی</span></a>
+      <a href="#principles"><span class="nav-no">02</span><span>پنج اصل</span></a>
+      <a href="#calmer"><span class="nav-no">03</span><span>مدل مکالمه CALMER</span></a>
+      <a href="#language"><span class="nav-no">04</span><span>بگویید / نگویید</span></a>
+      <a href="#escalation"><span class="nav-no">05</span><span>ارجاع با RAISE</span></a>
+      <a href="#playbook"><span class="nav-no">06</span><span>معماری Playbook</span></a>
+      <a href="#qa"><span class="nav-no">07</span><span>QA و آموزش</span></a>
+      <a href="#recommendations"><span class="nav-no">08</span><span>اقدام‌های Giftcard.ir</span></a>
+      <a href="#evidence"><span class="nav-no">09</span><span>روش و منابع</span></a>
+    </nav>
+    <div class="side-summary">
+      <strong>قاعده طلایی</strong>
+      <p>شخصیت پشتیبان را استاندارد نکنید؛ رفتار الزامی، منطق تصمیم، حدود اختیار و تعهد بعدی را استاندارد کنید.</p>
+    </div>
+  </aside>
+
+  <div class="page">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0">
+        <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="بازکردن فهرست" aria-expanded="false">فهرست</button>
+        <div class="topbar-title">
+          <strong>Customer Support Operating System</strong>
+          <small id="currentSection">خلاصه اجرایی</small>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="focusBtn" type="button" aria-pressed="false">حالت مطالعه</button>
+        <button class="icon-btn" id="printBtn" type="button"><span class="print-label">چاپ / PDF</span><span aria-hidden="true"> ⤓</span></button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section-block section-block--first" id="summary" aria-labelledby="summary-title">
+        <span class="eyebrow">Actionable Patterns → System Design</span>
+        <h1 id="summary-title">استانداردسازی پاسخگویی به مشتری</h1>
+        <p class="lead">یک راهنمای اجرایی برای اینکه کیفیت مکالمه کمتر به فرد وابسته باشد، مشتری عصبانی بهتر مدیریت شود و پشتیبان بداند چه بگوید، چه کاری انجام دهد و چه زمانی مسئله را ارجاع کند.</p>
+
+        <div class="metric-strip" aria-label="اجزای اصلی سیستم">
+          <div class="metric"><b>6</b><span>مرحله در چارچوب CALMER</span></div>
+          <div class="metric"><b>5</b><span>محرک تصمیم در RAISE</span></div>
+          <div class="metric"><b>15</b><span>بازنویسی کاربردی عبارت‌ها</span></div>
+          <div class="metric"><b>10</b><span>معیار در QA Scorecard</span></div>
+        </div>
+
+        <div class="north-star">هدف استانداردسازی، یکسان‌کردن شخصیت پشتیبان‌ها نیست؛ هدف این است که حداقل رفتارهای درست، منطق تصمیم، حدود اختیار، روش ارجاع و تعهد بعدی برای همه یکسان و قابل سنجش باشد.</div>
+
+        <div class="system-map">
+          <div class="map-card"><strong>قبل از پاسخ</strong><span>Issue Type، ریسک و اطلاعات لازم را مشخص کن.</span></div>
+          <div class="map-card"><strong>در مکالمه</strong><span>تنش را کاهش بده، مالکیت را نشان بده و اقدام کن.</span></div>
+          <div class="map-card"><strong>بعد از مکالمه</strong><span>حلقه را ببند، ثبت کن و دانش را به‌روزرسانی کن.</span></div>
+        </div>
+      </section>
+
+      <section class="section-block" id="principles" aria-labelledby="principles-title">
+        <div class="section-head">
+          <div><h2 id="principles-title">پنج اصل پاسخگویی حرفه‌ای</h2><p>این اصول، حداقل رفتار مشترک تیم و کنترل سیستمی متناظر با آن را تعریف می‌کنند.</p></div>
+          <span class="section-index">02 / 09</span>
+        </div>
+        <div class="principles-grid">
+          <article class="principle-card"><span class="principle-no">01</span><div><h3>تصمیم را استاندارد کن، نه شخصیت را</h3><p>پشتیبان طبیعی حرف می‌زند، اما مراحل مکالمه، سؤال‌های حیاتی، اقدام مجاز و تعهد بعدی را رعایت می‌کند.</p><span class="control-tag">CALMER + Decision Tree</span></div></article>
+          <article class="principle-card"><span class="principle-no">02</span><div><h3>ابتدا تنش را کم کن، سپس مسئله را حل کن</h3><p>اثر مسئله را مشخص بازتاب بده و پیش از دفاع یا توضیح علت، فهم مشترک بساز.</p><span class="control-tag">Active Listening + Empathy</span></div></article>
+          <article class="principle-card"><span class="principle-no">03</span><div><h3>یک پرونده، یک مالک قابل مشاهده</h3><p>همکاری با متخصص پشت‌صحنه انجام شود؛ مشتری نباید برای هماهنگی داخلی هزینه بدهد یا داستانش را تکرار کند.</p><span class="control-tag">Case Owner + Warm Handoff</span></div></article>
+          <article class="principle-card"><span class="principle-no">04</span><div><h3>درباره فرایند قول بده، نه نتیجه خارج از کنترل</h3><p>گام بعدی، مسئول، زمان به‌روزرسانی و کانال پیگیری باید دقیق باشد.</p><span class="control-tag">Promise Log + Next Update</span></div></article>
+          <article class="principle-card"><span class="principle-no">05</span><div><h3>حلقه را ببند و از هر پرونده یاد بگیر</h3><p>جمع‌بندی، تأیید مشتری، ثبت علت و نتیجه و تبدیل مسائل تکراری به دانش قابل استفاده.</p><span class="control-tag">Closure + KCS + QA</span></div></article>
+        </div>
+        <div class="evidence-band" aria-label="پشتوانه شواهد">
+          <a href="https://journals.sagepub.com/doi/10.1177/00222429221119977" target="_blank" rel="noopener">Journal of Marketing: De-escalation</a>
+          <a href="https://hbr.org/2010/07/stop-trying-to-delight-your-customers" target="_blank" rel="noopener">HBR: Customer Effort</a>
+          <a href="https://www.iso.org/standard/71580.html" target="_blank" rel="noopener">ISO 10002</a>
+          <a href="https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide/201-Solve_Loop/Practice_3_Capture" target="_blank" rel="noopener">KCS: Capture</a>
+        </div>
+        <div class="boundary-note"><strong>مرز مهم:</strong> همدلی با قبول تقصیر یکی نیست. می‌توان اثر تجربه را پذیرفت و مسئولیت اقدام بعدی را بر عهده گرفت، بدون اینکه پیش از بررسی علت، تقصیر فنی یا حقوقی را قطعی اعلام کرد.</div>
+      </section>
+
+      <section class="section-block" id="calmer" aria-labelledby="calmer-title">
+        <div class="section-head">
+          <div><h2 id="calmer-title">چارچوب مکالمه CALMER</h2><p>شش گام قابل آموزش از شروع تماس تا بستن حلقه؛ ترتیب می‌تواند در ریسک‌های امنیتی تغییر کند، اما خروجی‌های الزامی حذف نمی‌شوند.</p></div>
+          <span class="section-index">03 / 09</span>
+        </div>
+
+        <details class="framework-compare">
+          <summary>مقایسه کوتاه با LAST، LAER، LEARN و HEARD</summary>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>مدل</th><th>قوت</th><th>خلأ برای Giftcard.ir</th></tr></thead>
+              <tbody>
+                <tr><td><bdi>LAST</bdi></td><td>بسیار ساده و حفظ‌کردنی</td><td>Clarify، مالکیت، Expectation و Escalation صریح نیست.</td></tr>
+                <tr><td><bdi>LAER</bdi></td><td>کشف مسئله و گفت‌وگوی دوطرفه را تقویت می‌کند.</td><td>مالک پرونده و Follow-up روشن نیست.</td></tr>
+                <tr><td><bdi>LEARN</bdi></td><td>همدلی و اطلاع‌رسانی را وارد مدل می‌کند.</td><td>Apologize ممکن است با پذیرش زودهنگام تقصیر اشتباه شود؛ معیار ارجاع ندارد.</td></tr>
+                <tr><td><bdi>HEARD</bdi></td><td>تجربه احساسی و یادگیری پس از حل را کنار هم می‌آورد.</td><td>Expectation، مالکیت و Warm Handoff صریح نیست؛ منبع رسمی برای برخی انتساب‌های شرکتی یافت نشد.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <div class="calmer-rail" aria-label="مراحل CALMER">
+          <article class="step-card"><span class="step-letter">C</span><h3>Connect & Listen</h3><p>اجازه بیان مسئله، قطع‌نکردن بی‌دلیل و ثبت هدف و اثر.</p><span class="step-output">خروجی: مسئله + اثر</span></article>
+          <article class="step-card"><span class="step-letter">A</span><h3>Acknowledge</h3><p>بازگویی مشخص و تأیید اثر یا احساس؛ بدون بحث بر سر مقصر.</p><span class="step-output">خروجی: فهم مشترک</span></article>
+          <article class="step-card"><span class="step-letter">L</span><h3>Locate</h3><p>سؤال حداقلی، احراز هویت متناسب با ریسک و تعیین شدت و نتیجه مطلوب.</p><span class="step-output">خروجی: تشخیص روشن</span></article>
+          <article class="step-card"><span class="step-letter">M</span><h3>Make ownership visible</h3><p>مالک فعلی و کاری را که همین حالا انجام می‌شود به مشتری بگو.</p><span class="step-output">خروجی: Owner + Action</span></article>
+          <article class="step-card"><span class="step-letter">E</span><h3>Execute / Escalate</h3><p>اقدام مجاز یا ارجاع با RAISE؛ سپس زمان و کانال خبر بعدی.</p><span class="step-output">خروجی: Action + Expectation</span></article>
+          <article class="step-card"><span class="step-letter">R</span><h3>Recap & Close</h3><p>جمع‌بندی، تأیید، شماره پرونده، مسیر بازگشت و ثبت کامل.</p><span class="step-output">خروجی: Done یا Next Update</span></article>
+        </div>
+
+        <div class="tabs">
+          <div class="tab-list" role="tablist" aria-label="نمونه اجرای CALMER">
+            <button class="tab-btn" type="button" role="tab" aria-selected="true" aria-controls="phonePanel" id="phoneTab">نمونه تماس</button>
+            <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="messagePanel" id="messageTab">نمونه پیام</button>
+            <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="boundaryPanel" id="boundaryTab">مرز توهین یا تهدید</button>
+          </div>
+          <div class="tab-panel active" id="phonePanel" role="tabpanel" aria-labelledby="phoneTab">
+            <div class="customer-line"><strong>مشتری</strong>«پول را گرفتید، کد هم ندادید؛ هر بار هم یک نفر چیز دیگری می‌گوید.»</div>
+            <div class="agent-line"><strong>پاسخ پیشنهادی تلفنی</strong>«حق دارید از این بلاتکلیفی ناراحت باشید؛ پرداخت ثبت شده اما تحویل انجام نشده و پاسخ‌های قبلی هم یکسان نبوده است. مسئولیت پیگیری این پرونده را من می‌گیرم. لطفاً شماره سفارش را تأیید کنید تا وضعیت درگاه و تحویل را همین حالا بررسی کنم. اگر در این تماس قابل رفع نباشد، پرونده را با همه جزئیات به کارشناس پرداخت می‌فرستم و حداکثر تا ساعت ۱۶ از همین شماره به شما خبر می‌دهم—حتی اگر بررسی هنوز کامل نشده باشد.»</div>
+          </div>
+          <div class="tab-panel" id="messagePanel" role="tabpanel" aria-labelledby="messageTab" hidden>
+            <div class="agent-line" style="margin-top:0"><strong>نسخه مناسب پیام</strong>«می‌فهمم کسر وجه بدون دریافت کد و پاسخ‌های متفاوت، تجربه آزاردهنده‌ای است. وضعیت سفارش را همین حالا بررسی می‌کنم. لطفاً شماره سفارش را بفرستید. مالک پیگیری این پرونده من هستم و حداکثر تا ساعت ۱۶ نتیجه یا آخرین وضعیت را در همین گفتگو اعلام می‌کنم.»</div>
+          </div>
+          <div class="tab-panel" id="boundaryPanel" role="tabpanel" aria-labelledby="boundaryTab" hidden>
+            <div class="warning-note" style="margin-top:0"><strong>مرزبندی پیشنهادی:</strong> «می‌خواهم مسئله را حل کنم و برای ادامه نیاز است گفتگو بدون توهین یا تهدید پیش برود. اگر ادامه پیدا کند، طبق رویه مجبورم مکالمه را متوقف و پرونده را از مسیر رسمی پیگیری کنم.» این جمله باید به سیاست مصوب و مسیر Supervisor متصل باشد؛ تصمیم فردی و ناگهانی نباشد.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block" id="language" aria-labelledby="language-title">
+        <div class="section-head">
+          <div><h2 id="language-title">بگویید / نگویید</h2><p>پانزده بازنویسی برای تبدیل پاسخ دفاعی یا مبهم به «واقعیت روشن + مالکیت اقدام + گزینه یا زمان مشخص».</p></div>
+          <span class="section-index">04 / 09</span>
+        </div>
+        <div class="phrase-toolbar">
+          <div class="search-box"><label class="sr-only" for="phraseSearch">جست‌وجو در عبارت‌ها</label><input id="phraseSearch" type="search" placeholder="جست‌وجو؛ مثلاً نمی‌دانم، صبر کنید یا Region"><span aria-hidden="true">⌕</span></div>
+          <div class="filter-group" aria-label="فیلتر موضوعی">
+            <button class="filter-btn active" type="button" data-filter="all">همه</button>
+            <button class="filter-btn" type="button" data-filter="emotion">تنش و همدلی</button>
+            <button class="filter-btn" type="button" data-filter="ownership">مالکیت و ارجاع</button>
+            <button class="filter-btn" type="button" data-filter="limits">محدودیت و گزینه</button>
+            <button class="filter-btn" type="button" data-filter="closure">انتظار و بستن</button>
+          </div>
+          <span class="visible-count" id="visibleCount">۱۵ مورد</span>
+        </div>
+
+        <div class="phrase-grid" id="phraseGrid">
+          <article class="phrase-card" data-category="emotion"><div class="phrase-meta"><span class="phrase-no">01</span><span class="phrase-tag">تنش</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«آرام باشید.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«می‌فهمم این وضعیت، مخصوصاً وقتی منتظر تحویل کد هستید، چرا نگران‌کننده است. اجازه بدهید دقیق بررسی کنم.»</span></div><p class="phrase-why">دستور به احساس، مقاومت می‌سازد؛ نام‌بردن از اثر، شنیده‌شدن را نشان می‌دهد.</p></article>
+          <article class="phrase-card" data-category="ownership"><div class="phrase-meta"><span class="phrase-no">02</span><span class="phrase-tag">مالکیت</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«مشکل از ما نیست.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«هنوز علت قطعی مشخص نیست؛ مسئولیت بررسی وضعیت سفارش شما با من است و تا ساعت … نتیجه یا آخرین وضعیت را اعلام می‌کنم.»</span></div><p class="phrase-why">تقصیر علّی را از مالکیت فرایند جدا می‌کند.</p></article>
+          <article class="phrase-card" data-category="ownership"><div class="phrase-meta"><span class="phrase-no">03</span><span class="phrase-tag">عدم قطعیت</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«نمی‌دانم.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«برای اینکه پاسخ حدسی ندهم، همین حالا بررسی می‌کنم و تا … با پاسخ قطعی یا وضعیت بعدی برمی‌گردم.»</span></div><p class="phrase-why">عدم قطعیت را صادقانه می‌گوید و آن را به اقدام و زمان وصل می‌کند.</p></article>
+          <article class="phrase-card" data-category="limits"><div class="phrase-meta"><span class="phrase-no">04</span><span class="phrase-tag">گزینه</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«نمی‌شود.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«این درخواست در این مسیر قابل انجام نیست؛ دو گزینه‌ای که می‌توانم اجرا کنم … و … هستند.»</span></div><p class="phrase-why">بن‌بست را به گزینه قابل کنترل تبدیل می‌کند.</p></article>
+          <article class="phrase-card" data-category="ownership"><div class="phrase-meta"><span class="phrase-no">05</span><span class="phrase-tag">ارجاع</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«مربوط به بخش دیگری است.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«این مورد به بررسی واحد پرداخت نیاز دارد. شرح کامل را خودم منتقل می‌کنم؛ تا پذیرش پرونده مالک پیگیری من هستم و خبر بعدی تا … است.»</span></div><p class="phrase-why">پاس‌کاری و تکرار داستان را کم می‌کند.</p></article>
+          <article class="phrase-card" data-category="closure"><div class="phrase-meta"><span class="phrase-no">06</span><span class="phrase-tag">انتظار</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«باید صبر کنید.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«زمان معمول این بررسی … است؛ حداکثر تا … به‌روزرسانی می‌دهم، حتی اگر پاسخ نهایی آماده نشده باشد.»</span></div><p class="phrase-why">انتظار مبهم را به تعهد قابل پیگیری تبدیل می‌کند.</p></article>
+          <article class="phrase-card" data-category="limits"><div class="phrase-meta"><span class="phrase-no">07</span><span class="phrase-tag">اختیار</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«کاری از دست من برنمی‌آید.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«اختیار من تا … است؛ الان می‌توانم … را انجام دهم یا برای تصمیم … با جزئیات کامل ارجاع بدهم.»</span></div><p class="phrase-why">محدودیت اختیار را بدون رهاکردن مشتری توضیح می‌دهد.</p></article>
+          <article class="phrase-card" data-category="limits"><div class="phrase-meta"><span class="phrase-no">08</span><span class="phrase-tag">بدون سرزنش</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«شما Region را اشتباه خریده‌اید.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«محصول ثبت‌شده برای Region … است و با حساب … سازگار نیست. بیایید گزینه‌های مجاز اصلاح، جایگزینی یا استفاده را بررسی کنیم.»</span></div><p class="phrase-why">بر واقعیت و گزینه تمرکز می‌کند، نه سرزنش شخص.</p></article>
+          <article class="phrase-card" data-category="limits"><div class="phrase-meta"><span class="phrase-no">09</span><span class="phrase-tag">سیاست</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«قانون ماست.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«طبق شرط … امکان … وجود ندارد؛ دلیل این محدودیت … است و گزینه‌ای که می‌توانم برای شما اجرا کنم … است.»</span></div><p class="phrase-why">سیاست را توضیح‌پذیر و عملی می‌کند، نه سپر دفاعی.</p></article>
+          <article class="phrase-card" data-category="closure"><div class="phrase-meta"><span class="phrase-no">10</span><span class="phrase-tag">جمع‌بندی</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«قبلاً توضیح دادم.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«اجازه بدهید یک‌بار شفاف جمع‌بندی کنم: وضعیت فعلی …، اقدام ما … و زمان خبر بعدی … است.»</span></div><p class="phrase-why">از تحقیر یا جدل جلوگیری می‌کند و فهم مشترک می‌سازد.</p></article>
+          <article class="phrase-card" data-category="closure"><div class="phrase-meta"><span class="phrase-no">11</span><span class="phrase-tag">پیگیری</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«هر وقت جواب دادند خبر می‌دهیم.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«پیگیری با واحد … با شماره پرونده … ثبت شد؛ زمان بعدی خبر من … است.»</span></div><p class="phrase-why">مالک و زمان را قابل حساب‌خواهی می‌کند.</p></article>
+          <article class="phrase-card" data-category="ownership"><div class="phrase-meta"><span class="phrase-no">12</span><span class="phrase-tag">اختلال</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«سیستم خراب است.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«در حال حاضر در بخش … اختلال داریم؛ سفارش شما در وضعیت … است و اقدام بعدی ما … خواهد بود.»</span></div><p class="phrase-why">برچسب کلی را به دامنه، وضعیت و اقدام تبدیل می‌کند.</p></article>
+          <article class="phrase-card" data-category="emotion"><div class="phrase-meta"><span class="phrase-no">13</span><span class="phrase-tag">اولویت</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«شما تنها مشتری نیستید.»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«می‌دانم زمان برای شما مهم است؛ درخواست در سطح اولویت … ثبت شده و تا … پیگیری می‌شود.»</span></div><p class="phrase-why">مقایسه مشتری با دیگران تنش را بالا می‌برد؛ اولویت شفاف کنترل می‌دهد.</p></article>
+          <article class="phrase-card" data-category="emotion"><div class="phrase-meta"><span class="phrase-no">14</span><span class="phrase-tag">همدلی</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«حق با شماست؛ ما خراب کردیم.» پیش از بررسی</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«اثر این اتفاق روی شما روشن است و بابت تجربه‌ای که داشته‌اید متأسفم. علت را بررسی می‌کنیم و الان … را انجام می‌دهم.»</span></div><p class="phrase-why">Empathy و تأسف را بدون نتیجه‌گیری زودهنگام درباره علت یا تقصیر بیان می‌کند.</p></article>
+          <article class="phrase-card" data-category="closure"><div class="phrase-meta"><span class="phrase-no">15</span><span class="phrase-tag">بستن</span></div><div class="phrase-row dont"><span class="phrase-label">نگویید</span><span class="phrase-copy">«دیگر کاری ندارید؟»</span></div><div class="phrase-row say"><span class="phrase-label">بگویید</span><span class="phrase-copy">«جمع‌بندی کنم: … . آیا نتیجه مورد انتظار شما همین است یا نکته دیگری باید در همین پرونده ثبت شود؟»</span></div><p class="phrase-why">Closure را از پایان سریع تماس به تأیید نتیجه تبدیل می‌کند.</p></article>
+        </div>
+        <div class="empty-state" id="phraseEmpty">عبارتی با این جست‌وجو پیدا نشد.</div>
+        <div class="warning-note"><strong>سه قانون زبانی:</strong> قطعیت کاذب نسازید؛ «اما» را بلافاصله بعد از همدلی نیاورید؛ و «شما باید / آن‌ها جواب نداده‌اند» را به «اطلاعات لازم / پیگیری من تا زمان مشخص» تبدیل کنید.</div>
+      </section>
+
+      <section class="section-block" id="escalation" aria-labelledby="escalation-title">
+        <div class="section-head">
+          <div><h2 id="escalation-title">چارچوب ارجاع RAISE</h2><p>فعال‌شدن یک محرک الزاماً به معنی انتقال مشتری نیست؛ ابتدا مشخص کنید پشتیبان باید حل کند، کمک بگیرد یا مالکیت را رسماً منتقل کند.</p></div>
+          <span class="section-index">05 / 09</span>
+        </div>
+        <div class="raise-grid">
+          <article class="raise-card"><span class="raise-letter">R</span><h3>Risk</h3><p>تقلب، امنیت، محرمانگی، حقوقی، اعتبار عمومی یا اقدام برگشت‌ناپذیر.</p></article>
+          <article class="raise-card"><span class="raise-letter">A</span><h3>Authority</h3><p>Refund، Replacement، استثنا یا دسترسی خارج از اختیار پشتیبان.</p></article>
+          <article class="raise-card"><span class="raise-letter">I</span><h3>Impact</h3><p>اثر شدید، فوری، مبلغ بالا، چندمشتری یا اختلال سیستمی.</p></article>
+          <article class="raise-card"><span class="raise-letter">S</span><h3>Stalled</h3><p>تماس تکراری، شکست مسیر استاندارد، SLA در خطر یا درخواست Supervisor.</p></article>
+          <article class="raise-card"><span class="raise-letter">E</span><h3>Expertise</h3><p>دانش یا ابزار تخصصی مانند درگاه، Provider، لاگ تحویل یا Region.</p></article>
+        </div>
+        <div class="decision-rule" aria-label="منطق تصمیم ارجاع"><div>هیچ محرک فعال نیست<br>مسیر شناخته‌شده است</div><span>←</span><div>پشتیبان خودش حل می‌کند</div><span>←</span><div>محرک فعال است<br>سطح کمک را تعیین کن</div></div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>سطح</th><th>تصمیم</th><th>مالکیت</th><th>شرط خروج</th></tr></thead>
+            <tbody>
+              <tr><td><bdi>L0 — Solve</bdi></td><td>پشتیبان طبق Playbook و اختیار خود حل می‌کند.</td><td>همان پشتیبان</td><td>اقدام انجام، نتیجه تأیید، مستندات کامل.</td></tr>
+              <tr><td><bdi>L1 — Consult</bdi></td><td>متخصص پشت‌صحنه راهنمایی یا دسترسی کوتاه می‌دهد.</td><td>پشتیبان اولیه می‌ماند.</td><td>راه‌حل اجرا یا نیاز به L2/L3 مشخص شود.</td></tr>
+              <tr><td><bdi>L2 — Formal handoff</bdi></td><td>پرونده به مالک تخصصی یا Supervisor منتقل می‌شود.</td><td>تا پذیرش: مالک قبلی؛ پس از پذیرش: مالک نام‌دار جدید.</td><td>پذیرش ثبت‌شده + خلاصه کامل + زمان خبر بعدی.</td></tr>
+              <tr><td><bdi>L3 — Critical incident</bdi></td><td>مسیر فوری Risk/Incident فعال می‌شود.</td><td>Incident Owner مشخص</td><td>مهار ریسک، پیام هماهنگ، Cadence و Closure رسمی.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="handoff-grid">
+          <div class="check-card"><h3>بسته اجباری Warm Handoff</h3><ul class="clean-list"><li>شناسه مشتری، سفارش و پرونده</li><li>مسئله به زبان مشتری، اثر و فوریت</li><li>احراز هویت و کنترل امنیتی انجام‌شده</li><li>شواهد و اقدام‌های انجام‌شده</li><li>نتیجه مورد انتظار و تعهدهای داده‌شده</li><li>دلیل RAISE و تصمیم مورد نیاز</li><li>مالک فعلی، گیرنده و Deadline خبر بعدی</li></ul></div>
+          <div class="message-card"><h3>پیام استاندارد به مشتری</h3><blockquote>«برای حل این مورد به بررسی تخصصی پرداخت نیاز داریم. لازم نیست توضیحات را تکرار کنید؛ خلاصه و مدارک را منتقل کرده‌ام. تا ثبت پذیرش، مالک پیگیری من هستم. مسئول بعدی … است و حداکثر تا … از کانال … به شما خبر می‌دهیم.»</blockquote><div class="boundary-note"><strong>قاعده طلایی:</strong> انتقال بدون گیرنده مشخص، پذیرش ثبت‌شده و زمان خبر بعدی «ارجاع کامل» نیست.</div></div>
+        </div>
+      </section>
+
+      <section class="section-block" id="playbook" aria-labelledby="playbook-title">
+        <div class="section-head">
+          <div><h2 id="playbook-title">معماری Customer Support Playbook</h2><p>Playbook از مقاله‌های طولانی به کارت‌های مسئله قابل اجرا تبدیل می‌شود؛ هر کارت مالک محتوا، نسخه و تاریخ بازبینی دارد.</p></div>
+          <span class="section-index">06 / 09</span>
+        </div>
+        <div class="playbook-grid">
+          <article class="field-card"><span class="field-icon">TYPE</span><div><h4>Issue Type</h4><p>نام استاندارد، Intent/Symptom، مثال شامل/غیرشامل، کد علت و Severity/Risk Flag.</p></div></article>
+          <article class="field-card"><span class="field-icon">ASK</span><div><h4>Questions to Ask</h4><p>سؤال‌های حداقلی و به‌ترتیب؛ داده‌ای که نباید دوباره پرسیده شود؛ احراز هویت لازم.</p></div></article>
+          <article class="field-card"><span class="field-icon">SAY</span><div><h4>Suggested Response</h4><p>محتوای الزامی، ۲ تا ۳ نمونه طبیعی برای تماس و پیام و جمله تنظیم انتظار.</p></div></article>
+          <article class="field-card"><span class="field-icon">NO</span><div><h4>What Not to Say</h4><p>عبارت تشدیدکننده، وعده ممنوع، سرزنش، حدس علت و واژه حساس همان Issue Type.</p></div></article>
+          <article class="field-card"><span class="field-icon">DO</span><div><h4>Required Action</h4><p>گام سیستمی، بررسی اجباری، مدرک لازم، اقدام مجاز و ترتیب اجرای آن‌ها.</p></div></article>
+          <article class="field-card"><span class="field-icon">AUTH</span><div><h4>Authority & Limits</h4><p>چه کسی Refund، Replacement، استثنا یا تغییر وضعیت را تا چه حد تأیید می‌کند.</p></div></article>
+          <article class="field-card"><span class="field-icon">UP</span><div><h4>Escalation</h4><p>محرک RAISE، سطح، مقصد نام‌دار، اطلاعات Handoff و SLA پذیرش.</p></div></article>
+          <article class="field-card"><span class="field-icon">NEXT</span><div><h4>Follow-up</h4><p>زمان خبر بعدی، کانال، مسئول، Reminder و متن وقتی نتیجه نهایی آماده نیست.</p></div></article>
+          <article class="field-card"><span class="field-icon">DONE</span><div><h4>Closure</h4><p>تعریف Done از دید مشتری، تأیید، Closure Code، مدارک و شرط Reopen.</p></div></article>
+          <article class="field-card"><span class="field-icon">KCS</span><div><h4>Knowledge & Governance</h4><p>لینک‌ها، Known Error، مالک کارت، نسخه، تاریخ بازبینی و سیگنال نیاز به اصلاح.</p></div></article>
+        </div>
+        <div class="script-grid">
+          <div class="script-card fixed"><h3>سخت‌گیرانه Script شود</h3><p>احراز هویت و امنیت، افشای اطلاعات، شرایط حقوقی و مالی، اقدام برگشت‌ناپذیر، حدود Refund/Replacement، اعلان Incident، تعهد رسمی SLA و داده‌های اجباری.</p></div>
+          <div class="script-card flexible"><h3>منعطف بماند</h3><p>جمله همدلی، پرسش‌های غیرحیاتی، توضیح متناسب با دانش مشتری، Transitionها، لحن برند، مثال و جمع‌بندی طبیعی.</p></div>
+        </div>
+        <div class="formula">Mandatory content + Decision logic + Optional phrase examples</div>
+        <h3 style="margin-top:22px">ده کارت پیشنهادی MVP</h3>
+        <div class="issue-chips"><span class="issue-chip">کسر وجه و عدم ثبت/تحویل</span><span class="issue-chip">تأخیر تحویل</span><span class="issue-chip">کد نامعتبر/استفاده‌شده</span><span class="issue-chip">Region یا Platform ناسازگار</span><span class="issue-chip">اشتباه محصول/مقدار</span><span class="issue-chip">Refund/Cancellation</span><span class="issue-chip">اختلال Provider</span><span class="issue-chip">احراز هویت/تقلب</span><span class="issue-chip">تغییر قیمت/موجودی</span><span class="issue-chip">تماس تکراری/شکایت از پاسخ قبلی</span></div>
+      </section>
+
+      <section class="section-block" id="qa" aria-labelledby="qa-title">
+        <div class="section-head">
+          <div><h2 id="qa-title">QA Scorecard و آموزش</h2><p>هر معیار یک امتیاز دارد. پیشنهاد پایلوت: ۸ از ۱۰ و بدون Critical Fail؛ آستانه پس از Calibration با داده واقعی تنظیم شود.</p></div>
+          <span class="section-index">07 / 09</span>
+        </div>
+        <div class="qa-layout">
+          <div class="qa-list" id="qaList">
+            <label class="qa-item"><input type="checkbox" value="1"><span><strong>شروع و کنترل هویت</strong><small>شروع مناسب، احراز متناسب با ریسک و توضیح دلیل درخواست داده حساس.</small></span></label>
+            <label class="qa-item"><input type="checkbox" value="1"><span><strong>شنیدن و کشف</strong><small>قطع‌نکردن بی‌دلیل، سؤال مرتبط، استفاده از تاریخچه و Outcome روشن.</small></span></label>
+            <label class="qa-item"><input type="checkbox" value="1"><span><strong>Acknowledge / Empathy</strong><small>بازگویی دقیق و همدلی متناسب؛ بدون کلیشه یا جدل.</small></span></label>
+            <label class="qa-item"><input type="checkbox" value="1"><span><strong>تشخیص و دانش</strong><small>Issue Type و شدت درست، استفاده صحیح از Playbook و پاسخ بدون حدس.</small></span></label>
+            <label class="qa-item"><input type="checkbox" value="1"><span><strong>اقدام / راه‌حل</strong><small>اقدام درست و کامل در حدود سیاست با کمترین Customer Effort.</small></span></label>
+            <label class="qa-item"><input type="checkbox" value="1"><span><strong>مالکیت</strong><small>بدون سرزنش و پاس‌کاری؛ مالک پرونده و اقدام فعلی روشن.</small></span></label>
+            <label class="qa-item"><input type="checkbox" value="1"><span><strong>Escalation / Handoff</strong><small>RAISE، سطح و مقصد درست؛ بسته کامل و پذیرش ثبت‌شده.</small></span></label>
+            <label class="qa-item"><input type="checkbox" value="1"><span><strong>Expectation</strong><small>گام بعدی، مسئول، زمان و کانال روشن؛ بدون وعده خارج از کنترل.</small></span></label>
+            <label class="qa-item"><input type="checkbox" value="1"><span><strong>زبان و لحن</strong><small>محترمانه، واضح، کوتاه و طبیعی؛ بدون عبارت تشدیدکننده یا قطعیت کاذب.</small></span></label>
+            <label class="qa-item"><input type="checkbox" value="1"><span><strong>Recap / Closure / Record</strong><small>جمع‌بندی، تأیید، Case Note، Closure Code و Follow-up کامل.</small></span></label>
+          </div>
+          <aside class="qa-panel" aria-live="polite">
+            <h3 style="color:white">امتیاز مکالمه</h3>
+            <div class="score-ring" id="scoreRing"><span class="score-value" id="scoreValue">0 / 10</span></div>
+            <div class="score-label"><strong id="scoreStatus">نیازمند ارزیابی</strong><span id="scoreHint">معیارهای رعایت‌شده را انتخاب کنید.</span></div>
+            <div class="score-bar"><span id="scoreBar"></span></div>
+            <div class="critical-box">
+              <h4>Critical Fail</h4>
+              <div class="critical-list" id="criticalList">
+                <label class="critical-item"><input type="checkbox"><span>نقض امنیت یا حریم خصوصی</span></label>
+                <label class="critical-item"><input type="checkbox"><span>وعده غیرمجاز یا خارج از کنترل</span></label>
+                <label class="critical-item"><input type="checkbox"><span>اقدام برگشت‌ناپذیر بدون کنترل</span></label>
+                <label class="critical-item"><input type="checkbox"><span>توهین، تبعیض یا تحقیر مشتری</span></label>
+                <label class="critical-item"><input type="checkbox"><span>رهاکردن پرونده پرریسک حل‌نشده</span></label>
+                <label class="critical-item"><input type="checkbox"><span>ثبت نادرست یا مخفی‌کردن واقعیت</span></label>
+              </div>
+            </div>
+            <button class="reset-btn" id="qaReset" type="button">پاک‌کردن امتیاز</button>
+          </aside>
+        </div>
+
+        <h3 style="margin-top:24px">KPIهای همراه QA</h3>
+        <div class="metrics-row"><span class="metric-chip">FCR</span><span class="metric-chip">Repeat Contact</span><span class="metric-chip">Transfer per Case</span><span class="metric-chip">Time to Resolution</span><span class="metric-chip">Promise-kept Rate</span><span class="metric-chip">Reopen / Escalation</span><span class="metric-chip">CSAT / CES</span></div>
+        <div class="warning-note">میانگین زمان تماس به‌تنهایی معیار کیفیت نیست؛ می‌تواند پشتیبان را به عجله و ایجاد تماس تکراری سوق دهد.</div>
+
+        <h3 style="margin-top:24px">آموزش مؤثر برای تغییر رفتار</h3>
+        <div class="training-steps"><div class="training-step"><b>01</b><span>رفتار هدف را دقیق تعریف کن</span></div><div class="training-step"><b>02</b><span>اجرای خوب را نمایش بده</span></div><div class="training-step"><b>03</b><span>سناریوی واقعی را Role-play کن</span></div><div class="training-step"><b>04</b><span>بازخورد فوری بر یک یا دو رفتار</span></div><div class="training-step"><b>05</b><span>همان رفتار را دوباره تمرین کن</span></div><div class="training-step"><b>06</b><span>در تماس واقعی نمونه‌برداری و Coaching کن</span></div></div>
+        <div class="success-note"><strong>Calibration:</strong> دو ارزیاب باید دوره‌ای همان مکالمات را مستقل امتیاز دهند، اختلاف را با تعریف معیار حل و مثال مرزی را به راهنما اضافه کنند.</div>
+      </section>
+
+      <section class="section-block" id="recommendations" aria-labelledby="recommendations-title">
+        <div class="section-head">
+          <div><h2 id="recommendations-title">ده اقدام برای Giftcard.ir</h2><p>نسخه ۱.۰ باید کوچک، قابل استفاده و قابل سنجش باشد؛ سپس با تماس‌های واقعی تکامل پیدا کند.</p></div>
+          <span class="section-index">08 / 09</span>
+        </div>
+        <div class="table-wrap">
+          <table class="actions-table">
+            <thead><tr><th>#</th><th>اقدام</th><th>خروجی قابل تحویل</th><th>فاز</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Taxonomy مسائل را از تماس و پیام واقعی بسازید.</td><td>Issue Type، حجم، تماس تکراری، شدت، کانال و Top 10 واقعی.</td><td><span class="priority">MVP</span></td></tr>
+              <tr><td>2</td><td>CALMER را به استاندارد یک‌صفحه‌ای تبدیل کنید.</td><td>رفتار الزامی، مثال تلفن/پیام، استثناهای امنیتی و سیاست توهین/تهدید.</td><td><span class="priority">MVP</span></td></tr>
+              <tr><td>3</td><td>ده Issue Card اول را بسازید.</td><td>سؤال، پاسخ، اقدام، ممنوعات، ارجاع، Follow-up و Closure.</td><td><span class="priority">MVP</span></td></tr>
+              <tr><td>4</td><td>ماتریس اختیار را تصویب کنید.</td><td>سقف و شرط Refund/Replacement، استثنا، دسترسی و اقدام برگشت‌ناپذیر.</td><td><span class="priority">MVP</span></td></tr>
+              <tr><td>5</td><td>RAISE و چهار سطح ارجاع را عملیاتی کنید.</td><td>Trigger، مقصد، Backup، SLA پذیرش و مسیر Incident.</td><td><span class="priority">MVP</span></td></tr>
+              <tr><td>6</td><td>مالک واحد و Warm Handoff را در CRM اجباری کنید.</td><td>Case Owner، بسته انتقال، پذیرش، Deadline و تاریخچه تعهدها.</td><td><span class="priority">MVP</span></td></tr>
+              <tr><td>7</td><td>Promise Matrix بسازید.</td><td>زمان Ack، زمان خبر بعدی، کانال، مالک و متن Update برای هر Issue.</td><td><span class="priority">MVP</span></td></tr>
+              <tr><td>8</td><td>بانک زبان فارسی و Guardrailها را منتشر کنید.</td><td>۱۵ بازنویسی، عبارات برند، واژه حساس و نمونه پیام کوتاه.</td><td><span class="priority">MVP</span></td></tr>
+              <tr><td>9</td><td>QA و Calibration را پایلوت کنید.</td><td>معیارها، Critical Fail، نمونه امتیازگذاری و Coaching Log.</td><td><span class="priority">MVP</span></td></tr>
+              <tr><td>10</td><td>مالکیت دانش و چرخه یادگیری ایجاد کنید.</td><td>Owner/Version کارت و ورودی از Repeat Contact، QA و Incident.</td><td><span class="priority phase2">فاز 2</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:24px">توالی اجرایی ۳۰ روزه</h3>
+        <div class="roadmap"><article class="week-card"><b>هفته ۱</b><h4>داده و اختیار</h4><p>نمونه‌برداری تماس/پیام، Taxonomy، Top 10، Critical Fail و پیش‌نویس ماتریس اختیار.</p></article><article class="week-card"><b>هفته ۲</b><h4>طراحی سیستم</h4><p>CALMER، RAISE، مسیرهای L0–L3، Warm Handoff، Promise Matrix و ۱۰ کارت.</p></article><article class="week-card"><b>هفته ۳</b><h4>تمرین و پایلوت</h4><p>Behavior Modeling، Role-play مشتری عصبانی، گروه کوچک و QA کوتاه روزانه.</p></article><article class="week-card"><b>هفته ۴</b><h4>تثبیت</h4><p>Calibration، اصلاح کارت‌ها و اختیار، انتشار نسخه ۱.۰ و برنامه بازبینی ماهانه.</p></article></div>
+
+        <h3 style="margin-top:24px">تعریف Done برای نسخه ۱.۰</h3>
+        <ul class="clean-list"><li>هر Top 10 Issue Type کارت تأییدشده، Owner و تاریخ بازبینی دارد.</li><li>هر پشتیبان CALMER و RAISE را در سناریوی واقعی اجرا می‌کند، نه فقط نام مراحل را می‌گوید.</li><li>هیچ پرونده‌ای بدون Case Owner، Next Action و Next Update Time باز نمی‌ماند.</li><li>انتقال بدون پذیرش و بسته Handoff از نظر QA قابل قبول نیست.</li><li>داشبورد، QA، تماس تکراری، انتقال، تعهد سررسیدشده و نتیجه مشتری را کنار هم نشان می‌دهد.</li></ul>
+        <div class="north-star"><strong>اولین تست سیستم:</strong> سناریوی «کسر وجه، عدم تحویل و دو تماس قبلی» را بین چند پشتیبان Role-play کنید. اگر پاسخ، مالک، اقدام و زمان خبر بعدی بدون اتکا به فرد ثابت ماند و مشتری مجبور به تکرار داستان نشد، طراحی در مسیر درست است.</div>
+      </section>
+
+      <section class="section-block" id="evidence" aria-labelledby="evidence-title">
+        <div class="section-head">
+          <div><h2 id="evidence-title">روش، محدودیت‌ها و منابع</h2><p>تحقیق عمداً محدود شد و پس از رسیدن به شواهد کافی برای هر تصمیم طراحی متوقف شد.</p></div>
+          <span class="section-index">09 / 09</span>
+        </div>
+        <div class="method-grid">
+          <div class="method-card"><h3>روش و نقطه توقف</h3><p>ابتدا منابع دانشگاهی و استانداردها، سپس منابع حرفه‌ای معتبر برای جزئیات اجرا بررسی شدند. فقط شکاف‌های Warm Handoff، حد Script، Calibration و تفاوت همدلی با پذیرش تقصیر جست‌وجوی تکمیلی شدند.</p></div>
+          <div class="method-card"><h3>محدودیت‌ها</h3><ul><li>قوی‌ترین مطالعه مستقیم De-escalation نوشتاری است؛ انتقال به تلفن باید پایلوت شود.</li><li>برای LAST، LAER، LEARN و HEARD برتری تجربی قطعی یافت نشد.</li><li>Taxonomy، SLA و Thresholdها باید با داده Giftcard.ir تعیین شوند.</li><li>عبارت‌های حقوقی، مالی و هویتی نیازمند بازبینی داخلی‌اند.</li></ul></div>
+        </div>
+
+        <ol class="sources">
+          <li><cite>Herhausen et al.</cite> “Complaint De-Escalation Strategies on Social Media.” Journal of Marketing (2023). <a href="https://journals.sagepub.com/doi/10.1177/00222429221119977" target="_blank" rel="noopener">متن ناشر</a></li>
+          <li><cite>ISO 10002:2018</cite> Guidelines for complaints handling in organizations؛ تأیید مجدد در 2023. <a href="https://www.iso.org/standard/71580.html" target="_blank" rel="noopener">صفحه رسمی ISO</a></li>
+          <li><cite>Dixon, Freeman & Toman.</cite> “Stop Trying to Delight Your Customers.” Harvard Business Review (2010). <a href="https://hbr.org/2010/07/stop-trying-to-delight-your-customers" target="_blank" rel="noopener">HBR</a></li>
+          <li><cite>Consortium for Service Innovation.</cite> Intelligent Swarming و KCS Capture. <a href="https://library.serviceinnovation.org/Intelligent_Swarming/Practices_Guide/30_How_Does_It_Work" target="_blank" rel="noopener">Swarming</a>؛ <a href="https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide/201-Solve_Loop/Practice_3_Capture" target="_blank" rel="noopener">KCS</a></li>
+          <li><cite>AHRQ TeamSTEPPS.</cite> Handoff؛ منبع بین‌حوزه‌ای برای انتقال اطلاعات و مسئولیت. <a href="https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/handoff.html" target="_blank" rel="noopener">AHRQ</a></li>
+          <li><cite>COPC.</cite> Improving First Contact Resolution. <a href="https://www.copc.com/clearly-cx/what-immediate-steps-could-we-take-to-improve-first-contact-resolution-fcr-rates/" target="_blank" rel="noopener">COPC</a></li>
+          <li><cite>Zendesk.</cite> Customer Service Phrases و Call Center Scripts. <a href="https://www.zendesk.com/blog/customer-experience/engagement/customer-service-phrases/" target="_blank" rel="noopener">عبارت‌ها</a>؛ <a href="https://www.zendesk.com/blog/sales/sales-and-marketing/call-center-scripts/" target="_blank" rel="noopener">اسکریپت‌ها</a></li>
+          <li><cite>Genesys.</cite> Quality Management Calibration و Quality Assurance. <a href="https://www.genesys.com/definitions/quality-management-calibration" target="_blank" rel="noopener">Calibration</a></li>
+          <li><cite>ICMI.</cite> Quality Monitoring Best Practices (2016). <a href="https://www.icmi.com/resources/2016/4-best-practices-to-implement-a-quality-monitoring-program-that-counts" target="_blank" rel="noopener">ICMI</a></li>
+          <li><cite>Taylor, Russ-Eft & Chan.</cite> Meta-Analysis of Behavior Modeling Training (2005). <a href="https://pubmed.ncbi.nlm.nih.gov/16060787/" target="_blank" rel="noopener">PubMed</a></li>
+          <li><cite>Wirtz & Mattila.</cite> Compensation, Speed of Recovery and Apology (2004). <a href="https://pure.psu.edu/en/publications/consumer-responses-to-compensation-speed-of-recovery-and-apology-/" target="_blank" rel="noopener">رکورد دانشگاهی</a></li>
+          <li><cite>Roschk & Kaiser.</cite> The Nature of an Apology (2013). <a href="https://vbn.aau.dk/en/publications/the-nature-of-an-apology-an-experimental-study-on-how-to-apologiz/" target="_blank" rel="noopener">رکورد دانشگاهی</a></li>
+        </ol>
+
+        <div class="final-note"><h3>جمع‌بندی طراحی</h3><p>نسخه ۱.۰ نباید یک Binder بزرگ باشد. اگر تیم فقط CALMER، RAISE، ده کارت مسئله، یک ماتریس اختیار، Warm Handoff، Promise Log و QA ده‌امتیازی را با انضباط اجرا کند، بخش عمده وابستگی کیفیت به فرد کاهش می‌یابد. پس از آن، هر تماس تکراری یا Escalation ناموفق باید به تغییر مشخص در Playbook، اختیار یا آموزش منجر شود.</p></div>
+      </section>
+
+      <footer>
+        <div>Giftcard.ir Customer Support Operating System • نسخه پژوهشی کاربردی • شهریور ۱۴۰۵</div>
+        <div class="footer-credit">تهیه شده توسط گروه مشاوره مارکتینگ رهنگاشت</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const body = document.body;
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const menuBtn = document.getElementById('menuBtn');
+      const printBtn = document.getElementById('printBtn');
+      const focusBtn = document.getElementById('focusBtn');
+      const progress = document.getElementById('scrollProgress');
+      const currentSection = document.getElementById('currentSection');
+      const navLinks = [...document.querySelectorAll('#sideNav a')];
+      const sections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+
+      const closeNav = () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+        body.classList.remove('nav-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      };
+      menuBtn.addEventListener('click', () => {
+        const willOpen = !sidebar.classList.contains('open');
+        sidebar.classList.toggle('open', willOpen);
+        overlay.classList.toggle('show', willOpen);
+        body.classList.toggle('nav-open', willOpen);
+        menuBtn.setAttribute('aria-expanded', String(willOpen));
+      });
+      overlay.addEventListener('click', closeNav);
+      navLinks.forEach(link => link.addEventListener('click', closeNav));
+
+      printBtn.addEventListener('click', () => window.print());
+      focusBtn.addEventListener('click', () => {
+        const active = body.classList.toggle('focus-mode');
+        focusBtn.setAttribute('aria-pressed', String(active));
+        if (active) {
+          focusBtn.textContent = 'خروج از مطالعه';
+        } else {
+          focusBtn.textContent = 'حالت مطالعه';
+        }
+      });
+
+      const setActiveNav = id => {
+        navLinks.forEach(link => {
+          const active = link.getAttribute('href') === `#${id}`;
+          link.setAttribute('aria-current', active ? 'true' : 'false');
+          if (active) currentSection.textContent = link.querySelector('span:last-child').textContent;
+        });
+      };
+      const observer = new IntersectionObserver(entries => {
+        const visible = entries.filter(entry => entry.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActiveNav(visible.target.id);
+      }, { rootMargin: '-18% 0px -66% 0px', threshold: [0, .1, .35] });
+      sections.forEach(section => observer.observe(section));
+
+      const updateProgress = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const value = max > 0 ? (window.scrollY / max) * 100 : 0;
+        progress.style.width = `${Math.min(100, Math.max(0, value))}%`;
+      };
+      document.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+
+      const tabButtons = [...document.querySelectorAll('.tab-btn')];
+      const tabPanels = [...document.querySelectorAll('.tab-panel')];
+      tabButtons.forEach(button => button.addEventListener('click', () => {
+        tabButtons.forEach(item => item.setAttribute('aria-selected', 'false'));
+        tabPanels.forEach(panel => { panel.classList.remove('active'); panel.hidden = true; });
+        button.setAttribute('aria-selected', 'true');
+        const panel = document.getElementById(button.getAttribute('aria-controls'));
+        panel.hidden = false;
+        panel.classList.add('active');
+      }));
+
+      const phraseSearch = document.getElementById('phraseSearch');
+      const filterButtons = [...document.querySelectorAll('.filter-btn')];
+      const phraseCards = [...document.querySelectorAll('.phrase-card')];
+      const visibleCount = document.getElementById('visibleCount');
+      const phraseEmpty = document.getElementById('phraseEmpty');
+      let activeFilter = 'all';
+      const normalize = value => value.trim().toLocaleLowerCase('fa');
+      const filterPhrases = () => {
+        const query = normalize(phraseSearch.value);
+        let count = 0;
+        phraseCards.forEach(card => {
+          const categoryMatch = activeFilter === 'all' || card.dataset.category === activeFilter;
+          const queryMatch = !query || normalize(card.textContent).includes(query);
+          const show = categoryMatch && queryMatch;
+          card.hidden = !show;
+          if (show) count += 1;
+        });
+        visibleCount.textContent = `${count.toLocaleString('fa-IR')} مورد`;
+        phraseEmpty.classList.toggle('show', count === 0);
+      };
+      filterButtons.forEach(button => button.addEventListener('click', () => {
+        activeFilter = button.dataset.filter;
+        filterButtons.forEach(item => item.classList.toggle('active', item === button));
+        filterPhrases();
+      }));
+      phraseSearch.addEventListener('input', filterPhrases);
+
+      const qaChecks = [...document.querySelectorAll('#qaList input')];
+      const criticalChecks = [...document.querySelectorAll('#criticalList input')];
+      const scoreValue = document.getElementById('scoreValue');
+      const scoreRing = document.getElementById('scoreRing');
+      const scoreBar = document.getElementById('scoreBar');
+      const scoreStatus = document.getElementById('scoreStatus');
+      const scoreHint = document.getElementById('scoreHint');
+      const qaReset = document.getElementById('qaReset');
+      const updateScore = () => {
+        const score = qaChecks.filter(item => item.checked).length;
+        const critical = criticalChecks.some(item => item.checked);
+        const pct = score * 10;
+        scoreValue.textContent = `${score} / 10`;
+        scoreRing.style.setProperty('--score', `${pct}%`);
+        scoreBar.style.width = `${pct}%`;
+        if (critical) {
+          scoreStatus.textContent = 'Critical Fail';
+          scoreHint.textContent = 'مکالمه بدون توجه به امتیاز مردود است.';
+          scoreBar.style.background = '#ed6b78';
+        } else if (score >= 8) {
+          scoreStatus.textContent = 'قبول پیشنهادی';
+          scoreHint.textContent = 'امتیاز پایلوت ۸ یا بیشتر و بدون Critical Fail.';
+          scoreBar.style.background = '#35c7bd';
+        } else if (score > 0) {
+          scoreStatus.textContent = 'نیازمند Coaching';
+          scoreHint.textContent = 'یک یا دو رفتار با بیشترین اثر را برای تمرین انتخاب کنید.';
+          scoreBar.style.background = '#f2b24d';
+        } else {
+          scoreStatus.textContent = 'نیازمند ارزیابی';
+          scoreHint.textContent = 'معیارهای رعایت‌شده را انتخاب کنید.';
+          scoreBar.style.background = '#35c7bd';
+        }
+      };
+      [...qaChecks, ...criticalChecks].forEach(input => input.addEventListener('change', updateScore));
+      qaReset.addEventListener('click', () => { [...qaChecks, ...criticalChecks].forEach(input => { input.checked = false; }); updateScore(); });
+
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') closeNav();
+      });
+    })();
+  </script>
+</body>
+</html>
