@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تحلیل فروش گیفت کارت ۱۴۰۴–۱۴۰۵</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --ground:#f2f4f6; --surface:#ffffff; --sunk:#f7f8fa;
+  --ink:#131820; --ink2:#4c5461; --muted:#7d8591; --hair:#dee2e8; --axis:#c3c8cf;
+  --accent:#0f5c63; --accent-soft:#e3eff0;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --prior:#b9bec6;
+  --pos:#1f7a3a; --neg:#c2372f;
+  --crit:#d03b3b; --imp:#ec835a; --mon:#fab219; --good:#0ca30c;
+  --crit-bg:#fbeaea; --imp-bg:#fdf0ea; --mon-bg:#fef6e2; --good-bg:#e7f5e7;
+  --display:"Noto Kufi Arabic", "Vazirmatn", Tahoma, sans-serif;
+  --body:"Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --ground:#0f1216; --surface:#171b21; --sunk:#1d2229;
+    --ink:#eef1f4; --ink2:#b5bcc6; --muted:#858c96; --hair:#2a3038; --axis:#3a414a;
+    --accent:#5fb7be; --accent-soft:#16313a;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --prior:#4a515b;
+    --pos:#4cc46a; --neg:#ef6b63;
+    --crit-bg:#3a1c1c; --imp-bg:#3a261c; --mon-bg:#3a3118; --good-bg:#16311a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --ground:#0f1216; --surface:#171b21; --sunk:#1d2229;
+  --ink:#eef1f4; --ink2:#b5bcc6; --muted:#858c96; --hair:#2a3038; --axis:#3a414a;
+  --accent:#5fb7be; --accent-soft:#16313a;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --prior:#4a515b;
+  --pos:#4cc46a; --neg:#ef6b63;
+  --crit-bg:#3a1c1c; --imp-bg:#3a261c; --mon-bg:#3a3118; --good-bg:#16311a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.85;padding-inline:20px;padding-block:0 64px}
+.wrap{max-width:1180px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.5}
+h2{font-size:30px;font-weight:700}
+h3{font-size:19px;font-weight:600}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* cover */
+.cover{padding-block:44px 28px;display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:end;border-bottom:1px solid var(--hair)}
+.eyebrow{font-size:13px;letter-spacing:.04em;color:var(--accent);font-weight:600}
+.cover h1{font-size:44px;font-weight:700;margin-block:6px 14px}
+.cover .lead{color:var(--ink2);max-width:62ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:18px;font-size:14px;color:var(--ink2)}
+.meta b{color:var(--ink);font-weight:600}
+.rate{background:var(--surface);border:1px solid var(--hair);border-radius:8px;padding:18px 20px}
+.rate .lbl{font-size:13px;color:var(--ink2)}
+.rate .pair{display:flex;align-items:baseline;gap:12px;margin-block:6px 2px;flex-wrap:wrap}
+.rate .from{font-size:22px;color:var(--muted);font-weight:600}
+.rate .arrow{color:var(--muted)}
+.rate .to{font-size:34px;font-weight:700;font-family:var(--display)}
+.rate .note{font-size:13px;color:var(--muted);line-height:1.7}
+
+nav.toc{position:sticky;top:0;z-index:5;background:var(--ground);border-bottom:1px solid var(--hair);padding-block:10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin}
+nav.toc a{flex:none;font-size:14px;text-decoration:none;color:var(--ink2);padding:4px 12px;border-radius:999px;white-space:nowrap}
+nav.toc a:hover{background:var(--accent-soft);color:var(--accent)}
+
+section{padding-block:52px 8px}
+.sec-head{display:grid;gap:6px;margin-bottom:24px;max-width:78ch}
+.sec-head p{color:var(--ink2)}
+
+/* executive summary */
+.verdict{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:28px 30px;display:grid;gap:22px}
+.verdict .big{font-family:var(--display);font-size:28px;font-weight:700;line-height:1.6;text-wrap:balance}
+.verdict .big em{font-style:normal;color:var(--neg)}
+.findings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 32px;list-style:none;margin:0;padding:0}
+.findings li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding-block:12px;border-top:1px solid var(--hair)}
+.findings li p{font-size:16px;line-height:1.8}
+.findings li b{font-weight:600}
+
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:2px 10px 2px 10px;border-radius:999px;white-space:nowrap;line-height:1.9;color:var(--ink)}
+.chip i{width:9px;height:9px;border-radius:50%;display:inline-block;font-style:normal}
+.chip.crit{background:var(--crit-bg)} .chip.crit i{background:var(--crit)}
+.chip.imp{background:var(--imp-bg)} .chip.imp i{background:var(--imp)}
+.chip.mon{background:var(--mon-bg)} .chip.mon i{background:var(--mon)}
+.chip.good{background:var(--good-bg)} .chip.good i{background:var(--good)}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:10px;overflow:hidden;margin-top:22px}
+.kpi{background:var(--surface);padding:18px 20px;display:grid;gap:4px;align-content:start}
+.kpi .k{font-size:14px;color:var(--ink2)}
+.kpi .v{font-size:32px;font-weight:700;line-height:1.35}
+.kpi .v small{font-size:15px;font-weight:500;color:var(--ink2);margin-inline-start:4px}
+.kpi .d{font-size:14px;color:var(--ink2)}
+.up{color:var(--pos);font-weight:600} .down{color:var(--neg);font-weight:600}
+
+/* charts */
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:22px 22px 18px;display:grid;gap:10px;min-width:0}
+.card .q{font-size:13px;color:var(--muted)}
+.chart{position:relative;width:100%;min-height:120px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart text{font-family:var(--body);fill:var(--muted);font-size:12px}
+.chart .lab{fill:var(--ink2);font-size:12.5px;font-weight:600;paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
+.chart .grid line{stroke:var(--hair);stroke-width:1}
+.chart .base{stroke:var(--axis);stroke-width:1}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13.5px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.legend i.ln{height:3px;border-radius:2px;width:16px}
+.insight{font-size:15.5px;color:var(--ink);line-height:1.85;padding-top:10px;border-top:1px solid var(--hair)}
+.insight b{font-weight:600}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink);color:var(--surface);font-size:13px;line-height:1.7;padding:8px 12px;border-radius:6px;max-width:260px;opacity:0;transition:opacity .12s}
+.tip b{font-weight:600}
+
+table{width:100%;border-collapse:collapse;font-size:15px}
+.tbl{overflow-x:auto}
+th,td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--hair);vertical-align:top}
+th{font-size:13px;color:var(--ink2);font-weight:600;background:var(--sunk)}
+td.n,th.n{text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.printbtn{position:fixed;left:20px;bottom:20px;z-index:10;font-family:var(--body);font-size:13px;background:var(--surface);color:var(--ink2);border:1px solid var(--hair);border-radius:999px;padding:6px 14px;cursor:pointer}
+.printbtn:hover{color:var(--accent);border-color:var(--accent)}
+
+@media (max-width:900px){
+  .cover{grid-template-columns:1fr;gap:22px}
+  .cover h1{font-size:34px}
+  .findings,.grid2{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:520px){
+  body{font-size:16px;padding-inline:16px}
+  .kpis{grid-template-columns:1fr}
+  h2{font-size:24px}
+  .verdict{padding:20px}
+  .verdict .big{font-size:22px}
+}
+
+.risk{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:22px 24px;display:grid;gap:14px}
+.risk-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.risk dl{display:grid;grid-template-columns:9.5em 1fr;gap:8px 18px;margin:0;font-size:15.5px;line-height:1.8}
+.risk dt{color:var(--ink2);font-weight:600}
+.risk dd{margin:0}
+.stack{display:grid;gap:16px}
+.opps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.opp{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:20px 22px;display:grid;gap:8px;align-content:start}
+.opp .size{font-size:14px;color:var(--accent);font-weight:600}
+.opp p{font-size:15.5px}
+.diag{list-style:none;margin:0;padding:0;display:grid;gap:0;background:var(--surface);border:1px solid var(--hair);border-radius:10px}
+.diag li{padding:18px 24px;border-top:1px solid var(--hair);display:grid;gap:4px}
+.diag li:first-child{border-top:0}
+.diag li b{font-family:var(--display);font-weight:600;font-size:17px}
+.diag li p{color:var(--ink2);font-size:15.5px}
+.matrix{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.col{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:20px 22px;display:grid;gap:10px;align-content:start}
+.col h3{font-size:17px}
+.col .sub{font-size:13px;color:var(--muted)}
+.col ul{margin:0;padding-inline-start:18px;display:grid;gap:8px;font-size:15.5px}
+.phase{margin-top:26px}
+.phase:first-of-type{margin-top:0}
+.phase h3{margin-bottom:10px}
+.kpigrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px;background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:8px 24px}
+.kpigrid div{padding-block:14px;border-bottom:1px solid var(--hair);display:grid;gap:2px}
+.kpigrid b{font-weight:600}
+.kpigrid span{font-size:14.5px;color:var(--ink2)}
+.notes{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:22px 26px}
+.notes ul{margin:0;padding-inline-start:20px;display:grid;gap:10px;font-size:15.5px}
+.tag{font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;background:var(--mon-bg);color:var(--ink);white-space:nowrap}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--hair);font-size:13px;color:var(--muted)}
+@media (max-width:900px){.opps,.matrix,.kpigrid{grid-template-columns:1fr}.risk dl{grid-template-columns:1fr;gap:2px}.risk dd{margin-bottom:8px}}
+@media print{
+  body{background:#fff;font-size:12.5pt;padding:0}
+  .printbtn,nav.toc,.tip{display:none!important}
+  section{padding-block:18px 0;break-inside:auto}
+  .card,.risk,.opp,.col,.kpi,.verdict{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <div>
+    <div class="eyebrow">گزارش مدیریتی فروش · کارت‌های هدیه و اعتبار دیجیتال</div>
+    <h1>تحلیل فروش ۱۷ ماه اخیر</h1>
+    <p class="lead">این گزارش نشان می‌دهد پشت رشد درآمد تومانی چه اتفاقی افتاده، کدام برند و ردیف مبلغی شکننده شده، و مدیریت در ۳۰، ۹۰ و ۳۶۵ روز آینده روی چه چیزی باید تمرکز کند.</p>
+    <div class="meta">
+      <span>دوره داده: <b>فروردین ۱۴۰۴ تا مرداد ۱۴۰۵</b></span>
+      <span>تاریخ تحلیل: <b>۲۳ شهریور ۱۴۰۵</b></span>
+      <span>مبنا: <b>۱۷ برگه ماهانه · ۴۶۲ کالا</b></span>
+    </div>
+  </div>
+  <aside class="rate" aria-label="قیمت مؤثر هر دلار">
+    <div class="lbl">قیمت فروش هر ۱ دلار کارت آمریکایی (تومان)</div>
+    <div class="pair"><span class="from num">۹۳ هزار</span><span class="arrow">←</span><span class="to">۲۰۰ هزار</span></div>
+    <div class="note">از مرداد ۱۴۰۴ تا مرداد ۱۴۰۵، ۱۱۵ درصد افزایش. همه تحلیل‌های این گزارش این اثر قیمتی را از رشد واقعی جدا می‌کنند.</div>
+  </aside>
+</header>
+
+<nav class="toc" aria-label="فهرست بخش‌ها">
+  <a href="#summary">خلاصه مدیریتی</a><a href="#trend">روند فروش</a><a href="#product">محصول و برند</a><a href="#pricing">قیمت‌گذاری</a>
+  <a href="#risks">نقاط حساس فروش</a><a href="#growth">فرصت‌های رشد</a><a href="#diagnosis">تشخیص راهبردی</a><a href="#priority">اولویت‌ها</a>
+  <a href="#actions">اقدامات</a><a href="#kpi">شاخص‌ها</a><a href="#notes">یادداشت داده</a>
+</nav>
+
+<section id="summary">
+  <div class="verdict">
+    <p class="big">درآمد تومانی رکورد زده، اما کسب‌وکار از نظر حجم <em>کوچک‌تر شده است</em>: در خرداد تا مرداد ۱۴۰۵ درآمد ‎+۵۱٪ رشد کرد، ولی تعداد کارت فروخته‌شده ‎−۲۲٪ و ارزش دلاری فروش ‎−۲۹٪ کاهش یافت.</p>
+    <ul class="findings">
+      <li><span class="chip crit"><i></i>بحرانی</span><p><b>رشد، قیمتی است نه واقعی.</b> قیمت هر دلار نسبت به مرداد پارسال ‎۲٫۱۵ برابر شده؛ همه رشد درآمد از همین محل آمده است.</p></li>
+      <li><span class="chip crit"><i></i>بحرانی</span><p><b>ریکاوری پس از شوک متوقف شده.</b> بعد از سقوط ۸۴ درصدی دی تا اردیبهشت، فروش فقط به ۸۲٪ تعداد و ۷۷٪ ارزش دلاری قبل برگشت و مرداد دوباره ‎−۸٪ افت کرد.</p></li>
+      <li><span class="chip crit"><i></i>بحرانی</span><p><b>پلی‌استیشن سریع‌تر از بقیه می‌بازد.</b> تعداد کارت‌های ۱۰ تا ۴۰ دلاری آن ‎−۴۸٪ افت کرده، هم‌زمان با از بین رفتن مزیت قیمتی ۷ تا ۹ درصدی آن.</p></li>
+      <li><span class="chip imp"><i></i>مهم</span><p><b>وابستگی شدید.</b> اپل و پلی‌استیشن ۸۸٪ درآمد را می‌سازند؛ سهم ۱۰ کالای اول در مرداد به ۵۶٪ رسیده است.</p></li>
+      <li><span class="chip good"><i></i>مثبت</span><p><b>هسته اپل مقاوم است.</b> اپل در شوک کمترین افت را میان برندهای اصلی داشت و به ۸۷٪ تعداد پیش از شوک برگشت؛ کارت ۲۰ دلاری اپل تنها کالای پرفروشی است که حجمش رشد کرده (‎+۸٪).</p></li>
+      <li><span class="chip good"><i></i>فرصت</span><p><b>کارت‌های خرد پلی‌استیشن و اشتراک تلگرام رشد می‌کنند.</b> پلی‌استیشن ۱ تا ۹ دلاری ‎+۴۷٪ و تلگرام ‎+۶۲٪ تعداد؛ فرصت جبران بخشی از افت.</p></li>
+    </ul>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="k">درآمد مرداد ۱۴۰۵</div><div class="v">۲۶٫۶<small>میلیارد تومان</small></div><div class="d"><span class="up">‎+۳۸٫۶٪</span> نسبت به مرداد ۱۴۰۴</div></div>
+    <div class="kpi"><div class="k">تعداد کارت فروخته‌شده · مرداد</div><div class="v">۶٬۸۹۲<small>عدد</small></div><div class="d"><span class="down">‎−۲۹٫۰٪</span> نسبت به مرداد ۱۴۰۴ (۹٬۷۰۸)</div></div>
+    <div class="kpi"><div class="k">ارزش دلاری کارت‌های فروخته‌شده · مرداد</div><div class="v">۱۲۲٬۲۴۵<small>دلار</small></div><div class="d"><span class="down">‎−۳۵٫۸٪</span> نسبت به مرداد ۱۴۰۴ (۱۹۰٬۲۹۰)</div></div>
+    <div class="kpi"><div class="k">سطح ریکاوری · میانگین خرداد–مرداد ۱۴۰۵</div><div class="v">۷۷٪<small>ارزش دلاری</small></div><div class="d">نسبت به میانگین ماهانه فروردین–آذر ۱۴۰۴؛ تعداد: ۸۲٪</div></div>
+    <div class="kpi"><div class="k">سهم اپل + پلی‌استیشن از درآمد</div><div class="v">۸۸٪</div><div class="d">۱۷ ماه؛ اپل ۵۷٫۰٪ · پلی‌استیشن ۳۱٫۰٪</div></div>
+    <div class="kpi"><div class="k">سهم ۱۰ کالای اول · مرداد</div><div class="v">۵۶٫۳٪</div><div class="d"><span class="down">رو به افزایش</span>؛ میانگین ۱۴۰۴: ۵۱٫۲٪</div></div>
+  </div>
+</section>
+
+<section id="trend">
+  <div class="sec-head">
+    <div class="eyebrow">روند فروش</div>
+    <h2>درآمد بالا رفت، حجم پایین آمد</h2>
+    <p>درآمد در این گزارش از «تعداد × متوسط قیمت» هر کالا در هر ماه محاسبه شده است. برای جدا کردن اثر قیمت، ارزش اسمی دلاری کارت‌های دلاری (۹۲٪ درآمد) هم به‌عنوان معیار حجم واقعی دنبال شده است.</p>
+  </div>
+
+  <div class="card">
+    <h3>آیا رشد درآمد، رشد واقعی فروش است؟</h3>
+    <div class="q">شاخص ۱۰۰ = میانگین ماهانه فروردین تا آذر ۱۴۰۴ (پیش از شوک)</div>
+    <div class="legend"><span><i class="ln" style="background:var(--s1)"></i>درآمد تومانی</span><span><i class="ln" style="background:var(--s2)"></i>ارزش دلاری فروخته‌شده</span><span><i class="ln" style="background:var(--s3)"></i>قیمت هر دلار</span></div>
+    <div class="chart" id="c-index"></div>
+    <p class="insight"><b>نه.</b> از دی ۱۴۰۴ دو خط از هم جدا شده‌اند: قیمت هر دلار تقریباً دو برابر شده و درآمد تومانی را بالا کشیده، در حالی که ارزش دلاری فروش هنوز حدود یک‌چهارم زیر سطح پیش از شوک است. درآمد رکورد تیر ۱۴۰۵ (۲۸٫۶ میلیارد، ۲۶٪ بالاتر از بهترین ماه ۱۴۰۴) با ۲۷٪ حجم دلاری کمتر از اوج مرداد ۱۴۰۴ به دست آمده است.</p>
+  </div>
+
+  <div class="grid2" style="margin-top:20px">
+    <div class="card">
+      <h3>درآمد ماهانه</h3>
+      <div class="q">میلیارد تومان · ناحیه خاکستری: دوره شوک دی ۱۴۰۴ تا اردیبهشت ۱۴۰۵</div>
+      <div class="chart" id="c-rev"></div>
+    </div>
+    <div class="card">
+      <h3>تعداد کارت فروخته‌شده</h3>
+      <div class="q">عدد در ماه · همان دوره</div>
+      <div class="chart" id="c-qty"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:20px">
+    <p class="insight" style="border:0;padding:0"><b>سه دوره متمایز:</b> (۱) فروردین تا آذر ۱۴۰۴ پایدار، با میانگین ۸٬۵۴۴ کارت در ماه و نوسان کم (ضریب تغییرات ۱۲٪؛ تنها استثنا مهر با ‎−۳۰٪). (۲) دی ۱۴۰۴ تا اردیبهشت ۱۴۰۵ سقوط: فروردین ۱۴۰۵ تعداد ‎−۸۴٪ نسبت به آذر. (۳) خرداد تا مرداد ۱۴۰۵ بازگشت ناقص: ۶٬۹۹۴ کارت در ماه، و مرداد اولین افت پس از سه ماه رشد (درآمد ‎−۷٫۰٪، تعداد ‎−۸٫۱٪، ارزش دلاری ‎−۱۲٫۵٪ نسبت به تیر). علت شوک در داده ثبت نشده؛ افت هم‌زمان همه برندها نشانه عامل بیرونی یا عملیاتی است و باید با رویدادهای آن دوره (دسترسی اینترنت، درگاه پرداخت، تأمین موجودی) تطبیق داده شود. افت‌های مهر و دی هم‌زمان با جهش قیمت هر دلار (۹٪ و ۱۶٪) بوده، اما بهمن با جهش ۱۷٪ رشد تعداد داشته؛ <b>داده موجود برای نتیجه‌گیری قطعی درباره اثر قیمت بر حجم کافی نیست.</b></p>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h3>مقایسه هم‌فصل: خرداد–مرداد ۱۴۰۴ در برابر خرداد–مرداد ۱۴۰۵</h3>
+    <div class="q">فروردین و اردیبهشت ۱۴۰۵ به‌دلیل شوک از این مقایسه کنار گذاشته شده‌اند</div>
+    <div class="tbl"><table>
+      <thead><tr><th>شاخص</th><th class="n">خرداد–مرداد ۱۴۰۴</th><th class="n">خرداد–مرداد ۱۴۰۵</th><th class="n">تغییر</th></tr></thead>
+      <tbody>
+        <tr><td>درآمد (میلیارد تومان)</td><td class="n">۵۰٫۵</td><td class="n">۷۶٫۶</td><td class="n up">‎+۵۱٫۵٪</td></tr>
+        <tr><td>تعداد کارت</td><td class="n">۲۶٬۹۶۴</td><td class="n">۲۰٬۹۸۳</td><td class="n down">‎−۲۲٫۲٪</td></tr>
+        <tr><td>ارزش دلاری فروخته‌شده (هزار دلار)</td><td class="n">۵۱۶٫۳</td><td class="n">۳۶۸٫۹</td><td class="n down">‎−۲۸٫۶٪</td></tr>
+        <tr><td>میانگین ارزش هر کارت دلاری (دلار)</td><td class="n">۲۰٫۶*</td><td class="n">۱۹٫۴</td><td class="n down">‎−۵٫۸٪</td></tr>
+        <tr><td>تعداد کالای فعال در ماه (میانگین)</td><td class="n">۲۶۸*</td><td class="n">۲۴۴</td><td class="n down">‎−۹٪</td></tr>
+      </tbody>
+    </table></div>
+    <p class="q">* میانگین فروردین تا آذر ۱۴۰۴. در بازه کامل فروردین–مرداد نیز همین الگو دیده می‌شود: درآمد ‎+۱۲٫۸٪، تعداد ‎−۴۲٫۸٪، ارزش دلاری ‎−۴۵٫۷٪.</p>
+  </div>
+</section>
+
+<section id="product">
+  <div class="sec-head">
+    <div class="eyebrow">محصول و برند</div>
+    <h2>دو برند، یک کشور، ۳۲ کالا</h2>
+    <p>از ۴۶۲ کالای فروخته‌شده، ۳۲ کالا ۸۰٪ درآمد را می‌سازند و ۸۶٫۹٪ درآمد از کارت‌های آمریکایی است. مقایسه‌های رشد روی بازه هم‌فصل خرداد–مرداد و بر اساس <b>تعداد</b> انجام شده تا اثر تورم قیمت حذف شود.</p>
+  </div>
+
+  <div class="card">
+    <h3>سهم هر گروه محصول از درآمد ماهانه</h3>
+    <div class="legend"><span><i style="background:var(--s1)"></i>اپل</span><span><i style="background:var(--s2)"></i>پلی‌استیشن</span><span><i style="background:var(--s3)"></i>گیمینگ (سایر)</span><span><i style="background:var(--s4)"></i>اشتراک‌ها و سرویس‌ها</span><span><i style="background:var(--s5)"></i>سایر کارت‌ها</span></div>
+    <div class="chart" id="c-family"></div>
+    <p class="insight">در ماه‌های عادی سهم پلی‌استیشن ۲۷ تا ۴۱ درصد است، اما در شوک به <b>۸٫۹٪</b> (فروردین ۱۴۰۵) سقوط کرد: درآمد پلی‌استیشن از آذر تا فروردین ‎−۹۵٪ و اپل ‎−۶۴٪. یعنی <b>اپل تقاضای «ضروری» و پلی‌استیشن تقاضای «قابل تعویق»</b> است؛ در هر شوک بعدی، ترکیب درآمد به‌سرعت به اپل وابسته‌تر می‌شود. «گیمینگ (سایر)» شامل استیم، ایکس‌باکس، نینتندو، روبلاکس و مشابه؛ «سایر کارت‌ها» شامل گوگل‌پلی، آمازون و ویزا/مستر.</p>
+  </div>
+
+  <div class="grid2" style="margin-top:20px">
+    <div class="card">
+      <h3>کدام برندها حجم از دست داده‌اند؟</h3>
+      <div class="q">تغییر تعداد فروش · خرداد–مرداد ۱۴۰۵ نسبت به ۱۴۰۴ · ۱۳ برند با بیشترین درآمد</div>
+      <div class="chart" id="c-brand"></div>
+      <p class="insight">تقریباً همه برندها حجم از دست داده‌اند؛ تفاوت در شدت است. <b>پلی‌استیشن (‎−۳۰٪) با ۳۱٪ سهم درآمد</b> بیشترین اثر مطلق را دارد. گوگل‌پلی، اسپاتیفای و ریزر گلد بیش از دوسوم حجم را از دست داده‌اند و فقط <b>تلگرام</b> و بتل‌نت رشد کرده‌اند.</p>
+    </div>
+    <div class="card">
+      <h3>چند کالا درآمد را می‌سازند؟</h3>
+      <div class="q">منحنی پارتو · سهم تجمعی درآمد ۱۷ ماه بر حسب تعداد کالا (مرتب از پرفروش)</div>
+      <div class="chart" id="c-pareto"></div>
+      <p class="insight"><b>۱۰ کالا ۵۱٪، ۳۲ کالا ۸۰٪ و ۱۲۱ کالا ۹۵٪</b> درآمد را می‌سازند. ۳۴۱ کالای باقی فقط ۵٪ درآمدند؛ ۱۸۷ کالا هر کدام کمتر از ۰٫۰۱٪ سهم دارند (جمعاً ۰٫۷٪) و ۱۲۸ کالا در ۱۷ ماه ۵ عدد یا کمتر فروخته‌اند. این دم بلند لزوماً زیان نیست (هزینه نگهداری کارت دیجیتال پایین است) اما توجه تأمین و قیمت‌گذاری را پخش می‌کند.</p>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:20px">
+    <div class="card">
+      <h3>۱۵ کالای اول درآمد</h3>
+      <div class="q">سهم از درآمد ۱۷ ماه · رنگ = برند</div>
+      <div class="chart" id="c-top"></div>
+      <p class="insight">کارت ۱۰۰ دلاری اپل آمریکا به‌تنها <b>۱۰٫۸٪</b> درآمد است. ۱۰ کالای اول همگی کارت آمریکایی اپل یا پلی‌استیشن‌اند؛ هر اختلال در تأمین این دو خط، بیش از نیمی از درآمد را هم‌زمان متأثر می‌کند.</p>
+    </div>
+    <div class="card">
+      <h3>آیا وابستگی در حال بیشتر شدن است؟</h3>
+      <div class="q">درصد از درآمد ماهانه</div>
+      <div class="legend"><span><i class="ln" style="background:var(--s1)"></i>سهم کارت‌های اپل آمریکا</span><span><i class="ln" style="background:var(--ink2)"></i>سهم ۱۰ کالای اول</span></div>
+      <div class="chart" id="c-conc"></div>
+      <p class="insight"><b>بله.</b> سهم ۱۰ کالای اول از میانگین ۵۱٫۲٪ در ۱۴۰۴ به ۵۶٫۳٪ در مرداد ۱۴۰۵ و سهم اپل آمریکا از ۵۳٫۰٪ (مرداد ۱۴۰۴) به ۶۰٫۰٪ رسیده؛ هم‌زمان تعداد کالای فعال ماهانه از ۲۷۹ به ۲۳۵ کم شده است. سبد کوچک‌تر و متمرکزتر شده است.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h3>حرکت پرفروش‌ترین کالاها</h3>
+    <div class="q">تعداد فروش خرداد–مرداد · ۱۲ کالا با بیشترین درآمد ۱۷ ماه</div>
+    <div class="tbl"><table id="t-mom">
+      <thead><tr><th>کالا</th><th class="n">۱۴۰۴</th><th class="n">۱۴۰۵</th><th class="n">تغییر تعداد</th><th class="n">تغییر درآمد</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="insight">در میان پرفروش‌ها فقط <b>کارت ۲۰ دلاری اپل</b> حجم را حفظ و بیشتر کرده (‎+۷٫۹٪). کارت‌های ۱۰ و ۲۰ دلاری پلی‌استیشن بیشترین ریزش مطلق را دارند (‎−۹۰۷ و ‎−۵۰۴ کارت در سه ماه). همه کالاهای جدول رشد درآمد تومانی نشان می‌دهند؛ این رشد نباید به‌عنوان عملکرد خوب کالا تفسیر شود.</p>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h3>کالاهایی که از سبد خارج شده‌اند</h3>
+    <div class="q">فروش معنادار در ۱۴۰۴ و صفر در خرداد تا مرداد ۱۴۰۵</div>
+    <div class="tbl"><table>
+      <thead><tr><th>کالا</th><th class="n">درآمد ۱۴۰۴ (میلیون تومان)</th><th class="n">تعداد ۱۴۰۴</th><th>آخرین ماه فروش</th></tr></thead>
+      <tbody>
+        <tr><td>کارت ۱۰۰ دلاری ریزر گلد گلوبال</td><td class="n">۱٬۱۷۵</td><td class="n">۱۱۷</td><td>آذر ۱۴۰۴</td></tr>
+        <tr><td>گیفت کارت ۲۰۰ دلاری گوگل‌پلی آمریکا</td><td class="n">۱٬۰۶۵</td><td class="n">۳۶</td><td>بهمن ۱۴۰۴</td></tr>
+        <tr><td>گیفت کارت ۲۵ یورو Riot Access</td><td class="n">۱۹۸</td><td class="n">۴۴</td><td>اسفند ۱۴۰۴</td></tr>
+        <tr><td>گیفت کارت ۱۰۰ دلاری گوگل‌پلی آمریکا</td><td class="n">۱۷۶</td><td class="n">۱۴</td><td>بهمن ۱۴۰۴</td></tr>
+        <tr><td>گیفت کارت ۲۵ یورو اپل هلند</td><td class="n">۱۴۷</td><td class="n">۳۰</td><td>اردیبهشت ۱۴۰۵</td></tr>
+        <tr><td>گیفت کارت ۱۰۰ دلاری امریکن اکسپرس</td><td class="n">۱۰۷</td><td class="n">۹</td><td>مهر ۱۴۰۴</td></tr>
+        <tr><td>اپل آیدی وریفای‌شده آمریکا</td><td class="n">۹۶</td><td class="n">۳۵۳</td><td>مهر ۱۴۰۴</td></tr>
+      </tbody>
+    </table></div>
+    <p class="insight">جمعاً <b>۲٫۹۶ میلیارد تومان (۱٫۶٪ درآمد ۱۴۰۴)</b>. داده مشخص نمی‌کند فروش به‌دلیل نبود موجودی/تأمین قطع شده یا نبود تقاضا؛ <b>نیاز به بررسی</b> با واحد تأمین. قیمت اپل آیدی وریفای‌شده در دو ماه آخر حدود ۴۵٪ کمتر از روند معمول بود که با توقف تدریجی محصول سازگار است.</p>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="sec-head">
+    <div class="eyebrow">قیمت‌گذاری</div>
+    <h2>جایی که قیمت و حجم به هم گره خورده‌اند</h2>
+    <p>داده بها یا حاشیه سود ندارد؛ بنابراین این بخش فقط <b>ساختار قیمت فروش</b> را بررسی می‌کند. معیار مقایسه، قیمت میانگین هر دلار در کارت‌های ۱۰ تا ۱۰۰ دلاری اپل آمریکا در همان ماه است.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>پلی‌استیشن: کدام ردیف‌ها فرو ریخته‌اند؟</h3>
+      <div class="q">تعداد فروش خرداد–مرداد · کارت‌های دلاری آمریکا</div>
+      <div class="legend"><span><i style="background:var(--prior)"></i>۱۴۰۴</span><span><i style="background:var(--s2)"></i>۱۴۰۵ پلی‌استیشن</span><span><i style="background:var(--s1)"></i>۱۴۰۵ اپل</span></div>
+      <div class="chart" id="c-bucket"></div>
+      <p class="insight">ریزش پلی‌استیشن در <b>کارت‌های میانی ۱۰ تا ۴۰ دلاری</b> متمرکز است (۴٬۱۹۴ ← ۲٬۱۷۱، ‎−۴۸٪)، در حالی که کارت‌های خرد ۱ تا ۹ دلاری ‎+۴۷٪ رشد کرده‌اند و سهمشان از تعداد کارت‌های پلی‌استیشن از ۱۱٪ (تیر ۱۴۰۴) به ۳۱٪ (مرداد ۱۴۰۵) رسیده است. در اپل هر سه ردیف متعادل‌تر افت کرده‌اند.</p>
+    </div>
+    <div class="card">
+      <h3>فاصله قیمت هر دلار پلی‌استیشن با معیار اپل</h3>
+      <div class="q">درصد گران‌تر (+) یا ارزان‌تر (−) از معیار · مرداد ۱۴۰۴ در برابر مرداد ۱۴۰۵</div>
+      <div class="legend"><span><i style="background:var(--prior)"></i>مرداد ۱۴۰۴</span><span><i style="background:var(--s2)"></i>مرداد ۱۴۰۵</span></div>
+      <div class="chart" id="c-gap"></div>
+      <p class="insight">در ۱۴۰۴ کارت‌های ۱۰ تا ۴۰ دلاری پلی‌استیشن <b>۷ تا ۹ درصد ارزان‌تر</b> از معیار فروخته می‌شدند؛ در مرداد ۱۴۰۵ این مزیت از بین رفته و به ‎−۰٫۴٪ تا ‎+۴٫۰٪ رسیده است. همین ردیف‌ها ۴۱ تا ۶۶ درصد حجم از دست داده‌اند، در حالی که کارت‌های ۷۵ و ۱۰۰ دلاری که هنوز ۴ تا ۵ درصد ارزان‌ترند فقط ۱۳ تا ۱۸ درصد افت داشته‌اند. <b>این هم‌زمانی، علیت را ثابت نمی‌کند</b> (قیمت رقبا در داده نیست)، اما قوی‌ترین فرضیه قابل‌آزمون برای افت پلی‌استیشن است.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h3>نردبان قیمت: هر دلار در کارت کوچک چند تومان است؟</h3>
+    <div class="q">هزار تومان برای هر ۱ دلار · مرداد ۱۴۰۵ · کارت‌های آمریکا</div>
+    <div class="legend"><span><i class="ln" style="background:var(--s1)"></i>اپل</span><span><i class="ln" style="background:var(--s2)"></i>پلی‌استیشن</span><span><i class="ln" style="background:var(--s3)"></i>استیم</span></div>
+    <div class="chart" id="c-ladder"></div>
+    <p class="insight">سیاست قیمت سه برند متفاوت است: هر دلار در کوچک‌ترین کارت اپل فقط <b>۴٫۸٪</b> گران‌تر از کارت ۱۰۰ دلاری است، اما در پلی‌استیشن <b>۳۵٪</b> و در استیم <b>۴۸٪</b>. کارت‌های خرد اپل حدود ۱٬۸۷۰ عدد و ۱٫۵ میلیارد تومان در ماه فروش دارند. بدون داده بها نمی‌توان گفت این ساختار سودآورتر است یا نه، اما نشان می‌دهد <b>قیمت کارت‌های خرد اپل با منطق قیمت‌گذاری دو برند دیگر هم‌خوان نیست</b> و ارزش آزمون کنترل‌شده دارد.</p>
+  </div>
+</section>
+
+
+
+<section id="risks">
+  <div class="sec-head">
+    <div class="eyebrow">ریسک و هشدار</div>
+    <h2>نقاط حساس فروش</h2>
+    <p>شش نقطه‌ای که بیشترین اثر را بر درآمد آینده دارند، به ترتیب شدت. در هر مورد «شواهد» واقعیت داده است و «تفسیر» فرضیه‌ای که باید تأیید شود.</p>
+  </div>
+  <div class="stack">
+    <article class="risk">
+      <div class="risk-head"><span class="chip crit"><i></i>بحرانی</span><h3>رشد درآمد، رشد حجم را پنهان کرده است</h3></div>
+      <dl>
+        <dt>چه اتفاقی افتاده</dt><dd>درآمد تومانی بالا رفته اما تعداد و ارزش دلاری فروش پایین آمده است.</dd>
+        <dt>شواهد</dt><dd>خرداد–مرداد ۱۴۰۵ نسبت به ۱۴۰۴: درآمد ‎+۵۱٫۵٪، تعداد ‎−۲۲٫۲٪، ارزش دلاری ‎−۲۸٫۶٪. قیمت هر دلار مرداد ۱۴۰۵ ‎۲٫۱۵ برابر مرداد ۱۴۰۴.</dd>
+        <dt>چرا مهم است</dt><dd>گزارش‌های تومانی تصویر رشد نشان می‌دهند و ممکن است تصمیم‌های بودجه، استخدام و هدف‌گذاری را روی رشدی بنا کنند که وجود ندارد.</dd>
+        <dt>تفسیر ممکن</dt><dd>انتقال افزایش نرخ ارز به قیمت، هم‌راه با کاهش واقعی تعداد خرید.</dd>
+        <dt>پاسخ مدیریت</dt><dd>از ماه آینده هدف‌ها و گزارش فروش بر اساس «ارزش دلاری» و «تعداد» تعریف شود و درآمد تومانی فقط کنار قیمت هر دلار نمایش داده شود.</dd>
+      </dl>
+    </article>
+    <article class="risk">
+      <div class="risk-head"><span class="chip crit"><i></i>بحرانی</span><h3>ریکاوری ناقص و متوقف پس از شوک</h3></div>
+      <dl>
+        <dt>چه اتفاقی افتاده</dt><dd>فروش در دی ۱۴۰۴ تا اردیبهشت ۱۴۰۵ سقوط کرد و هنوز به سطح قبل برنگشته است.</dd>
+        <dt>شواهد</dt><dd>فروردین ۱۴۰۵ نسبت به آذر ۱۴۰۴: تعداد ‎−۸۳٫۹٪، ارزش دلاری ‎−۸۴٫۸٪. میانگین خرداد–مرداد ۱۴۰۵: ۸۲٪ تعداد و ۷۷٪ ارزش دلاری پیش از شوک. مرداد نسبت به تیر: ارزش دلاری ‎−۱۲٫۵٪.</dd>
+        <dt>چرا مهم است</dt><dd>حدود یک‌چهارم حجم فروش هنوز از دست رفته است؛ یک ماه افت نشانه قطعی روند نیست، اما اگر شهریور هم افت کند، سطح جدید پایین‌تر تثبیت می‌شود.</dd>
+        <dt>تفسیر ممکن</dt><dd>بخشی از مشتریان پس از شوک برنگشته‌اند یا به رقبا رفته‌اند. <span class="tag">نیاز به بررسی</span> — داده مشتری برای تأیید وجود ندارد.</dd>
+        <dt>پاسخ مدیریت</dt><dd>پایش هفتگی ارزش دلاری فروش؛ بررسی علت شوک با تیم عملیات و پرداخت و تهیه برنامه ادامه فروش در اختلال بعدی.</dd>
+      </dl>
+    </article>
+    <article class="risk">
+      <div class="risk-head"><span class="chip crit"><i></i>بحرانی</span><h3>ریزش کارت‌های میانی پلی‌استیشن</h3></div>
+      <dl>
+        <dt>چه اتفاقی افتاده</dt><dd>دومین برند شرکت، سریع‌تر از بازار حجم از دست می‌دهد و ضربه اصلی در کارت‌های ۱۰ تا ۴۰ دلاری است.</dd>
+        <dt>شواهد</dt><dd>تعداد پلی‌استیشن ‎−۳۰٫۳٪ در برابر اپل ‎−۱۷٫۶٪؛ کارت‌های ۱۰–۴۰ دلاری ‎−۴۸٪. مزیت قیمتی ۷ تا ۹ درصدی این ردیف‌ها نسبت به معیار به ‎−۰٫۴٪ تا ‎+۴٪ تغییر کرده است.</dd>
+        <dt>چرا مهم است</dt><dd>پلی‌استیشن ۳۱٪ درآمد ۱۷ ماه است؛ بازگشت کارت‌های میانی به حجم ۱۴۰۴ به‌طور نظری حدود ۶۷۰ کارت و ۲٫۱ میلیارد تومان درآمد ماهانه اضافه می‌کند.</dd>
+        <dt>تفسیر ممکن</dt><dd>قیمت نسبی از رقبا بالاتر رفته، یا مشتریان به خرید چند کارت خرد روی آورده‌اند (رشد ۴۷٪ کارت‌های خرد با این فرضیه سازگار است). داده برای نتیجه‌گیری قطعی کافی نیست.</dd>
+        <dt>پاسخ مدیریت</dt><dd>مقایسه فوری قیمت ۱۰، ۲۰، ۳۰ و ۴۰ دلاری با رقبا و آزمون کاهش قیمت محدود روی دو ردیف پرفروش.</dd>
+      </dl>
+    </article>
+    <article class="risk">
+      <div class="risk-head"><span class="chip imp"><i></i>مهم</span><h3>وابستگی فزاینده به اپل آمریکا</h3></div>
+      <dl>
+        <dt>چه اتفاقی افتاده</dt><dd>سبد فروش در حال کوچک‌تر و متمرکزتر شدن است.</dd>
+        <dt>شواهد</dt><dd>اپل + پلی‌استیشن ۸۸٪ و کارت‌های آمریکایی ۸۶٫۹٪ درآمد. سهم اپل آمریکا: ۵۳٫۰٪ ← ۶۰٫۰٪ (مرداد به مرداد)؛ ۱۰ کالای اول: ۵۱٫۲٪ ← ۵۶٫۳٪؛ کالای فعال ماهانه: ۲۷۹ ← ۲۳۵.</dd>
+        <dt>چرا مهم است</dt><dd>اختلال در تأمین یا محدودیت روی کارت‌های آمریکایی اپل می‌تواند بیش از نیمی از درآمد را یک‌جا متوقف کند.</dd>
+        <dt>تفسیر ممکن</dt><dd>تمرکز بیشتر حاصل افت سایر برندهاست، نه رشد اپل (تعداد اپل هم ‎−۱۸٪).</dd>
+        <dt>پاسخ مدیریت</dt><dd>حداقل دو منبع تأمین برای ۱۰ کالای اول و برنامه جایگزین (مثلاً کارت‌های منطقه‌ای اپل) در صورت قطع تأمین.</dd>
+      </dl>
+    </article>
+    <article class="risk">
+      <div class="risk-head"><span class="chip imp"><i></i>مهم</span><h3>فرسایش دسته‌های جانبی و خروج کالاها</h3></div>
+      <dl>
+        <dt>چه اتفاقی افتاده</dt><dd>برندهای غیرهسته‌ای بخش بزرگی از حجم را از دست داده‌اند و چند کالای درآمدزا کاملاً از سبد خارج شده‌اند.</dd>
+        <dt>شواهد</dt><dd>تغییر تعداد: گوگل‌پلی ‎−۶۸٪، اسپاتیفای ‎−۶۶٪، ریزر گلد ‎−۸۴٪، نتفلیکس ‎−۷۱٪، آمازون ‎−۴۸٪. ۷ کالا با ۲٫۹۶ میلیارد تومان درآمد ۱۴۰۴ در خرداد–مرداد ۱۴۰۵ فروش صفر داشتند.</dd>
+        <dt>چرا مهم است</dt><dd>این دسته‌ها سپر تنوع در برابر وابستگی به اپل بودند.</dd>
+        <dt>تفسیر ممکن</dt><dd>ممکن است مشکل تأمین باشد (قطع کامل فروش، نه کاهش تدریجی) یا کاهش تقاضا. <span class="tag">نیاز به بررسی</span></dd>
+        <dt>پاسخ مدیریت</dt><dd>برای هر کالای خارج‌شده، علت (تأمین / قیمت / تقاضا) با واحد خرید مشخص و درباره بازگرداندن تصمیم گرفته شود.</dd>
+      </dl>
+    </article>
+    <article class="risk">
+      <div class="risk-head"><span class="chip mon"><i></i>پایش</span><h3>کوچک شدن تدریجی مبلغ هر کارت</h3></div>
+      <dl>
+        <dt>چه اتفاقی افتاده</dt><dd>میانگین ارزش هر کارت دلاری کمی کاهش یافته است.</dd>
+        <dt>شواهد</dt><dd>۲۰٫۶ دلار (فروردین–آذر ۱۴۰۴) ← ۱۹٫۴ دلار (خرداد–مرداد ۱۴۰۵)، ‎−۵٫۸٪. در ماه‌های قبل هم نوسان ۱۷٫۶ تا ۲۲٫۱ دلاری دیده شده است.</dd>
+        <dt>چرا مهم است</dt><dd>اگر ادامه یابد، با ثابت ماندن تعداد هم ارزش دلاری فروش کم می‌شود.</dd>
+        <dt>تفسیر ممکن</dt><dd>فشار قدرت خرید و خرید در مبالغ کوچک‌تر؛ هنوز در محدوده نوسان عادی است.</dd>
+        <dt>پاسخ مدیریت</dt><dd>فعلاً اقدام لازم نیست؛ اگر سه ماه پیاپی زیر ۱۹ دلار ماند، ارزیابی دوباره شود.</dd>
+      </dl>
+    </article>
+  </div>
+</section>
+
+<section id="growth">
+  <div class="sec-head">
+    <div class="eyebrow">فرصت‌ها</div>
+    <h2>فرصت‌های رشد</h2>
+    <p>ارقام «اندازه» سقف نظری با قیمت فعلی‌اند، نه پیش‌بینی؛ اثر بر سود به‌دلیل نبود داده بها قابل محاسبه نیست.</p>
+  </div>
+  <div class="opps">
+    <div class="opp"><span class="chip good"><i></i>بازپس‌گیری</span><h3>کارت‌های ۱۰ تا ۴۰ دلاری پلی‌استیشن</h3><div class="size">اندازه: تا حدود ۲٫۱ میلیارد تومان در ماه</div><p>بزرگ‌ترین شکاف قابل‌بازگشت. اگر آزمون قیمت نشان دهد افت به قیمت نسبی مربوط است، اصلاح قیمت سریع‌ترین مسیر بازگشت حجم است.</p></div>
+    <div class="opp"><span class="chip good"><i></i>رشد</span><h3>کارت‌های خرد پلی‌استیشن (۱ تا ۹ دلار)</h3><div class="size">رشد تعداد ‎+۴۷٪ · ۰٫۲۹ میلیارد تومان در ماه</div><p>تنها ردیف رو به رشد پلی‌استیشن با بالاترین قیمت هر دلار. موجودی دائم، نمایش برجسته و بسته‌های «شارژ دقیق مبلغ» ارزش آزمون دارد.</p></div>
+    <div class="opp"><span class="chip good"><i></i>رشد</span><h3>اشتراک تلگرام و سرویس‌های دیجیتال</h3><div class="size">تعداد تلگرام ‎+۶۲٪ · درآمد ‎۳٫۱ برابر</div><p>تلگرام به ۱۶۴٪ سطح پیش از شوک رسیده؛ اولین فروش ChatGPT Plus (۳ عدد) در مرداد ثبت شد. پایه کوچک است (۰٫۹٪ درآمد) اما خلاف روند بازار رشد می‌کند و وابستگی به اپل را کم می‌کند.</p></div>
+    <div class="opp"><span class="chip good"><i></i>حفاظت</span><h3>هسته اپل ۲ تا ۴۰ دلاری</h3><div class="size">۹۱٪ تعداد کارت‌های اپل آمریکا</div><p>کارت ۲۰ دلاری (‎+۸٪) و ۸ دلاری (‎+۱۹٪) رشد حجم دارند. در دسترس بودن دائم این ردیف‌ها مهم‌ترین ضامن درآمد است.</p></div>
+    <div class="opp"><span class="chip good"><i></i>آزمون</span><h3>ساختار قیمت کارت‌های خرد اپل</h3><div class="size">هر ۱٪ ≈ ۱۵ میلیون تومان در ماه در حجم فعلی</div><p>کارت‌های خرد اپل تقریباً هم‌قیمت کارت ۱۰۰ دلاری (برای هر دلار) فروخته می‌شوند، برخلاف پلی‌استیشن و استیم. آزمون افزایش محدود با پایش دقیق تعداد.</p></div>
+    <div class="opp"><span class="chip good"><i></i>بازگرداندن</span><h3>کالاهای خارج‌شده پرفروش</h3><div class="size">۲٫۹۶ میلیارد تومان درآمد ۱۴۰۴</div><p>ریزر گلد ۱۰۰ دلاری و گوگل‌پلی ۱۰۰ و ۲۰۰ دلاری به‌تنها ۲٫۴ میلیارد تومان در ۱۴۰۴ فروختند. اگر علت، تأمین بوده، بازگرداندن آن‌ها کم‌هزینه است.</p></div>
+  </div>
+  <div class="card" style="margin-top:20px">
+    <h3>اشتراک و ستاره تلگرام؛ رشد خلاف جریان</h3>
+    <div class="q">تعداد فروش ماهانه</div>
+    <div class="chart" id="c-tg"></div>
+    <p class="insight">در حالی که کل تعداد فروش خرداد–مرداد ۱۴۰۵ ‎۲۲٪ کمتر از پارسال است، تلگرام در همین بازه ‎۶۲٪ بیشتر فروخته و در خرداد به بالاترین عدد ۱۷ ماه (۱۱۰) رسیده است.</p>
+  </div>
+</section>
+
+<section id="diagnosis">
+  <div class="sec-head">
+    <div class="eyebrow">جمع‌بندی</div>
+    <h2>تشخیص راهبردی</h2>
+  </div>
+  <ol class="diag">
+    <li><b>کسب‌وکار در حجم کوچک‌تر شده، نه بزرگ‌تر.</b><p>ارزش دلاری فروش خرداد–مرداد ۱۴۰۵ ‎۲۸٫۶٪ کمتر از پارسال است؛ رشد ۵۱٫۵ درصدی درآمد تماماً از افزایش ۱۱۵ درصدی قیمت هر دلار آمده است.</p></li>
+    <li><b>شرکت در برابر شوک‌های بیرونی بسیار آسیب‌پذیر است.</b><p>ارزش دلاری فروش در فروردین ۱۴۰۵ به ۱۶٪ سطح عادی رسید و سه ماه بعد هنوز ۷۷٪ ارزش دلاری را بازیافته است؛ هیچ برندی در این شوک مصون نبود.</p></li>
+    <li><b>اپل ستون مقاوم درآمد است و وزنش بیشتر می‌شود.</b><p>اپل ۵۷٪ درآمد ۱۷ ماه و ۶۳٫۷٪ درآمد مرداد ۱۴۰۵؛ در شوک ‎−۶۴٪ در برابر ‎−۹۵٪ پلی‌استیشن. این مقاومت یک مزیت و در عین حال بزرگ‌ترین نقطه تمرکز ریسک است.</p></li>
+    <li><b>مشکل پلی‌استیشن بیشتر «ردیفی» است تا «برندی».</b><p>کارت‌های ۱۰ تا ۴۰ دلاری ‎−۴۸٪ و کارت‌های خرد ‎+۴۷٪؛ افت در ردیف‌هایی که مزیت قیمتی‌شان از بین رفته شدیدتر است. این الگو به ضعف اجرای قیمت‌گذاری نزدیک‌تر است تا ضعف بازار، اما بدون قیمت رقبا قطعی نیست.</p></li>
+    <li><b>تنوع سبد در حال فرسایش است.</b><p>کالای فعال ماهانه ۲۷۹ ← ۲۳۵، سهم ۱۰ کالای اول ۵۱٫۲٪ ← ۵۶٫۳٪، و دسته‌های گوگل‌پلی، اسپاتیفای، ریزر و نتفلیکس دوسوم حجم را از دست داده‌اند.</p></li>
+    <li><b>ساختار قیمت میان برندها یکپارچه نیست.</b><p>هر دلار در کوچک‌ترین کارت نسبت به کارت ۱۰۰ دلاری: اپل ‎+۴٫۸٪، پلی‌استیشن ‎+۳۵٪، استیم ‎+۴۸٪. سیاست قیمت‌گذاری ردیفی نیاز به بازنگری آگاهانه دارد.</p></li>
+    <li><b>سرویس‌های اشتراکی تنها بخش رو به رشدند.</b><p>تلگرام ‎+۶۲٪ تعداد در بازه‌ای که کل بازار ‎−۲۲٪ است؛ کوچک اما راهبردی برای کاهش وابستگی.</p></li>
+  </ol>
+</section>
+
+<section id="priority">
+  <div class="sec-head"><div class="eyebrow">اولویت‌بندی</div><h2>ماتریس اولویت مدیریت</h2></div>
+  <div class="matrix">
+    <div class="col"><span class="chip crit"><i></i>اولویت ۱</span><h3>توجه فوری</h3><div class="sub">نیازمند تصمیم مدیریت در همین ماه</div>
+      <ul><li>تغییر مبنای گزارش و هدف فروش به ارزش دلاری و تعداد</li><li>بررسی قیمت کارت‌های ۱۰–۴۰ دلاری پلی‌استیشن</li><li>ریشه‌یابی افت مرداد و پایش هفتگی ریکاوری</li><li>اصلاح خطاهای داده (ردیف تست دی ۱۴۰۴، کد AP-UK-20)</li></ul></div>
+    <div class="col"><span class="chip good"><i></i>اولویت ۲</span><h3>فرصت‌های رشد</h3><div class="sub">اقدام متمرکز با بازده مشخص</div>
+      <ul><li>بازپس‌گیری حجم کارت‌های میانی پلی‌استیشن</li><li>توسعه کارت‌های خرد پلی‌استیشن</li><li>گسترش سبد اشتراک (تلگرام، ChatGPT)</li><li>بازگرداندن ریزر گلد و گوگل‌پلی پرفروش</li><li>آزمون قیمت کارت‌های خرد اپل</li></ul></div>
+    <div class="col"><span class="chip mon"><i></i>اولویت ۳</span><h3>پایش</h3><div class="sub">فعلاً اقدام بزرگ لازم نیست</div>
+      <ul><li>میانگین ارزش هر کارت (آستانه ۱۹ دلار)</li><li>سهم ۱۰ کالای اول و سهم اپل آمریکا</li><li>تعداد کالای فعال ماهانه</li><li>دسته‌های جانبی رو به افت</li></ul></div>
+  </div>
+</section>
+
+<section id="actions">
+  <div class="sec-head"><div class="eyebrow">برنامه اجرایی</div><h2>اقدامات پیشنهادی</h2><p>هر اقدام به یک یافته مشخص و یک شاخص پایش متصل است.</p></div>
+
+  <div class="card phase">
+    <h3>فوری · ۳۰ روز آینده</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>اقدام</th><th>چرا · شواهد</th><th>شاخص پایش</th></tr></thead>
+      <tbody>
+        <tr><td>گزارش ماهانه فروش با سه عدد اصلی: ارزش دلاری، تعداد، قیمت هر دلار؛ هدف‌گذاری به دلار</td><td>درآمد ‎+۵۱٫۵٪ ولی ارزش دلاری ‎−۲۸٫۶٪</td><td>ارزش دلاری ماهانه</td></tr>
+        <tr><td>مقایسه قیمت کارت‌های ۱۰، ۲۰، ۳۰ و ۴۰ دلاری پلی‌استیشن با رقبای اصلی و آزمون دوهفته‌ای قیمت روی ۱۰ و ۲۰ دلاری</td><td>ردیف‌های میانی ‎−۴۸٪؛ مزیت قیمتی ۷–۹٪ از بین رفته</td><td>تعداد هفتگی این ردیف‌ها؛ فاصله قیمت با معیار</td></tr>
+        <tr><td>ریشه‌یابی افت مرداد (موجودی، قیمت، دسترسی) و گزارش هفتگی ریکاوری</td><td>ارزش دلاری مرداد ‎−۱۲٫۵٪ نسبت به تیر؛ ریکاوری ۷۷٪</td><td>نسبت ریکاوری</td></tr>
+        <tr><td>تعیین علت خروج ۷ کالای پرفروش ۱۴۰۴ با واحد خرید</td><td>۲٫۹۶ میلیارد تومان درآمد ۱۴۰۴ با فروش صفر در سه ماه اخیر</td><td>کالاهای کلیدی با فروش صفر</td></tr>
+        <tr><td>اصلاح داده: ردیف تست دی ۱۴۰۴، کد مشترک AP-UK-20، تکمیل کد ۱٬۷۳۶ ردیف</td><td>۲۰۰ میلیون تومان ثبت نامشخص؛ ۴۲٪ ردیف‌ها بدون کد</td><td>درصد ردیف‌های کددار</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card phase" style="margin-top:20px">
+    <h3>کوتاه‌مدت · ۳۰ تا ۹۰ روز</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>اقدام</th><th>چرا · شواهد</th><th>شاخص پایش</th></tr></thead>
+      <tbody>
+        <tr><td>اعمال قیمت ردیفی جدید پلی‌استیشن بر اساس نتیجه آزمون</td><td>تا حدود ۶۷۰ کارت و ۲٫۱ میلیارد تومان در ماه شکاف</td><td>سهم پلی‌استیشن از ارزش دلاری</td></tr>
+        <tr><td>نمایش برجسته و موجودی دائم کارت‌های خرد پلی‌استیشن؛ آزمون بسته «شارژ دقیق»</td><td>کارت‌های ۱–۹ دلاری ‎+۴۷٪</td><td>تعداد کارت‌های خرد پلی‌استیشن</td></tr>
+        <tr><td>آزمون ۴ هفته‌ای افزایش محدود قیمت روی یک ردیف خرد اپل، با ردیف کنترل</td><td>فاصله قیمت خرد و درشت: اپل ۴٫۸٪، پلی‌استیشن ۳۵٪</td><td>تعداد ردیف آزمون در برابر کنترل</td></tr>
+        <tr><td>گسترش سبد اشتراک (تلگرام، ChatGPT Plus) و نمایش در صفحه اصلی</td><td>تلگرام ‎+۶۲٪ تعداد در بازار ‎−۲۲٪</td><td>تعداد فروش اشتراک‌ها</td></tr>
+        <tr><td>افزودن شناسه مشتری و شماره سفارش به خروجی گزارش فروش</td><td>تحلیل مشتری، بازگشت مشتری و ریزش ممکن نیست</td><td>مشتری فعال؛ نرخ خرید تکراری</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card phase" style="margin-top:20px">
+    <h3>راهبردی · ۳ تا ۱۲ ماه</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>اقدام</th><th>چرا · شواهد</th><th>شاخص پایش</th></tr></thead>
+      <tbody>
+        <tr><td>دست‌کم دو منبع تأمین برای ۱۰ کالای اول</td><td>۱۰ کالا = ۵۱٪ درآمد؛ اپل آمریکا = ۶۰٪ درآمد مرداد</td><td>روزهای ناموجودی کالاهای کلیدی</td></tr>
+        <tr><td>برنامه تداوم فروش در شوک: درگاه جایگزین، موجودی ذخیره، کانال اطلاع‌رسانی به مشتری</td><td>افت ۸۴ درصدی و بازگشت ناقص پس از ۳ ماه</td><td>عمق افت و زمان بازگشت</td></tr>
+        <tr><td>هدف تدریجی برای سهم برندهای غیر اپل و پلی‌استیشن</td><td>اپل + پلی‌استیشن ۸۸٪ درآمد</td><td>سهم سایر برندها از ارزش دلاری</td></tr>
+        <tr><td>ثبت بهای تمام‌شده در سیستم و تدوین سیاست قیمت‌گذاری ردیفی یکپارچه</td><td>نردبان قیمت ناهمگون؛ حاشیه سود قابل محاسبه نیست</td><td>حاشیه ناخالص به تفکیک برند و ردیف</td></tr>
+        <tr><td>بازبینی دوره‌ای دم بلند سبد با معیار روشن نگهداشت/حذف (نه حذف خودکار کالای جدید یا خاص)</td><td>۱۸۷ کالا زیر ۰٫۰۱٪ سهم؛ ۱۲۸ کالا ≤ ۵ عدد در ۱۷ ماه</td><td>کالاهای بدون فروش ۳ ماهه</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section id="kpi">
+  <div class="sec-head"><div class="eyebrow">پایش</div><h2>شاخص‌های پیشنهادی مدیریت</h2><p>مقدار فعلی از مرداد ۱۴۰۵ یا آخرین بازه قابل مقایسه.</p></div>
+  <div class="kpigrid">
+    <div><b>ارزش دلاری فروش ماهانه</b><span>شاخص اصلی حجم · فعلی ۱۲۲ هزار دلار؛ پیش از شوک ۱۵۹ هزار دلار</span></div>
+    <div><b>تعداد کارت فروخته‌شده</b><span>فعلی ۶٬۸۹۲؛ پیش از شوک ۸٬۵۴۴ در ماه</span></div>
+    <div><b>درآمد تومانی کنار قیمت هر دلار</b><span>فعلی ۲۶٫۶ میلیارد تومان · ۲۰۰ هزار تومان برای هر دلار</span></div>
+    <div><b>نسبت ریکاوری</b><span>٪ ارزش دلاری نسبت به میانگین فروردین–آذر ۱۴۰۴ · فعلی ۷۷٪</span></div>
+    <div><b>تعداد کارت‌های ۱۰–۴۰ دلاری پلی‌استیشن</b><span>فعلی ۷۲۴ در ماه؛ ۱۴۰۴: ۱٬۳۹۸</span></div>
+    <div><b>فاصله قیمت هر دلار با معیار و رقبا</b><span>به تفکیک برند و ردیف مبلغی</span></div>
+    <div><b>سهم ۱۰ کالای اول</b><span>فعلی ۵۶٫۳٪ · آستانه هشدار ۵۵٪</span></div>
+    <div><b>سهم اپل آمریکا از درآمد</b><span>فعلی ۶۰٫۰٪</span></div>
+    <div><b>میانگین ارزش هر کارت دلاری</b><span>فعلی ۱۹٫۷ دلار · آستانه ۱۹ دلار</span></div>
+    <div><b>کالای فعال و کالای کلیدی با فروش صفر</b><span>فعلی ۲۳۵ کالای فعال</span></div>
+    <div><b>تعداد فروش اشتراک‌ها</b><span>تلگرام در مرداد: ۹۸</span></div>
+    <div><b>مشتری فعال و نرخ خرید تکراری</b><span>نیاز به ثبت داده مشتری؛ امروز قابل محاسبه نیست</span></div>
+  </div>
+</section>
+
+<section id="notes">
+  <div class="sec-head"><div class="eyebrow">شفافیت</div><h2>یادداشت‌های داده و محدودیت‌ها</h2></div>
+  <div class="notes"><ul>
+    <li><b>ساختار فایل:</b> ۱۷ برگه ماهانه از فروردین ۱۴۰۴ تا مرداد ۱۴۰۵، هر کدام با ۴ ستون «کد انبار، محصول، تعداد، متوسط قیمت تومان»؛ جمعاً ۴٬۱۵۸ ردیف. هیچ مقدار خالی، صفر یا منفی و هیچ کالای تکراری در یک ماه دیده نشد.</li>
+    <li><b>درآمد محاسبه‌ای است:</b> تعداد × متوسط قیمت. پس از حذف دو ردیف زیر، کل درآمد ۱۷ ماه ۲۸۲٫۴ میلیارد تومان و ۱۱۳٬۹۷۴ کارت است (۱۴۰۴: ۱۹۰٫۹ میلیارد تومان و ۸۸٬۶۹۵ کارت).</li>
+    <li><b>ردیف «تست روند» حذف شد</b> <span class="tag">نیاز به بررسی</span>: ۴۳ عدد و ۲۰۰٫۲ میلیون تومان در ۱۴ ماه؛ ۲۰۰٫۰ میلیون آن ۶ عدد با متوسط ۳۳٫۳ میلیون تومان در دی ۱۴۰۴ است، در حالی که قیمت آن در ماه‌های دیگر ۳ تا ۱۵ هزار تومان بوده. ممکن است یک فروش واقعی زیر این عنوان ثبت شده باشد (اثر: ۱٫۹٪ درآمد دی).</li>
+    <li><b>ردیف «خیریه» حذف شد:</b> ۲٬۸۷۷ مورد و ۵۸٫۲ میلیون تومان؛ کمک مردمی است، نه فروش کالا.</li>
+    <li><b>خطای کد:</b> کد AP-UK-20 در ۷ ماه هم برای «اپل انگلیس ۲۰ پوندی» و هم «استیم انگلیس ۲۰ پوندی» استفاده شده است. ۱٬۷۳۶ ردیف (۴۱٫۸٪، معادل ۶٫۷٪ درآمد) کد انبار ندارند. همه تحلیل‌ها بر اساس نام کالا انجام شد؛ ۷۹ ردیف با «ي» و «ك» عربی یکسان‌سازی شدند.</li>
+    <li><b>قیمت‌های غیرعادی</b> <span class="tag">نیاز به بررسی</span>: مسترکارت مجازی ۱۰ دلاری در دی ۱۴۰۴ با ۲۸۳ هزار تومان (حدود ۱۸٪ سطح معمول، ۶ عدد)؛ پلی‌استیشن ۵ دلاری در خرداد ۱۴۰۴ حدود ۳۷٪ بالاتر از روند؛ اسپاتیفای آمریکا در تیر و مرداد ۱۴۰۵ حدود ۶۰٪ بالاتر (۱ تا ۳ عدد). اثر آن‌ها بر نتایج ناچیز است و اصلاح نشدند.</li>
+    <li><b>ارزش دلاری و قیمت هر دلار:</b> فقط کارت‌های با مبلغ دلار آمریکا (بدون دلار کانادا، استرالیا، هنگ‌کنگ و مانند آن) که ۹۲٪ درآمد را پوشش می‌دهند. «قیمت هر دلار» = درآمد ÷ ارزش اسمی کارت‌های آمریکایی برندهای اصلی؛ قیمت فروش شرکت است، شامل حاشیه، و نرخ ارز بازار نیست.</li>
+    <li><b>گروه‌بندی</b> برند، گروه محصول، کشور و ردیف مبلغی از روی نام کالا انجام شده است. «کشور» یعنی کشور صدور کارت، نه محل مشتری.</li>
+    <li><b>داده‌های موجود نیست:</b> مشتری، فاکتور یا سفارش، فروشنده، منطقه و کانال فروش، بهای تمام‌شده و حاشیه، تخفیف، مرجوعی و هدف فروش. به همین دلیل بخش‌های تحلیل مشتری، تیم فروش، منطقه/کانال و تخفیف/سودآوری در این گزارش نیامده‌اند.</li>
+    <li><b>فصلی بودن:</b> ۱۷ ماه فقط یک تکرار از هر فصل را پوشش می‌دهد؛ داده موجود برای نتیجه‌گیری قطعی درباره الگوی فصلی کافی نیست. علت شوک دی ۱۴۰۴ تا اردیبهشت ۱۴۰۵ نیز در داده ثبت نشده است.</li>
+    <li><b>فایل مستقل:</b> همه داده‌ها و نمودارها داخل همین فایل‌اند و به فایل اکسل نیاز ندارند. فقط قلم‌ها از Google Fonts بارگذاری می‌شوند و در حالت آفلاین قلم سیستم جایگزین می‌شود.</li>
+  </ul></div>
+  <footer>منبع: Gozaresh 17 Mah 1404 ta 1405 mordad.xlsx · تهیه‌شده در ۲۳ شهریور ۱۴۰۵</footer>
+</section>
+
+</div>
+<button class="printbtn" type="button" id="printbtn" onclick="window.print()">چاپ / ذخیره PDF</button>
+
+<script>
+const D = {"months": ["فروردین ۱۴۰۴", "اردیبهشت ۱۴۰۴", "خرداد ۱۴۰۴", "تیر ۱۴۰۴", "مرداد ۱۴۰۴", "شهریور ۱۴۰۴", "مهر ۱۴۰۴", "آبان ۱۴۰۴", "آذر ۱۴۰۴", "دی ۱۴۰۴", "بهمن ۱۴۰۴", "اسفند ۱۴۰۴", "فروردین ۱۴۰۵", "اردیبهشت ۱۴۰۵", "خرداد ۱۴۰۵", "تیر ۱۴۰۵", "مرداد ۱۴۰۵"], "rev": [15.463, 15.051, 14.986, 16.39, 19.17, 19.524, 15.682, 17.853, 22.68, 10.62, 16.811, 6.714, 4.902, 9.998, 21.433, 28.573, 26.565], "qty": [8124, 9121, 8495, 8761, 9708, 9002, 6342, 8046, 9300, 4209, 5415, 2172, 1496, 2800, 6588, 7503, 6892], "skus": [246, 254, 259, 267, 279, 268, 259, 292, 290, 223, 246, 185, 141, 186, 245, 252, 235], "rate": [103815, 85670, 86306, 91607, 92992, 102429, 112094, 111716, 122524, 142200, 166169, 175384, 170692, 186504, 183558, 187812, 199665], "ap10": [1057147, 881587, 912428, 951121, 966762, 1067721, 1159777, 1140056, 1269540, 1435948, 1671135, 1775070, 1723190, 1896709, 1847288, 1908430, 2016068], "usd_face": [136.9, 162.4, 160.0, 166.1, 190.3, 176.5, 127.5, 144.2, 169.8, 68.9, 91.3, 34.6, 25.9, 48.2, 106.9, 139.7, 122.2], "per_unit": [1903402, 1650114, 1764091, 1870798, 1974617, 2168833, 2472743, 2218922, 2438742, 2523269, 3104546, 3091020, 3276603, 3570789, 3253392, 3808210, 3854478], "avg_face": [18.53, 19.3, 20.62, 20.68, 21.46, 21.35, 22.11, 19.89, 19.95, 17.83, 18.9, 17.59, 19.71, 19.29, 17.78, 20.28, 19.36], "fam": {"اشتراک‌ها و سرویس‌ها": [0.144, 0.154, 0.131, 0.147, 0.191, 0.179, 0.163, 0.155, 0.235, 0.082, 0.21, 0.083, 0.125, 0.182, 0.34, 0.28, 0.262], "اپل": [9.926, 9.044, 7.941, 9.337, 10.682, 9.744, 7.778, 9.591, 10.555, 5.635, 10.691, 4.042, 3.783, 7.117, 12.677, 15.543, 16.919], "سایر کارت‌ها": [0.216, 0.331, 0.205, 0.436, 0.513, 0.648, 0.473, 0.739, 0.633, 0.525, 0.824, 0.138, 0.384, 0.254, 0.301, 0.173, 0.361], "پلی‌استیشن": [4.119, 4.468, 5.578, 4.947, 5.867, 6.526, 5.895, 5.824, 9.213, 3.24, 4.136, 1.923, 0.438, 1.877, 6.476, 9.807, 7.081], "گیمینگ (سایر)": [1.059, 1.053, 1.131, 1.523, 1.916, 2.427, 1.373, 1.544, 2.044, 1.138, 0.951, 0.527, 0.172, 0.569, 1.64, 2.769, 1.942]}, "famsh": {"اشتراک‌ها و سرویس‌ها": [0.9, 1.0, 0.9, 0.9, 1.0, 0.9, 1.0, 0.9, 1.0, 0.8, 1.2, 1.2, 2.5, 1.8, 1.6, 1.0, 1.0], "اپل": [64.2, 60.1, 53.0, 57.0, 55.7, 49.9, 49.6, 53.7, 46.5, 53.1, 63.6, 60.2, 77.2, 71.2, 59.1, 54.4, 63.7], "سایر کارت‌ها": [1.4, 2.2, 1.4, 2.7, 2.7, 3.3, 3.0, 4.1, 2.8, 4.9, 4.9, 2.1, 7.8, 2.5, 1.4, 0.6, 1.4], "پلی‌استیشن": [26.6, 29.7, 37.2, 30.2, 30.6, 33.4, 37.6, 32.6, 40.6, 30.5, 24.6, 28.6, 8.9, 18.8, 30.2, 34.3, 26.7], "گیمینگ (سایر)": [6.8, 7.0, 7.6, 9.3, 10.0, 12.4, 8.8, 8.7, 9.0, 10.7, 5.7, 7.9, 3.5, 5.7, 7.7, 9.7, 7.3]}, "top10": [53.1, 53.9, 50.9, 50.1, 51.6, 52.9, 50.8, 47.1, 49.4, 47.2, 54.1, 53.3, 64.0, 59.8, 53.6, 54.2, 56.3], "n80": [27, 26, 27, 31, 30, 28, 32, 38, 33, 33, 27, 28, 22, 27, 30, 32, 29], "apple_us": [61.2, 57.6, 50.7, 54.7, 53.0, 47.5, 46.5, 49.9, 43.9, 50.3, 58.4, 56.2, 71.3, 65.7, 55.8, 51.3, 60.0], "ap_ps_us": [84.4, 84.5, 84.0, 81.6, 80.7, 77.9, 80.4, 77.6, 80.3, 77.7, 80.7, 81.2, 79.5, 81.9, 83.2, 81.1, 83.5], "den_q": {"خرد (۱ تا ۹ دلار)": [2960, 3323, 2906, 2945, 3167, 2983, 2024, 2703, 3187, 1596, 1955, 815, 482, 1000, 2515, 2737, 2555], "درشت (۵۰ دلار و بالاتر)": [734, 984, 957, 991, 1216, 1156, 901, 867, 981, 353, 484, 196, 153, 305, 633, 863, 719], "میانی (۱۰ تا ۴۰ دلار)": [3696, 4106, 3895, 4095, 4483, 4127, 2842, 3682, 4345, 1917, 2391, 958, 677, 1191, 2868, 3290, 3039]}, "den_r": {"خرد (۱ تا ۹ دلار)": [1.315, 1.187, 1.132, 1.222, 1.315, 1.344, 0.951, 1.246, 1.595, 0.857, 1.273, 0.554, 0.319, 0.731, 1.825, 2.119, 2.075], "درشت (۵۰ دلار و بالاتر)": [6.346, 6.675, 6.717, 7.439, 9.144, 9.397, 7.812, 7.657, 9.735, 4.116, 6.977, 2.622, 2.096, 4.417, 8.852, 13.436, 11.877], "میانی (۱۰ تا ۴۰ دلار)": [6.579, 6.1, 6.004, 6.627, 7.3, 7.41, 5.586, 7.26, 9.539, 4.844, 6.94, 2.907, 2.003, 3.839, 8.971, 10.731, 10.508]}, "sku_top": [{"name": "گیفت کارت 100 دلاری آیتونز اپل امریکا", "code": "AP-US-100", "brand": "Apple", "rev": 30.531, "share": 10.81, "cum": 10.8, "qty": 2418}, {"name": "گیفت کارت 20 دلاری آیتونز اپل امریکا", "code": "AP-US-20", "brand": "Apple", "rev": 22.057, "share": 7.81, "cum": 18.6, "qty": 8287}, {"name": "گیفت کارت 100 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-100", "brand": "PlayStation", "rev": 19.37, "share": 6.86, "cum": 25.5, "qty": 1640}, {"name": "گیفت کارت 50 دلاری آیتونز اپل امریکا", "code": "AP-US-50", "brand": "Apple", "rev": 15.401, "share": 5.45, "cum": 30.9, "qty": 2398}, {"name": "گیفت کارت 10 دلاری آیتونز اپل امریکا", "code": "AP-US-10", "brand": "Apple", "rev": 14.053, "share": 4.98, "cum": 35.9, "qty": 10744}, {"name": "گیفت کارت 10 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-10", "brand": "PlayStation", "rev": 10.171, "share": 3.6, "cum": 39.5, "qty": 8460}, {"name": "گیفت کارت 15 دلاری آیتونز اپل امریکا", "code": "AP-US-15", "brand": "Apple", "rev": 9.048, "share": 3.2, "cum": 42.7, "qty": 4627}, {"name": "گیفت کارت 30 دلاری آیتونز اپل امریکا", "code": "AP-US-30", "brand": "Apple", "rev": 8.662, "share": 3.07, "cum": 45.8, "qty": 2246}, {"name": "گیفت کارت 25 دلاری آیتونز اپل امریکا", "code": "AP-US-25", "brand": "Apple", "rev": 8.173, "share": 2.89, "cum": 48.7, "qty": 2554}, {"name": "گیفت کارت 200 دلاری آیتونز امریکا", "code": "AP-US-200", "brand": "Apple", "rev": 7.51, "share": 2.66, "cum": 51.3, "qty": 304}, {"name": "گیفت کارت 20 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-20", "brand": "PlayStation", "rev": 7.157, "share": 2.53, "cum": 53.9, "qty": 3072}, {"name": "گیفت کارت 50 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-50", "brand": "PlayStation", "rev": 6.908, "share": 2.45, "cum": 56.3, "qty": 1193}, {"name": "گیفت کارت 40 دلاری آیتونز اپل امریکا", "code": "AP-US-40", "brand": "Apple", "rev": 6.745, "share": 2.39, "cum": 58.7, "qty": 1331}, {"name": "گیفت کارت 60 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-60", "brand": "PlayStation", "rev": 5.906, "share": 2.09, "cum": 60.8, "qty": 885}, {"name": "گیفت کارت 60 دلاری آیتونز اپل امریکا", "code": "AP-US-60", "brand": "Apple", "rev": 5.566, "share": 1.97, "cum": 62.8, "qty": 726}], "sku_cum": [10.81, 18.62, 25.48, 30.93, 35.91, 39.51, 42.71, 45.78, 48.67, 51.33, 53.87, 56.31, 58.7, 60.79, 62.76, 64.51, 66.16, 67.64, 69.06, 70.44, 71.82, 73.05, 74.02, 74.93, 75.8, 76.54, 77.27, 77.95, 78.55, 79.06, 79.56, 80.06, 80.55, 81.04, 81.46, 81.86, 82.27, 82.65, 83.03, 83.4, 83.75, 84.1, 84.44, 84.75, 85.06, 85.32, 85.54, 85.77, 85.99, 86.21, 86.43, 86.64, 86.85, 87.05, 87.26, 87.46, 87.65, 87.83, 88.01, 88.18, 88.36, 88.53, 88.7, 88.87, 89.02, 89.18, 89.33, 89.48, 89.63, 89.77, 89.91, 90.05, 90.19, 90.32, 90.46, 90.59, 90.73, 90.86, 90.98, 91.11, 91.23, 91.35, 91.47, 91.6, 91.71, 91.82, 91.94, 92.05, 92.16, 92.27, 92.38, 92.48, 92.59, 92.69, 92.79, 92.89, 92.99, 93.09, 93.19, 93.28, 93.38, 93.47, 93.56, 93.66, 93.74, 93.83, 93.91, 94.0, 94.08, 94.16, 94.25, 94.33, 94.41, 94.49, 94.56, 94.64, 94.72, 94.79, 94.86, 94.93, 95.0, 95.07, 95.14, 95.21, 95.28, 95.35, 95.41, 95.48, 95.54, 95.6, 95.66, 95.72, 95.77, 95.83, 95.89, 95.94, 96.0, 96.05, 96.1, 96.15, 96.2, 96.25, 96.31, 96.35, 96.4, 96.45, 96.5, 96.55, 96.59, 96.64, 96.68, 96.73, 96.77, 96.82, 96.86, 96.91, 96.95, 96.99, 97.03, 97.07, 97.11, 97.14, 97.18, 97.22, 97.25, 97.29, 97.32, 97.36, 97.39, 97.43, 97.46, 97.49, 97.52, 97.56, 97.59, 97.62, 97.65, 97.68, 97.71, 97.74, 97.77, 97.8, 97.83, 97.85, 97.88, 97.91, 97.94, 97.96, 97.99, 98.01, 98.04, 98.06, 98.08, 98.1, 98.13, 98.15, 98.17, 98.19, 98.21, 98.23, 98.25, 98.27, 98.29, 98.31, 98.33, 98.35, 98.37, 98.39, 98.41, 98.43, 98.45, 98.46, 98.48, 98.5, 98.52, 98.54, 98.55, 98.57, 98.59, 98.6, 98.62, 98.64, 98.65, 98.67, 98.68, 98.7, 98.72, 98.73, 98.75, 98.76, 98.78, 98.79, 98.8, 98.82, 98.83, 98.85, 98.86, 98.87, 98.89, 98.9, 98.91, 98.92, 98.94, 98.95, 98.96, 98.97, 98.99, 99.0, 99.01, 99.02, 99.03, 99.05, 99.06, 99.07, 99.08, 99.09, 99.11, 99.12, 99.13, 99.14, 99.15, 99.16, 99.17, 99.18, 99.2, 99.21, 99.22, 99.23, 99.24, 99.25, 99.26, 99.27, 99.28, 99.29, 99.3, 99.31, 99.32, 99.33, 99.34, 99.35, 99.36, 99.37, 99.38, 99.39, 99.4, 99.4, 99.41, 99.42, 99.43, 99.44, 99.45, 99.46, 99.47, 99.47, 99.48, 99.49, 99.5, 99.51, 99.51, 99.52, 99.53, 99.54, 99.54, 99.55, 99.56, 99.57, 99.57, 99.58, 99.59, 99.6, 99.6, 99.61, 99.62, 99.62, 99.63, 99.64, 99.64, 99.65, 99.66, 99.66, 99.67, 99.67, 99.68, 99.69, 99.69, 99.7, 99.7, 99.71, 99.72, 99.72, 99.73, 99.73, 99.74, 99.74, 99.75, 99.75, 99.76, 99.76, 99.77, 99.77, 99.78, 99.78, 99.79, 99.79, 99.8, 99.8, 99.8, 99.81, 99.81, 99.82, 99.82, 99.82, 99.83, 99.83, 99.83, 99.84, 99.84, 99.85, 99.85, 99.85, 99.86, 99.86, 99.86, 99.87, 99.87, 99.87, 99.88, 99.88, 99.88, 99.89, 99.89, 99.89, 99.89, 99.9, 99.9, 99.9, 99.91, 99.91, 99.91, 99.91, 99.92, 99.92, 99.92, 99.92, 99.93, 99.93, 99.93, 99.93, 99.93, 99.94, 99.94, 99.94, 99.94, 99.94, 99.95, 99.95, 99.95, 99.95, 99.95, 99.96, 99.96, 99.96, 99.96, 99.96, 99.96, 99.96, 99.97, 99.97, 99.97, 99.97, 99.97, 99.97, 99.97, 99.97, 99.98, 99.98, 99.98, 99.98, 99.98, 99.98, 99.98, 99.98, 99.98, 99.98, 99.98, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 99.99, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0], "brand_tbl": [{"brand": "Apple", "rev04": 27.96, "rev05": 45.14, "q04": 16205, "q05": 13351, "sh04": 55.3, "sh05": 59.0}, {"brand": "PlayStation", "rev04": 16.39, "rev05": 23.36, "q04": 7053, "q05": 4915, "sh04": 32.4, "sh05": 30.5}, {"brand": "Steam", "rev04": 2.58, "rev05": 3.89, "q04": 1774, "q05": 1465, "sh04": 5.1, "sh05": 5.1}, {"brand": "Xbox", "rev04": 0.77, "rev05": 1.14, "q04": 480, "q05": 275, "sh04": 1.5, "sh05": 1.5}, {"brand": "Telegram", "rev04": 0.22, "rev05": 0.68, "q04": 189, "q05": 306, "sh04": 0.4, "sh05": 0.9}, {"brand": "Nintendo", "rev04": 0.43, "rev05": 0.59, "q04": 165, "q05": 128, "sh04": 0.8, "sh05": 0.8}, {"brand": "Roblox", "rev04": 0.32, "rev05": 0.45, "q04": 202, "q05": 162, "sh04": 0.6, "sh05": 0.6}, {"brand": "Visa/Master", "rev04": 0.57, "rev05": 0.43, "q04": 213, "q05": 143, "sh04": 1.1, "sh05": 0.6}, {"brand": "Amazon", "rev04": 0.32, "rev05": 0.22, "q04": 59, "q05": 31, "sh04": 0.6, "sh05": 0.3}, {"brand": "Battle.net", "rev04": 0.04, "rev05": 0.19, "q04": 14, "q05": 30, "sh04": 0.1, "sh05": 0.3}, {"brand": "Google Play", "rev04": 0.26, "rev05": 0.19, "q04": 359, "q05": 114, "sh04": 0.5, "sh05": 0.2}, {"brand": "Spotify", "rev04": 0.2, "rev05": 0.15, "q04": 95, "q05": 32, "sh04": 0.4, "sh05": 0.2}, {"brand": "Razer Gold", "rev04": 0.31, "rev05": 0.04, "q04": 74, "q05": 12, "sh04": 0.6, "sh05": 0.1}, {"brand": "Netflix", "rev04": 0.04, "rev05": 0.04, "q04": 21, "q05": 6, "sh04": 0.1, "sh05": 0.0}, {"brand": "Other games", "rev04": 0.02, "rev05": 0.03, "q04": 7, "q05": 5, "sh04": 0.0, "sh05": 0.0}, {"brand": "ChatGPT", "rev04": 0.0, "rev05": 0.01, "q04": 0, "q05": 3, "sh04": 0.0, "sh05": 0.0}, {"brand": "Riot", "rev04": 0.04, "rev05": 0.01, "q04": 19, "q05": 4, "sh04": 0.1, "sh05": 0.0}, {"brand": "Meta Quest", "rev04": 0.06, "rev05": 0.0, "q04": 21, "q05": 1, "sh04": 0.1, "sh05": 0.0}, {"brand": "PUBG", "rev04": 0.01, "rev05": 0.0, "q04": 14, "q05": 0, "sh04": 0.0, "sh05": 0.0}], "momentum": [{"name": "گیفت کارت 100 دلاری آیتونز اپل امریکا", "code": "AP-US-100", "q04": 621, "q05": 456, "r04": 5.741, "r05": 8.701}, {"name": "گیفت کارت 20 دلاری آیتونز اپل امریکا", "code": "AP-US-20", "q04": 1713, "q05": 1848, "r04": 3.213, "r05": 7.11}, {"name": "گیفت کارت 100 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-100", "q04": 404, "q05": 352, "r04": 3.357, "r05": 6.306}, {"name": "گیفت کارت 50 دلاری آیتونز اپل امریکا", "code": "AP-US-50", "q04": 616, "q05": 454, "r04": 2.852, "r05": 4.355}, {"name": "گیفت کارت 10 دلاری آیتونز اپل امریکا", "code": "AP-US-10", "q04": 2463, "q05": 2009, "r04": 2.328, "r05": 3.864}, {"name": "گیفت کارت 10 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-10", "q04": 2203, "q05": 1296, "r04": 1.906, "r05": 2.557}, {"name": "گیفت کارت 15 دلاری آیتونز اپل امریکا", "code": "AP-US-15", "q04": 1043, "q05": 852, "r04": 1.478, "r05": 2.458}, {"name": "گیفت کارت 30 دلاری آیتونز اپل امریکا", "code": "AP-US-30", "q04": 567, "q05": 387, "r04": 1.589, "r05": 2.228}, {"name": "گیفت کارت 25 دلاری آیتونز اپل امریکا", "code": "AP-US-25", "q04": 607, "q05": 473, "r04": 1.42, "r05": 2.28}, {"name": "گیفت کارت 200 دلاری آیتونز امریکا", "code": "AP-US-200", "q04": 81, "q05": 45, "r04": 1.477, "r05": 1.723}, {"name": "گیفت کارت 20 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-20", "q04": 934, "q05": 430, "r04": 1.584, "r05": 1.695}, {"name": "گیفت کارت 50 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-50", "q04": 315, "q05": 198, "r04": 1.318, "r05": 1.809}, {"name": "گیفت کارت 40 دلاری آیتونز اپل امریکا", "code": "AP-US-40", "q04": 332, "q05": 215, "r04": 1.236, "r05": 1.66}, {"name": "گیفت کارت 60 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-60", "q04": 188, "q05": 106, "r04": 0.936, "r05": 1.167}, {"name": "گیفت کارت 60 دلاری آیتونز اپل امریکا", "code": "AP-US-60", "q04": 180, "q05": 136, "r04": 0.995, "r05": 1.549}, {"name": "گیفت کارت 40 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-40", "q04": 321, "q05": 109, "r04": 1.079, "r05": 0.827}, {"name": "گیفت کارت 30 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-30", "q04": 404, "q05": 155, "r04": 1.016, "r05": 0.9}, {"name": "گیفت کارت 75 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-75", "q04": 110, "q05": 90, "r04": 0.693, "r05": 1.226}, {"name": "گیفت کارت 25 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-25", "q04": 332, "q05": 181, "r04": 0.7, "r05": 0.832}, {"name": "گیفت کارت 150 دلاری پلی استیشن نتورک امریکا", "code": "PS-US-150", "q04": 85, "q05": 41, "r04": 1.041, "r05": 1.11}], "tg": [28, 45, 28, 32, 45, 40, 34, 30, 44, 14, 35, 15, 13, 24, 59, 53, 44], "subs_rev": [0.144, 0.154, 0.131, 0.147, 0.191, 0.179, 0.163, 0.155, 0.235, 0.082, 0.21, 0.083, 0.125, 0.182, 0.34, 0.28, 0.262], "dq": {"test_rev": 200218345.0, "test_qty": 43.0, "test_months": 14.0, "charity_rev": 58224830.0, "charity_qty": 2877.0, "rows": 4158.0, "nocode_rows": 1736.0, "nocode_rev_share": 0.06667828208198877, "total_rev_all": 282674345580.0, "usd_share_total": 0.9189416556395915}, "n80_total": 32, "n_skus": 462, "total_rev": 282415902405.0, "total_qty": 113974, "ladder": {"Apple": [[4, 206032], [2, 208333], [3, 208007], [20, 200910], [5, 206659], [100, 198717], [50, 200323], [25, 201332], [10, 201607]], "PlayStation": [[4, 238935], [2, 252803], [1, 256391], [5, 238518], [25, 194580], [3, 247567], [100, 189728], [50, 193627], [20, 207985], [10, 208260]], "Steam": [[4, 254375], [2, 273438], [1, 300019], [3, 245275], [5, 217259], [100, 202342], [50, 207250], [20, 208092], [10, 211662], [25, 208755]]}, "ps_bucket": {"large": [200, 367, 417, 317, 386, 481, 429, 281, 452, 92, 139, 58, 16, 72, 232, 352, 226], "micro": [387, 492, 361, 199, 331, 329, 283, 403, 602, 271, 220, 107, 42, 100, 430, 490, 387], "mid": [1092, 1160, 1393, 1267, 1534, 1271, 948, 1197, 1575, 658, 585, 260, 64, 179, 742, 809, 620]}, "ps_bucket_kh": {"large": [1120, 810], "micro": [891, 1307], "mid": [4194, 2171]}, "ap_bucket_kh": {"large": [1616, 1164], "micro": [6897, 5612], "mid": [6725, 5784]}, "tg_all": [44, 64, 42, 60, 87, 78, 61, 41, 83, 26, 86, 27, 44, 57, 110, 98, 98], "usd_share_total": 0.9189416556395915, "ps_gap": [[1, 62.4, 28.0, 60, 456, 660.0], [2, 60.2, 26.2, 66, 200, 203.0], [3, 26.5, 23.6, 147, 112, -23.8], [4, 22.5, 19.3, 334, 143, -57.2], [5, 43.7, 19.1, 284, 396, 39.4], [10, -6.5, 4.0, 2203, 1296, -41.2], [20, -8.4, 3.9, 934, 430, -54.0], [25, -8.4, -2.8, 332, 181, -45.5], [30, -9.3, 2.2, 404, 155, -61.6], [40, -9.0, -0.4, 321, 109, -66.0], [50, -9.2, -3.3, 315, 198, -37.1], [60, -10.1, -3.0, 188, 106, -43.6], [75, -9.6, -4.1, 110, 90, -18.2], [100, -9.7, -5.3, 404, 352, -12.9], [150, -11.0, -6.3, 85, 41, -51.8], [200, -11.3, -5.4, 18, 23, 27.8]]};
+const NS = 'http://www.w3.org/2000/svg';
+const fa = (v, d = 0) => new Intl.NumberFormat('fa-IR', { maximumFractionDigits: d, minimumFractionDigits: d }).format(v);
+const pct = (v, d = 0) => (v > 0 ? '‎+' : v < 0 ? '‎−' : '') + fa(Math.abs(v), d) + '٪';
+const MS = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+const mName = i => MS[i % 12] + ' ' + (i < 12 ? '۱۴۰۴' : '۱۴۰۵');
+const BR_FA = { 'Apple': 'اپل', 'PlayStation': 'پلی‌استیشن', 'Steam': 'استیم', 'Xbox': 'ایکس‌باکس', 'Telegram': 'تلگرام', 'Nintendo': 'نینتندو', 'Roblox': 'روبلاکس', 'Visa/Master': 'ویزا/مستر', 'Amazon': 'آمازون', 'Battle.net': 'بتل‌نت', 'Google Play': 'گوگل‌پلی', 'Spotify': 'اسپاتیفای', 'Razer Gold': 'ریزر گلد', 'Netflix': 'نتفلیکس' };
+const BCOL = { AP: 'var(--s1)', PS: 'var(--s2)', ST: 'var(--s3)' };
+
+function el(tag, a, p) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in a) { if (k === 'text') e.textContent = a[k]; else e.setAttribute(k, a[k]); }
+  if (tag === 'text') {
+    // render Persian/number runs in RTL; flip anchors so positions stay as authored in LTR coordinates
+    const an = e.getAttribute('text-anchor') || 'start';
+    e.setAttribute('direction', 'rtl'); e.setAttribute('unicode-bidi', 'embed');
+    e.setAttribute('text-anchor', an === 'start' ? 'end' : an === 'end' ? 'start' : 'middle');
+  }
+  if (p) p.appendChild(e);
+  return e;
+}
+function svg(id, h) {
+  const box = document.getElementById(id); box.innerHTML = '';
+  const w = Math.max(280, Math.floor(box.clientWidth));
+  const s = el('svg', { viewBox: `0 0 ${w} ${h}`, width: w, height: h, direction: 'ltr', role: 'img' }, box);
+  return { s, w, h };
+}
+const tip = document.createElement('div'); tip.className = 'tip'; document.body.appendChild(tip);
+function showTip(ev, html) {
+  tip.innerHTML = html; tip.style.opacity = 1;
+  const r = tip.getBoundingClientRect(); let L = ev.clientX - r.width - 14; if (L < 8) L = ev.clientX + 14;
+  let T = ev.clientY + 14; if (T + r.height > innerHeight - 8) T = ev.clientY - r.height - 14;
+  tip.style.left = L + 'px'; tip.style.top = T + 'px';
+}
+const hideTip = () => { tip.style.opacity = 0; };
+function nice(x) { const p = Math.pow(10, Math.floor(Math.log10(x))); const n = x / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p; }
+function scale(min, max, count) { const step = nice((max - min) / count); const lo = Math.floor(min / step) * step; const hi = Math.ceil(max / step) * step; const t = []; for (let v = lo; v <= hi + step / 1e6; v += step) t.push(+v.toFixed(6)); return { lo, hi, t }; }
+
+/* time frame: RTL, oldest month on the right */
+function timeFrame(id, h, lo, hi, ticks, yfmt, band = true) {
+  const { s, w } = svg(id, h);
+  const P = { t: 14, r: 46, b: 44, l: 10 };
+  const pw = w - P.l - P.r, ph = h - P.t - P.b, n = 17, step = pw / n;
+  const x = i => P.l + pw - (i + 0.5) * step;
+  const y = v => P.t + ph - (v - lo) / (hi - lo) * ph;
+  if (band) el('rect', { x: x(13) - step / 2, y: P.t, width: step * 5, height: ph, style: 'fill:var(--sunk)' }, s);
+  const g = el('g', { class: 'grid' }, s);
+  ticks.forEach(v => {
+    el('line', { x1: P.l, x2: P.l + pw, y1: y(v), y2: y(v) }, g);
+    el('text', { x: P.l + pw + 6, y: y(v) + 4, 'text-anchor': 'start', text: yfmt(v) }, s);
+  });
+  el('line', { x1: P.l, x2: P.l + pw, y1: y(lo), y2: y(lo), class: 'base' }, s);
+  const every = Math.ceil(58 / step);
+  for (let i = 0; i < n; i++) {
+    if (i % every === 0) el('text', { x: x(i), y: P.t + ph + 17, 'text-anchor': 'middle', text: MS[i % 12] }, s);
+    if (i === 0 || i === 12) el('text', { x: x(i), y: P.t + ph + 35, 'text-anchor': 'middle', class: 'lab', text: i ? '۱۴۰۵' : '۱۴۰۴' }, s);
+  }
+  return { s, w, x, y, step, P, pw, ph };
+}
+function hover(F, html) {
+  const guide = el('line', { y1: F.P.t, y2: F.P.t + F.ph, style: 'stroke:var(--axis);stroke-width:1;opacity:0' }, F.s);
+  for (let i = 0; i < 17; i++) {
+    const r = el('rect', { x: F.x(i) - F.step / 2, y: F.P.t, width: F.step, height: F.ph, style: 'fill:transparent;cursor:crosshair' }, F.s);
+    r.addEventListener('mousemove', ev => { guide.setAttribute('x1', F.x(i)); guide.setAttribute('x2', F.x(i)); guide.style.opacity = 1; showTip(ev, html(i)); });
+    r.addEventListener('mouseleave', () => { guide.style.opacity = 0; hideTip(); });
+  }
+}
+function line(F, vals, col, pts = true) {
+  let d = ''; vals.forEach((v, i) => { if (v == null) return; d += (d ? 'L' : 'M') + F.x(i).toFixed(1) + ',' + F.y(v).toFixed(1); });
+  el('path', { d, style: `fill:none;stroke:${col};stroke-width:2.25;stroke-linejoin:round;stroke-linecap:round` }, F.s);
+  const last = vals.length - 1;
+  el('circle', { cx: F.x(last), cy: F.y(vals[last]), r: 4.5, style: `fill:${col};stroke:var(--surface);stroke-width:2` }, F.s);
+}
+function bar(F, i, v, col) {
+  const bw = Math.max(3, F.step * 0.62), top = F.y(v), base = F.y(0);
+  el('rect', { x: F.x(i) - bw / 2, y: top, width: bw, height: Math.max(0, base - top), rx: 2, style: `fill:${col}` }, F.s);
+}
+
+function cIndex() {
+  const avg = a => a.slice(0, 9).reduce((s, v) => s + v, 0) / 9;
+  const ser = [['درآمد تومانی', D.rev, 'var(--s1)'], ['ارزش دلاری', D.usd_face, 'var(--s2)'], ['قیمت هر دلار', D.rate, 'var(--s3)']]
+    .map(([n, a, c]) => { const b = avg(a); return { n, c, v: a.map(x => x / b * 100) }; });
+  const max = Math.max(...ser.flatMap(s => s.v));
+  const sc = scale(0, max, 5);
+  const F = timeFrame('c-index', 330, 0, sc.hi, sc.t, v => fa(v));
+  el('line', { x1: F.P.l, x2: F.P.l + F.pw, y1: F.y(100), y2: F.y(100), style: 'stroke:var(--ink2);stroke-width:1;opacity:.5' }, F.s);
+  el('text', { x: F.x(4), y: F.y(100) - 6, 'text-anchor': 'middle', class: 'lab', text: 'سطح پیش از شوک' }, F.s);
+  ser.forEach(s => line(F, s.v, s.c));
+  ser.forEach(s => el('text', { x: F.x(16) - 9, y: F.y(s.v[16]) + 4, 'text-anchor': 'end', class: 'lab', text: fa(s.v[16]) }, F.s));
+  el('text', { x: F.x(11), y: F.P.t + 14, 'text-anchor': 'middle', text: 'دوره شوک' }, F.s);
+  hover(F, i => `<b>${mName(i)}</b><br>درآمد: ${fa(D.rev[i], 1)} میلیارد تومان (شاخص ${fa(ser[0].v[i])})<br>ارزش دلاری: ${fa(D.usd_face[i] * 1000)} دلار (شاخص ${fa(ser[1].v[i])})<br>قیمت هر دلار: ${fa(D.rate[i])} تومان (شاخص ${fa(ser[2].v[i])})`);
+}
+function cBars(id, vals, fmt, tipf, dec) {
+  const sc = scale(0, Math.max(...vals), 4);
+  const F = timeFrame(id, 250, 0, sc.hi, sc.t, v => fa(v));
+  vals.forEach((v, i) => bar(F, i, v, 'var(--s1)'));
+  const imax = vals.indexOf(Math.max(...vals));
+  [imax, 16].forEach(i => el('text', { x: F.x(i), y: F.y(vals[i]) - 6, 'text-anchor': 'middle', class: 'lab', text: fa(vals[i], dec) }, F.s));
+  hover(F, i => `<b>${mName(i)}</b><br>${tipf(i)}`);
+}
+function cFamily() {
+  const keys = Object.keys(D.famsh);
+  const order = ['اپل', 'پلی', 'گیمینگ', 'اشتراک', 'سایر کارت'].map(k => keys.find(x => k === 'اپل' ? x === 'اپل' : x.includes(k)));
+  const cols = ['var(--s1)', 'var(--s2)', 'var(--s3)', 'var(--s4)', 'var(--s5)'];
+  const F = timeFrame('c-family', 300, 0, 100, [0, 25, 50, 75, 100], v => fa(v) + '٪', false);
+  const bw = Math.max(4, F.step * 0.7);
+  for (let i = 0; i < 17; i++) {
+    let acc = 0;
+    order.forEach((k, j) => {
+      const v = D.famsh[k][i]; const y1 = F.y(acc + v), y0 = F.y(acc);
+      el('rect', { x: F.x(i) - bw / 2, y: y1 + (j ? 1 : 0), width: bw, height: Math.max(0, y0 - y1 - (j ? 2 : 0)), style: `fill:${cols[j]}` }, F.s);
+      if (j < 2 && (y0 - y1) > 18 && bw > 26) el('text', { x: F.x(i), y: (y0 + y1) / 2 + 4, 'text-anchor': 'middle', style: 'fill:#fff;font-size:11px;font-weight:600', text: fa(v, 0) }, F.s);
+      acc += v;
+    });
+  }
+  hover(F, i => `<b>${mName(i)}</b><br>` + order.map((k, j) => `${k}: ${fa(D.famsh[k][i], 1)}٪`).join('<br>'));
+}
+function cBrand() {
+  const rows = D.brand_tbl.slice(0, 13).map(r => ({ n: BR_FA[r.brand] || r.brand, c: (r.q05 / r.q04 - 1) * 100, r })).sort((a, b) => b.c - a.c);
+  const rh = 26, P = { t: 8, b: 8 }, h = P.t + rows.length * rh + P.b;
+  const { s, w } = svg('c-brand', h);
+  const lw = 84, pr = w - lw, pl = 34, min = -100, max = 125;
+  const X = v => pl + (max - v) / (max - min) * (pr - pl), X0 = X(0);
+  rows.forEach((d, i) => {
+    const yc = P.t + i * rh + rh / 2;
+    el('text', { x: w - 2, y: yc + 4, 'text-anchor': 'end', class: 'lab', text: d.n }, s);
+    const xv = X(d.c), bx = Math.min(xv, X0), bwid = Math.abs(xv - X0);
+    const col = d.c >= 0 ? 'var(--s1)' : 'var(--neg)';
+    const r = el('rect', { x: bx, y: yc - 8, width: Math.max(1, bwid), height: 16, rx: 2, style: `fill:${col}` }, s);
+    el('text', d.c >= 0 ? { x: xv - 5, y: yc + 4, 'text-anchor': 'end', text: pct(d.c) } : { x: xv + 5, y: yc + 4, 'text-anchor': 'start', text: pct(d.c) }, s);
+    r.addEventListener('mousemove', ev => showTip(ev, `<b>${d.n}</b><br>تعداد خرداد–مرداد: ${fa(d.r.q04)} ← ${fa(d.r.q05)}<br>درآمد: ${fa(d.r.rev04, 2)} ← ${fa(d.r.rev05, 2)} میلیارد تومان`));
+    r.addEventListener('mouseleave', hideTip);
+  });
+  el('line', { x1: X0, x2: X0, y1: P.t, y2: h - P.b, class: 'base' }, s);
+}
+function cPareto() {
+  const v = D.sku_cum, n = v.length, h = 280;
+  const { s, w } = svg('c-pareto', h);
+  const P = { t: 14, r: 46, b: 36, l: 14 }, pw = w - P.l - P.r, ph = h - P.t - P.b;
+  const x = i => P.l + pw - i / (n - 1) * pw, y = c => P.t + ph - c / 100 * ph;
+  const g = el('g', { class: 'grid' }, s);
+  [0, 25, 50, 75, 100].forEach(t => { el('line', { x1: P.l, x2: P.l + pw, y1: y(t), y2: y(t) }, g); el('text', { x: P.l + pw + 6, y: y(t) + 4, text: fa(t) + '٪' }, s); });
+  [1, 100, 200, 300, 400, 462].forEach(t => el('text', { x: x(t - 1), y: h - 14, 'text-anchor': 'middle', text: fa(t) }, s));
+  let d = `M${x(0)},${y(0)}`; v.forEach((c, i) => d += `L${x(i).toFixed(1)},${y(c).toFixed(1)}`);
+  el('path', { d: d + `L${x(n - 1)},${y(0)}Z`, style: 'fill:var(--s1);opacity:.1' }, s);
+  el('path', { d: d.replace(/^M[^L]+L/, 'M'), style: 'fill:none;stroke:var(--s1);stroke-width:2.25' }, s);
+  el('line', { x1: P.l, x2: P.l + pw, y1: y(0), y2: y(0), class: 'base' }, s);
+  [[10, 'کالا'], [32, 'کالا'], [121, 'کالا']].forEach(([k]) => {
+    const c = v[k - 1], cx = x(k - 1), cy = y(c);
+    el('circle', { cx, cy, r: 4.5, style: 'fill:var(--s1);stroke:var(--surface);stroke-width:2' }, s);
+    el('text', { x: cx - 8, y: cy + 16, 'text-anchor': 'end', class: 'lab', text: `${fa(k)} کالا · ${fa(Math.round(c))}٪` }, s);
+  });
+  el('text', { x: P.l + pw / 2, y: h - 1, 'text-anchor': 'middle', text: 'تعداد کالا' }, s);
+}
+function skuLabel(code, name) {
+  if (code) { const p = code.split('-'); if (BR_FA[{ AP: 'Apple', PS: 'PlayStation', ST: 'Steam' }[p[0]]] && /^\d+$/.test(p[2])) return BR_FA[{ AP: 'Apple', PS: 'PlayStation', ST: 'Steam' }[p[0]]] + ' ' + fa(+p[2]) + ' دلاری'; }
+  return name.replace('گیفت کارت ', '');
+}
+function cTop() {
+  const rows = D.sku_top, rh = 24, h = rows.length * rh + 10;
+  const { s, w } = svg('c-top', h);
+  const lw = 128, pr = w - lw, pl = 40, max = Math.ceil(rows[0].share / 2) * 2;
+  const X = v => pr - v / max * (pr - pl);
+  rows.forEach((r, i) => {
+    const yc = 5 + i * rh + rh / 2, col = BCOL[r.code.split('-')[0]] || 'var(--s3)';
+    el('text', { x: w - 2, y: yc + 4, 'text-anchor': 'end', class: 'lab', text: skuLabel(r.code, r.name) }, s);
+    const b = el('rect', { x: X(r.share), y: yc - 8, width: pr - X(r.share), height: 16, rx: 2, style: `fill:${col}` }, s);
+    el('text', { x: X(r.share) - 5, y: yc + 4, 'text-anchor': 'end', text: fa(r.share, 1) + '٪' }, s);
+    b.addEventListener('mousemove', ev => showTip(ev, `<b>${r.name}</b><br>درآمد ۱۷ ماه: ${fa(r.rev, 2)} میلیارد تومان<br>تعداد: ${fa(r.qty)} · سهم تجمعی: ${fa(r.cum, 1)}٪`));
+    b.addEventListener('mouseleave', hideTip);
+  });
+  el('line', { x1: pr, x2: pr, y1: 4, y2: h - 4, class: 'base' }, s);
+}
+function cConc() {
+  const F = timeFrame('c-conc', 280, 40, 80, [40, 50, 60, 70, 80], v => fa(v) + '٪');
+  line(F, D.apple_us, 'var(--s1)'); line(F, D.top10, 'var(--ink2)');
+  [[D.apple_us, 'var(--s1)'], [D.top10, 'var(--ink2)']].forEach(([a]) => el('text', { x: F.x(16) - 9, y: F.y(a[16]) + 4, 'text-anchor': 'end', class: 'lab', text: fa(a[16], 1) + '٪' }, F.s));
+  hover(F, i => `<b>${mName(i)}</b><br>اپل آمریکا: ${fa(D.apple_us[i], 1)}٪<br>۱۰ کالای اول: ${fa(D.top10[i], 1)}٪<br>کالای فعال: ${fa(D.skus[i])}`);
+}
+function cBucket() {
+  const h = 260, { s, w } = svg('c-bucket', h), P = { t: 30, b: 50 }, ph = h - P.t - P.b;
+  const panels = [['پلی‌استیشن', D.ps_bucket_kh, 'var(--s2)'], ['اپل', D.ap_bucket_kh, 'var(--s1)']];
+  const names = { micro: '۱ تا ۹ $', mid: '۱۰ تا ۴۰ $', large: '۵۰ $ و بیشتر' };
+  const gap = 18, panW = (w - gap) / 2;
+  panels.forEach(([title, data, col], pi) => {
+    const right = w - pi * (panW + gap), left = right - panW;
+    const max = Math.max(...Object.values(data).flat()), y = v => P.t + ph - v / max * ph;
+    el('text', { x: right - 2, y: 14, 'text-anchor': 'end', class: 'lab', text: title }, s);
+    const gw = panW / 3;
+    ['micro', 'mid', 'large'].forEach((k, gi) => {
+      const cx = right - (gi + 0.5) * gw, bw = Math.min(28, gw * 0.32), [a, b] = data[k];
+      [[a, 'var(--prior)', cx + bw / 2 + 1, '۱۴۰۴'], [b, col, cx - bw / 2 - 1, '۱۴۰۵']].forEach(([v, c, bx, yr]) => {
+        const r = el('rect', { x: bx - bw / 2, y: y(v), width: bw, height: P.t + ph - y(v), rx: 2, style: `fill:${c}` }, s);
+        r.addEventListener('mousemove', ev => showTip(ev, `<b>${title} · ${names[k]}</b><br>خرداد–مرداد ${yr}: ${fa(v)} کارت`));
+        r.addEventListener('mouseleave', hideTip);
+      });
+      const ch = (b / a - 1) * 100;
+      el('text', { x: cx, y: y(Math.max(a, b)) - 6, 'text-anchor': 'middle', class: 'lab', style: `fill:${ch < 0 ? 'var(--neg)' : 'var(--pos)'}`, text: pct(ch) }, s);
+      el('text', { x: cx, y: P.t + ph + 18, 'text-anchor': 'middle', text: names[k] }, s);
+    });
+    el('line', { x1: left, x2: right, y1: P.t + ph, y2: P.t + ph, class: 'base' }, s);
+  });
+}
+function cGap() {
+  const faces = [10, 20, 25, 30, 40, 50, 60, 75, 100, 150];
+  const rows = D.ps_gap.filter(r => faces.includes(r[0]));
+  const h = 300, { s, w } = svg('c-gap', h), P = { t: 12, r: 40, b: 58, l: 8 }, pw = w - P.l - P.r, ph = h - P.t - P.b;
+  const lo = -12, hi = 6, y = v => P.t + (hi - v) / (hi - lo) * ph, gw = pw / rows.length;
+  const g = el('g', { class: 'grid' }, s);
+  [-12, -8, -4, 0, 4].forEach(t => { el('line', { x1: P.l, x2: P.l + pw, y1: y(t), y2: y(t) }, g); el('text', { x: P.l + pw + 6, y: y(t) + 4, text: pct(t) }, s); });
+  rows.forEach((r, i) => {
+    const cx = P.l + pw - (i + 0.5) * gw, bw = Math.min(16, gw * 0.34);
+    [[r[1], 'var(--prior)', cx + bw / 2 + 1, 'مرداد ۱۴۰۴'], [r[2], 'var(--s2)', cx - bw / 2 - 1, 'مرداد ۱۴۰۵']].forEach(([v, c, bx, lab]) => {
+      const rr = el('rect', { x: bx - bw / 2, y: Math.min(y(v), y(0)), width: bw, height: Math.max(1, Math.abs(y(v) - y(0))), rx: 2, style: `fill:${c}` }, s);
+      rr.addEventListener('mousemove', ev => showTip(ev, `<b>پلی‌استیشن ${fa(r[0])} دلاری</b><br>فاصله با معیار در ${lab}: ${pct(v, 1)}<br>تعداد خرداد–مرداد: ${fa(r[3])} ← ${fa(r[4])} (${pct(r[5])})`));
+      rr.addEventListener('mouseleave', hideTip);
+    });
+    el('text', { x: cx, y: P.t + ph + 16, 'text-anchor': 'middle', class: 'lab', text: fa(r[0]) + '$' }, s);
+    el('text', { x: cx, y: P.t + ph + 34, 'text-anchor': 'middle', style: `fill:${r[5] < 0 ? 'var(--neg)' : 'var(--pos)'};font-size:11px`, text: pct(r[5]) }, s);
+  });
+  el('line', { x1: P.l, x2: P.l + pw, y1: y(0), y2: y(0), class: 'base' }, s);
+  el('text', { x: P.l + pw, y: h - 4, 'text-anchor': 'end', text: 'ردیف دوم: تغییر تعداد خرداد–مرداد ۱۴۰۵ نسبت به ۱۴۰۴' }, s);
+}
+function cLadder() {
+  const cats = [1, 2, 3, 4, 5, 10, 20, 25, 50, 100];
+  const h = 290, { s, w } = svg('c-ladder', h), P = { t: 14, r: 46, b: 40, l: 14 }, pw = w - P.l - P.r, ph = h - P.t - P.b;
+  const lo = 180, hi = 310, y = v => P.t + (hi - v) / (hi - lo) * ph, st = pw / cats.length, x = i => P.l + pw - (i + 0.5) * st;
+  const g = el('g', { class: 'grid' }, s);
+  [180, 200, 220, 240, 260, 280, 300].forEach(t => { el('line', { x1: P.l, x2: P.l + pw, y1: y(t), y2: y(t) }, g); el('text', { x: P.l + pw + 6, y: y(t) + 4, text: fa(t) }, s); });
+  cats.forEach((c, i) => el('text', { x: x(i), y: P.t + ph + 18, 'text-anchor': 'middle', class: 'lab', text: fa(c) + '$' }, s));
+  el('text', { x: P.l + pw / 2, y: h - 2, 'text-anchor': 'middle', text: 'مبلغ کارت' }, s);
+  [['Apple', 'var(--s1)'], ['PlayStation', 'var(--s2)'], ['Steam', 'var(--s3)']].forEach(([b, col]) => {
+    const m = Object.fromEntries(D.ladder[b]); let d = '';
+    cats.forEach((c, i) => { if (m[c] == null) return; d += (d ? 'L' : 'M') + x(i) + ',' + y(m[c] / 1000); });
+    el('path', { d, style: `fill:none;stroke:${col};stroke-width:2.25;stroke-linejoin:round` }, s);
+    cats.forEach((c, i) => {
+      if (m[c] == null) return;
+      const p = el('circle', { cx: x(i), cy: y(m[c] / 1000), r: 4.5, style: `fill:${col};stroke:var(--surface);stroke-width:2` }, s);
+      p.addEventListener('mousemove', ev => showTip(ev, `<b>${BR_FA[b]} ${fa(c)} دلاری</b><br>${fa(m[c])} تومان برای هر دلار`));
+      p.addEventListener('mouseleave', hideTip);
+    });
+  });
+}
+function cTg() {
+  const v = D.tg_all, sc = scale(0, Math.max(...v), 4);
+  const F = timeFrame('c-tg', 220, 0, sc.hi, sc.t, t => fa(t));
+  v.forEach((q, i) => bar(F, i, q, 'var(--s4)'));
+  [14, 16].forEach(i => el('text', { x: F.x(i), y: F.y(v[i]) - 6, 'text-anchor': 'middle', class: 'lab', text: fa(v[i]) }, F.s));
+  hover(F, i => `<b>${mName(i)}</b><br>تلگرام: ${fa(v[i])} عدد`);
+}
+function tMom() {
+  const tb = document.querySelector('#t-mom tbody'); tb.innerHTML = '';
+  D.momentum.slice(0, 12).forEach(r => {
+    const qc = (r.q05 / r.q04 - 1) * 100, rc = (r.r05 / r.r04 - 1) * 100;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${skuLabel(r.code, r.name)}</td><td class="n">${fa(r.q04)}</td><td class="n">${fa(r.q05)}</td><td class="n ${qc < 0 ? 'down' : 'up'}">${pct(qc, 1)}</td><td class="n">${pct(rc, 0)}</td>`;
+    tb.appendChild(tr);
+  });
+}
+function renderAll() {
+  cIndex();
+  cBars('c-rev', D.rev, null, i => `درآمد: ${fa(D.rev[i], 2)} میلیارد تومان`, 1);
+  cBars('c-qty', D.qty, null, i => `تعداد: ${fa(D.qty[i])} کارت<br>ارزش دلاری: ${fa(D.usd_face[i] * 1000)} دلار`, 0);
+  cFamily(); cBrand(); cPareto(); cTop(); cConc(); cBucket(); cGap(); cLadder(); cTg();
+}
+tMom(); renderAll();
+let lastW = innerWidth, tmr;
+addEventListener('resize', () => { if (innerWidth === lastW) return; lastW = innerWidth; clearTimeout(tmr); tmr = setTimeout(renderAll, 150); });
+matchMedia('print').addEventListener?.('change', renderAll);
+</script>
+</body>
+</html>
