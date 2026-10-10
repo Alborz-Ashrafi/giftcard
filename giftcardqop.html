@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GiftCard.ir · برنامه عملیاتی ۹۰ روزه</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --ground:#f2f4f7; --surface:#ffffff; --sunk:#f6f7f9; --ink:#0f1b2d; --ink2:#4a5566; --muted:#7f8a9b; --hair:#dde2ea; --axis:#c4cbd6;
+  --accent:#0b7a64; --accent-soft:#e2f2ed; --accent-ink:#075a4a;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948; --prior:#b8bfca;
+  --pos:#167a3a; --neg:#c2372f;
+  --crit:#d03b3b; --imp:#ec835a; --mon:#fab219; --good:#0ca30c;
+  --crit-bg:#fbeaea; --imp-bg:#fdf0ea; --mon-bg:#fef6e2; --good-bg:#e6f5e6;
+  --t-data:#1d4ed8; --t-data-bg:#e7eefc; --t-res:#5b3cc4; --t-res-bg:#efeafc; --t-as:#8a5a00; --t-as-bg:#fdf1d8;
+  --font:"Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --ground:#0d131b; --surface:#151c26; --sunk:#1b2330; --ink:#edf1f6; --ink2:#b4bdca; --muted:#8792a3; --hair:#273142; --axis:#3a4556;
+    --accent:#4fc7a8; --accent-soft:#123a32; --accent-ink:#7fdcc3;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#2f9a2f; --s7:#9085e9; --s8:#e66767; --prior:#4a5566;
+    --pos:#4cc46a; --neg:#ef6b63;
+    --crit-bg:#3a1c1c; --imp-bg:#3a261c; --mon-bg:#3a3118; --good-bg:#16311a;
+    --t-data:#8fb2ff; --t-data-bg:#17264a; --t-res:#b9a6ff; --t-res-bg:#271d4a; --t-as:#f2c46b; --t-as-bg:#3a2e12;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --ground:#0d131b; --surface:#151c26; --sunk:#1b2330; --ink:#edf1f6; --ink2:#b4bdca; --muted:#8792a3; --hair:#273142; --axis:#3a4556;
+  --accent:#4fc7a8; --accent-soft:#123a32; --accent-ink:#7fdcc3;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#2f9a2f; --s7:#9085e9; --s8:#e66767; --prior:#4a5566;
+  --pos:#4cc46a; --neg:#ef6b63;
+  --crit-bg:#3a1c1c; --imp-bg:#3a261c; --mon-bg:#3a3118; --good-bg:#16311a;
+  --t-data:#8fb2ff; --t-data-bg:#17264a; --t-res:#b9a6ff; --t-res-bg:#271d4a; --t-as:#f2c46b; --t-as-bg:#3a2e12;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.85;padding-inline:20px;padding-block:0 60px}
+h1,h2,h3,h4{margin:0;line-height:1.5;text-wrap:balance}
+h2{font-size:27px;font-weight:800;letter-spacing:-.01em}
+h3{font-size:18px;font-weight:700}
+h4{font-size:15px;font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.num,td.n,th.n{font-variant-numeric:tabular-nums}
+
+.shell{max-width:1360px;margin-inline:auto;display:grid;grid-template-columns:232px minmax(0,1fr);gap:36px;align-items:start}
+.side{position:sticky;top:0;max-height:100vh;overflow-y:auto;padding-block:26px;font-size:14px}
+.side .brand{font-weight:800;font-size:16px;margin-bottom:2px}
+.side .sub{color:var(--muted);font-size:12.5px;margin-bottom:18px}
+.side ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;counter-reset:s}
+.side li a{display:grid;grid-template-columns:24px 1fr;gap:4px;text-decoration:none;color:var(--ink2);padding:5px 8px;border-radius:6px;counter-increment:s}
+.side li a::before{content:counter(s, persian);color:var(--muted);font-weight:600}
+.side li a:hover,.side li a.on{background:var(--accent-soft);color:var(--accent-ink)}
+.side .legendtags{margin-top:20px;display:grid;gap:6px;font-size:12.5px;color:var(--ink2)}
+main{min-width:0}
+
+.cover{padding-block:34px 26px;border-bottom:1px solid var(--hair);display:grid;gap:14px}
+.eyebrow{font-size:12.5px;letter-spacing:.04em;color:var(--accent);font-weight:700}
+.cover h1{font-size:40px;font-weight:800;letter-spacing:-.015em}
+.cover .lead{color:var(--ink2);max-width:72ch;font-size:16.5px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 26px;font-size:13.5px;color:var(--ink2)}
+.meta b{color:var(--ink);font-weight:600}
+
+section{padding-block:46px 6px;scroll-margin-top:10px}
+.sec-head{display:grid;gap:6px;margin-bottom:22px;max-width:80ch}
+.sec-head .k{font-size:13px;color:var(--accent);font-weight:700}
+.sec-head p{color:var(--ink2)}
+
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;padding:0 7px;border-radius:4px;line-height:1.8;vertical-align:1px;white-space:nowrap}
+.tag.d{color:var(--t-data);background:var(--t-data-bg)}
+.tag.r{color:var(--t-res);background:var(--t-res-bg)}
+.tag.a{color:var(--t-as);background:var(--t-as-bg)}
+
+.verdict{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:26px 28px;display:grid;gap:18px}
+.verdict .big{font-size:24px;font-weight:800;line-height:1.65;text-wrap:balance}
+.verdict .big em{font-style:normal;color:var(--neg)}
+.verdict .big strong{color:var(--accent)}
+.findings{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 30px}
+.findings li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding-block:12px;border-top:1px solid var(--hair);font-size:15px;line-height:1.8}
+.findings b{font-weight:700}
+
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:1px 10px;border-radius:999px;white-space:nowrap;line-height:1.9;color:var(--ink)}
+.chip i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.chip.crit{background:var(--crit-bg)} .chip.crit i{background:var(--crit)}
+.chip.imp{background:var(--imp-bg)} .chip.imp i{background:var(--imp)}
+.chip.mon{background:var(--mon-bg)} .chip.mon i{background:var(--mon)}
+.chip.good{background:var(--good-bg)} .chip.good i{background:var(--good)}
+
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:12px;overflow:hidden}
+.kpi{background:var(--surface);padding:16px 18px;display:grid;gap:3px;align-content:start}
+.kpi .k{font-size:13px;color:var(--ink2)}
+.kpi .v{font-size:28px;font-weight:800;line-height:1.35}
+.kpi .v small{font-size:13.5px;font-weight:500;color:var(--ink2);margin-inline-start:4px}
+.kpi .d{font-size:13px;color:var(--ink2)}
+.up{color:var(--pos);font-weight:700} .down{color:var(--neg);font-weight:700}
+
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.stack{display:grid;gap:18px}
+.card{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:20px 22px;display:grid;gap:10px;min-width:0;align-content:start}
+.card .basis{font-size:12.5px;color:var(--muted);line-height:1.7}
+.insight{font-size:14.5px;line-height:1.85;padding-top:10px;border-top:1px solid var(--hair)}
+.insight b{font-weight:700}
+.chart{position:relative;width:100%;min-height:80px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart text{font-family:var(--font);fill:var(--muted);font-size:11.5px}
+.chart .lab{fill:var(--ink2);font-size:12px;font-weight:700;paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
+.chart .grid line{stroke:var(--hair);stroke-width:1}
+.chart .base{stroke:var(--axis);stroke-width:1}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.tip{position:fixed;z-index:30;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12.5px;line-height:1.7;padding:7px 11px;border-radius:6px;max-width:280px;opacity:0;transition:opacity .12s}
+
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--hair);vertical-align:top}
+th{font-size:12.5px;color:var(--ink2);font-weight:700;background:var(--sunk);white-space:nowrap}
+td.n,th.n{text-align:left;white-space:nowrap}
+tr.hl td{background:var(--accent-soft)}
+.bar-in{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.bar-in span{display:inline-block;height:8px;border-radius:2px;background:var(--s1)}
+
+details.more{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:0 22px}
+details.more>summary{cursor:pointer;padding-block:14px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:"+";color:var(--muted);font-weight:500}
+details.more[open]>summary::after{content:"−"}
+details.more>div{padding-bottom:18px;display:grid;gap:12px}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font-family:var(--font);font-size:13.5px;font-weight:700;padding:5px 14px;border-radius:999px;border:1px solid var(--hair);background:var(--surface);color:var(--ink2);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+
+.note{font-size:13px;color:var(--ink2);background:var(--sunk);border-radius:8px;padding:10px 14px;line-height:1.8}
+.tt{border-bottom:1px dotted var(--muted);cursor:help}
+
+.printbtn{position:fixed;left:18px;bottom:18px;z-index:10;font-family:var(--font);font-size:12.5px;background:var(--surface);color:var(--ink2);border:1px solid var(--hair);border-radius:999px;padding:6px 14px;cursor:pointer}
+.printbtn:hover{color:var(--accent);border-color:var(--accent)}
+
+@media (max-width:1100px){
+  .shell{grid-template-columns:1fr;gap:0}
+  .side{position:sticky;top:0;z-index:8;max-height:none;background:var(--ground);padding-block:8px;border-bottom:1px solid var(--hair)}
+  .side .brand,.side .sub,.side .legendtags{display:none}
+  .side ol{display:flex;overflow-x:auto;gap:4px;scrollbar-width:thin}
+  .side li a{white-space:nowrap;grid-template-columns:auto auto}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid3{grid-template-columns:1fr 1fr}
+}
+@media (max-width:720px){
+  body{font-size:15.5px;padding-inline:16px}
+  .cover h1{font-size:30px}
+  .findings,.grid2,.grid3{grid-template-columns:1fr}
+  .verdict{padding:20px}
+  .verdict .big{font-size:20px}
+  h2{font-size:23px}
+}
+@media (max-width:440px){.kpis{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side" aria-label="فهرست">
+  <div class="brand">GiftCard.ir</div>
+  <div class="sub">برنامه عملیاتی فصل · QOP</div>
+  <ol id="toc">
+    <li><a href="#s1">خلاصه مدیریتی</a></li>
+    <li><a href="#s2">ممیزی داده و تشخیص</a></li>
+    <li><a href="#s3">بینش فروش و مشتری</a></li>
+    <li><a href="#s4">سناریوهای ۳۰/۴۰/۶۰٪</a></li>
+    <li><a href="#s5">معماری رشد درآمد</a></li>
+    <li><a href="#s6">جریان کشف و چرخ درآمد</a></li>
+    <li><a href="#s7">زیرساخت و سیستم برند</a></li>
+    <li><a href="#s8">QOP و نقشه ۱۲ هفته</a></li>
+    <li><a href="#s9">آزمایش‌های رشد</a></li>
+    <li><a href="#s10">داشبورد KPI</a></li>
+    <li><a href="#s11">ریسک و داده ناقص</a></li>
+    <li><a href="#s12">تصمیمات فوری</a></li>
+  </ol>
+  <div class="legendtags">
+    <span><span class="tag d">DATA</span> محاسبه از فایل‌ها</span>
+    <span><span class="tag r">RESEARCH</span> منبع بیرونی تأییدشده</span>
+    <span><span class="tag a">ASSUMPTION</span> فرض نیازمند تأیید</span>
+  </div>
+</aside>
+<main>
+<header class="cover">
+  <div class="eyebrow">GiftCard.ir · Quarterly Operating Plan · مهر تا دی ۱۴۰۵</div>
+  <h1>برنامه عملیاتی ۹۰ روزه رشد</h1>
+  <p class="lead">از وضعیت فعلی تا هدف فصل: رشد از کجا می‌آید، در ۱۲ هفته آینده دقیقاً چه باید اجرا شود و نتیجه هر هفته چگونه سنجیده می‌شود.</p>
+  <div class="meta">
+    <span>مبنای مقایسه: <b>تیر تا شهریور ۱۴۰۵</b></span>
+    <span>دوره اجرا: <b>۱۹ مهر تا ۱۲ دی ۱۴۰۵</b></span>
+    <span>دوره سنجش هدف: <b>آبان، آذر و دی ۱۴۰۵</b></span>
+    <span>تاریخ تهیه: <b>۱۴ مهر ۱۴۰۵</b></span>
+    <span>منابع: <b>۱۶ فایل اکسل · ۳۴٬۸۴۹ مشتری · ۱۸ ماه فروش کالا</b></span>
+  </div>
+</header>
+
+<section id="s1">
+  <div class="sec-head"><div class="k">۱ · خلاصه مدیریتی</div><h2>کسب‌وکار به مشتریان قدیمی تکیه دارد؛ رشد فصل از بازگرداندن آن‌ها و رویداد GTA می‌آید</h2></div>
+  <div class="verdict">
+    <p class="big">درآمد تومانی تابستان ۱۴۰۵ رکورد زد، اما معادل دلاری فروش <em>۲۸٪ کمتر</em> از تابستان ۱۴۰۴ است و جذب مشتری جدید به یک‌سوم سال ۱۴۰۲ رسیده. هدف <strong>‎+۳۰٪ قابل تعهد است</strong>، ‎+۴۰٪ هدف کششی، و ‎+۶۰٪ فقط با شرایط بیرونی.</p>
+    <ul class="findings">
+      <li><span class="chip crit"><i></i>درآمد از دست رفته</span><p><b>۵۵۷ خریدار عمده خاموش شده‌اند.</b> مشتریانی با ۵۰+ سفارش که ۳ تا ۲۴ ماه خرید نکرده‌اند؛ ۱۸٪ کل خرید تاریخی مشتریان. با شدت خرید معمول، حدود ‎$۳۹ هزار در ماه (۳۰٪ فروش فعلی) <span class="tag a">ASSUMPTION</span>.</p></li>
+      <li><span class="chip crit"><i></i>درآمد از دست رفته</span><p><b>موتور جذب خاموش است.</b> مشتری جدید ماهانه: ۵۲۴ (۱۴۰۲) ← ۳۰۳ ← ۲۳۸ ← ۱۷۰ (۱۴۰۵). ۶۰٪ مشتریان جدید ۱۴۰۴ فقط یک بار خریده‌اند <span class="tag d">DATA</span>.</p></li>
+      <li><span class="chip imp"><i></i>تمرکز</span><p><b>۹۶٪ درآمد اپل شهریور از مشتریان بازگشتی</b> و ۴۹٪ از ۵۱۳ خریدار عمده است. ۴۴٪ این درآمد از مشتریانی است که از ۱۴۰۰ با شرکت هستند <span class="tag d">DATA</span>.</p></li>
+      <li><span class="chip imp"><i></i>زیرساخت</span><p><b>سایت کور است.</b> تنها کد آنالیتیکس، Universal Analytics است که از تیر ۱۴۰۲ داده ثبت نمی‌کند؛ سبد چندکالایی، جستجو و باشگاه مشتریان وجود ندارد <span class="tag r">RESEARCH</span>.</p></li>
+      <li><span class="chip good"><i></i>فرصت</span><p><b>GTA VI در ۲۸ آبان ۱۴۰۵</b> (‎$۷۹٫۹۹) عرضه می‌شود؛ بزرگ‌ترین محرک تقاضای کارت پلی‌استیشن و ایکس‌باکس در این فصل <span class="tag r">RESEARCH</span>.</p></li>
+      <li><span class="chip good"><i></i>فرصت</span><p><b>داده تماس کامل است.</b> برای ۹۹٫۹۹٪ از ۳۴٬۸۴۹ مشتری ایمیل و موبایل وجود دارد؛ بازگرداندن مشتری بدون هزینه رسانه ممکن است <span class="tag d">DATA</span>.</p></li>
+    </ul>
+  </div>
+
+  <div class="kpis" style="margin-top:18px">
+    <div class="kpi"><div class="k">درآمد فصل مبنا (تیر–شهریور ۱۴۰۵)</div><div class="v">۸۵٫۹<small>میلیارد تومان</small></div><div class="d"><span class="up">‎+۵۵٫۹٪</span> نسبت به تابستان ۱۴۰۴ <span class="tag d">DATA</span></div></div>
+    <div class="kpi"><div class="k">معادل دلاری فروش فصل</div><div class="v">۴۱۵٫۷<small>هزار دلار</small></div><div class="d"><span class="down">‎−۲۷٫۸٪</span> نسبت به ‎$۵۷۵٫۸ هزار <span class="tag d">DATA</span></div></div>
+    <div class="kpi"><div class="k">کارت فروخته‌شده در فصل</div><div class="v">۲۱٬۰۹۱</div><div class="d"><span class="down">‎−۲۳٫۲٪</span> نسبت به ۲۷٬۴۷۱ <span class="tag d">DATA</span></div></div>
+    <div class="kpi"><div class="k">سفارش برآوردی فصل</div><div class="v">≈ ۱۹٬۲۲۰</div><div class="d">شهریور: ۶٬۱۰۲ سفارش (شمار کارمزد درگاه) <span class="tag a">ASSUMPTION</span></div></div>
+    <div class="kpi"><div class="k">مشتری فعال فصل (۱۳ فایل)</div><div class="v">۳٬۷۲۱</div><div class="d">کل کسب‌وکار ≈ ۵٬۵۷۰ <span class="tag a">ASSUMPTION</span></div></div>
+    <div class="kpi"><div class="k">ارزش هر سفارش</div><div class="v">‎$۲۱٫۶</div><div class="d">≈ ۵٫۰ میلیون تومان در شهریور</div></div>
+    <div class="kpi"><div class="k">مشتری جدید ماهانه</div><div class="v">۲۲۳</div><div class="d">میانگین تیر–شهریور؛ ۱۴۰۲: ۵۲۴ <span class="tag d">DATA</span></div></div>
+    <div class="kpi"><div class="k">قیمت هر دلار (شهریور)</div><div class="v">۲۳۵٬۳۴۴<small>تومان</small></div><div class="d"><span class="down">‎+۱۷٫۹٪</span> در یک ماه؛ هدف‌ها دلاری تعریف شده‌اند</div></div>
+  </div>
+
+  <div class="grid3" style="margin-top:18px">
+    <div class="card"><span class="chip good"><i></i>تعهد پیشنهادی</span><h3>سناریو A · ‎+۳۰٪</h3><p>‎$۵۴۰ هزار و ۲۵٬۰۰۰ سفارش در فصل. هر ۹ اهرم باید بالاتر از سطح «شواهد فعلی» اجرا شوند؛ GTA حدود یک‌سوم رشد ناخالص را می‌سازد.</p></div>
+    <div class="card"><span class="chip mon"><i></i>هدف کششی</span><h3>سناریو B · ‎+۴۰٪</h3><p>‎$۵۸۲ هزار؛ تقریباً برابر تابستان ۱۴۰۴. نیازمند سبد چندکالایی تا هفته ۸، بازگشت ۲۵٪ خریداران عمده و ۸۰٪ رشد جذب.</p></div>
+    <div class="card"><span class="chip crit"><i></i>غیرقابل تعهد</span><h3>سناریو C · ‎+۶۰٪</h3><p>‎$۶۶۵ هزار؛ ۱۵٪ بالاتر از بهترین فصل ثبت‌شده. فقط با ثبات ارز، جذب ۲٫۵ برابری و ۹۵۰ فروش GTA ممکن است.</p></div>
+  </div>
+</section>
+
+<section id="s2">
+  <div class="sec-head"><div class="k">۲ · ممیزی داده و تشخیص کسب‌وکار</div><h2>چه داده‌ای داریم، چه چیزی نداریم</h2>
+    <p>همه ۱۶ فایل بررسی شد. اعداد این گزارش از این فایل‌ها محاسبه شده‌اند، مگر برچسب RESEARCH یا ASSUMPTION داشته باشند.</p></div>
+
+  <div class="card">
+    <h3>فایل‌های بررسی‌شده</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>فایل</th><th>دوره</th><th class="n">ردیف</th><th>فیلدها</th><th>کیفیت</th></tr></thead>
+      <tbody>
+        <tr><td>Gozaresh 17 Mah</td><td>فروردین ۱۴۰۴ – مرداد ۱۴۰۵ (۱۷ برگه)</td><td class="n">۴٬۱۵۸</td><td>کد، کالا، تعداد، متوسط قیمت</td><td>درآمد = تعداد × قیمت؛ ردیف «تست روند» و «خیریه» حذف شد</td></tr>
+        <tr><td>Forooshe shahrivar 1405</td><td>شهریور ۱۴۰۵</td><td class="n">۲۳۴</td><td>کد، کالا، تعداد، قیمت، جمع</td><td>جمع با تعداد × قیمت هم‌خوان (اختلاف ۲٬۴۳۸ تومان)؛ شامل «کارمزد درگاه» ۶٬۱۰۲ مورد</td></tr>
+        <tr><td>Apple USA Moshtariha</td><td>۱۱ دی ۱۴۰۰ – ۳۱ شهریور ۱۴۰۵</td><td class="n">۲۵٬۷۵۷</td><td rowspan="3">به ازای هر مشتری: نام، ایمیل، موبایل، اولین و آخرین خرید، تعداد کل خرید، مبلغ کل، فاصله خرید، کارت رایج، مبلغ رایج</td><td>بدون تاریخ تک‌سفارش؛ مبلغ‌ها اسمی تومان در ۵ سال</td></tr>
+        <tr><td>Apple USA shahrivar 1405</td><td>شهریور ۱۴۰۵</td><td class="n">۱٬۸۴۰</td><td>با فایل کالا تطبیق دارد (۱۷٫۵۰ و ۱۷٫۴۹ میلیارد تومان)</td></tr>
+        <tr><td>۱۲ فایل برند دیگر*</td><td>۱۱ دی ۱۴۰۰ – ۳۱ شهریور ۱۴۰۵</td><td class="n">۱۴٬۰۸۳</td><td>نام فایل «۱۴۰۰» است ولی اولین تاریخ ۱۱ دی ۱۴۰۰؛ قبل از آن بریده شده</td></tr>
+      </tbody>
+    </table></div>
+    <p class="basis">* Apple RoW، Battle.net، Google Play، MasterCard، Nintendo، PSN RoW، Razer Gold، Roblox، Spotify، PUBG UC، Visa، Xbox. پس از یکی‌سازی با ایمیل: <b>۳۴٬۸۴۹ مشتری یکتا و ۳۵۷٬۲۹۲ سفارش</b>. این ۱۳ فایل <b>۶۶٫۸٪</b> درآمد فصل مبنا را پوشش می‌دهند.</p>
+  </div>
+
+  <div class="grid2" style="margin-top:18px">
+    <div class="card">
+      <h3>آنچه می‌توان نتیجه گرفت</h3>
+      <ul style="margin:0;padding-inline-start:18px;display:grid;gap:6px;font-size:14.5px">
+        <li>روند ماهانه درآمد، تعداد و معادل دلاری برای ۱۸ ماه</li>
+        <li>مشتری جدید هر ماه، تازگی خرید، تعداد سفارش، سهم یک‌بار خریداران</li>
+        <li>بخش‌بندی RFM و ارزش هر بخش؛ مشتریان قابل بازگشت با اطلاعات تماس</li>
+        <li>مشتری جدید در برابر بازگشتی برای اپل آمریکا در شهریور ۱۴۰۵</li>
+        <li>هم‌پوشانی برندها (خرید متقابل) برای ۱۳ برند</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>آنچه نمی‌توان نتیجه گرفت</h3>
+      <ul style="margin:0;padding-inline-start:18px;display:grid;gap:6px;font-size:14.5px">
+        <li>ترافیک، نرخ تبدیل و ریزش قیف (آنالیتیکس فعالی وجود ندارد)</li>
+        <li>حاشیه سود و اثر تخفیف (بهای تمام‌شده موجود نیست)</li>
+        <li>مشتریان پلی‌استیشن آمریکا (۲۷٫۱٪ درآمد) و استیم: فایل مشتری ندارند</li>
+        <li>تاریخ و مبلغ هر سفارش، کانال ورود و کد تخفیف استفاده‌شده</li>
+        <li>عملکرد تلگرام و اینستاگرام (آمار عضو، بازدید، کلیک)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>تشخیص در ۱۶ محور</h3>
+    <div class="basis">وضعیت: <span class="chip crit"><i></i>بحرانی</span> <span class="chip imp"><i></i>ضعیف</span> <span class="chip mon"><i></i>متوسط</span> <span class="chip good"><i></i>قوی</span></div>
+    <div class="tbl"><table>
+      <thead><tr><th>محور</th><th>وضعیت</th><th>شاهد</th><th>نشت درآمد</th></tr></thead>
+      <tbody>
+        <tr><td>عملکرد فروش</td><td><span class="chip imp"><i></i>ضعیف</span></td><td>معادل دلاری فصل ‎−۲۷٫۸٪ سالانه؛ شهریور ‎−۱٫۷٪ نسبت به مرداد <span class="tag d">DATA</span></td><td>رشد تومانی، کوچک شدن واقعی را پنهان می‌کند</td></tr>
+        <tr><td>رفتار مشتری</td><td><span class="chip mon"><i></i>متوسط</span></td><td>۵۲٪ تکرار خرید؛ فاصله میانه خرید ۴۷ روز <span class="tag d">DATA</span></td><td>نبود یادآوری بر اساس چرخه خرید</td></tr>
+        <tr><td>محصول و دسته</td><td><span class="chip imp"><i></i>ضعیف</span></td><td>اپل ۵۹٪ + پلی‌استیشن ۳۱٪؛ PS میانی ‎−۵۰٪ تعداد <span class="tag d">DATA</span></td><td>حدود ۶۷۰ کارت PS در ماه</td></tr>
+        <tr><td>جدید در برابر بازگشتی</td><td><span class="chip crit"><i></i>بحرانی</span></td><td>جدیدها ۹٫۸٪ مشتری و ۴٪ درآمد اپل شهریور <span class="tag d">DATA</span></td><td>پایه مشتری جایگزین نمی‌شود</td></tr>
+        <tr><td>تکرار و ماندگاری</td><td><span class="chip imp"><i></i>ضعیف</span></td><td>کوهورت ۱۴۰۴: ۶۰٪ یک‌بار خرید؛ ۱۴۰۵: ۶۳٪ <span class="tag d">DATA</span></td><td>خرید دوم فعالانه پیگیری نمی‌شود</td></tr>
+        <tr><td>AOV</td><td><span class="chip mon"><i></i>متوسط</span></td><td>۱٫۱۰ کارت در هر سفارش؛ اپل ۱٫۰۳ <span class="tag d">DATA</span></td><td>بدون سبد چندکالایی و باندل</td></tr>
+        <tr><td>مشتریان پرارزش و غیرفعال</td><td><span class="chip crit"><i></i>بحرانی</span></td><td>۵۵۷ خریدار عمده خاموش؛ ۱٬۴۶۹ مشتری در معرض ریزش <span class="tag d">DATA</span></td><td>بزرگ‌ترین نشت قابل بازگشت</td></tr>
+        <tr><td>جذب و تبدیل</td><td><span class="chip crit"><i></i>بحرانی</span></td><td>مشتری جدید ‎−۶۷٪ نسبت به ۱۴۰۲؛ تأیید تلفن ثابت الزامی <span class="tag r">RESEARCH</span></td><td>اصطکاک اولین خرید</td></tr>
+        <tr><td>سایت و UX</td><td><span class="chip crit"><i></i>بحرانی</span></td><td>فرم تک‌صفحه‌ای با ۶۱۶ گزینه، بدون جستجو، سبد، صفحه محصول و داده ساختاریافته <span class="tag r">RESEARCH</span></td><td>تبدیل و سئو</td></tr>
+        <tr><td>پروموشن</td><td><span class="chip imp"><i></i>ضعیف</span></td><td>تنها پیشنهاد دیده‌شده: کد ۲۰٪ پلی‌استیشن (یک‌بار در هر حساب)؛ قیمت پلکانی بر اساس حجم خرید <span class="tag r">RESEARCH</span></td><td>بدون سیستم و بدون گروه کنترل</td></tr>
+        <tr><td>تلگرام</td><td><span class="chip mon"><i></i>متوسط</span></td><td>کانال «اخبار و تخفیف‌ها» و پشتیبانی وجود دارد؛ آمار در دسترس نیست</td><td>کانال پخش، نه ابزار فروش شخصی</td></tr>
+        <tr><td>اینستاگرام / تیک‌تاک</td><td><span class="chip mon"><i></i>متوسط</span></td><td>صفحه اینستاگرام هست؛ برای تیک‌تاک در ایران پایه کاربری قابل اتکا دیده نشد <span class="tag a">ASSUMPTION</span></td><td>محتوای راهنما و GTA</td></tr>
+        <tr><td>CRM و داده مشتری</td><td><span class="chip imp"><i></i>ضعیف</span></td><td>داده تماس کامل، اما خروجی فقط خلاصه مشتری؛ پروفایل و رضایت ارتباطی ثبت نمی‌شود</td><td>بخش‌بندی دستی و دیر</td></tr>
+        <tr><td>برند و ارتباطات</td><td><span class="chip mon"><i></i>متوسط</span></td><td>«اولین فروشگاه» و نماد اعتماد الکترونیکی؛ پیام تمایزبخش روشن نیست</td><td>اعتماد مشتری جدید</td></tr>
+        <tr><td>AI و اتوماسیون</td><td><span class="chip crit"><i></i>بحرانی</span></td><td>پلتفرم فروش EDelivery نسخه ۲۰۰۹–۲۰۱۱؛ اپ اندروید نسخه ۱٫۰ <span class="tag r">RESEARCH</span></td><td>هیچ پیام خودکار مبتنی بر رفتار</td></tr>
+        <tr><td>نقاط قوت</td><td><span class="chip good"><i></i>قوی</span></td><td>وفاداری بالای مشتریان قدیمی، تحویل فوری، دامنه شناخته‌شده giftcard.ir</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="grid3" style="margin-top:18px">
+    <div class="card"><h3>وضعیت فعلی</h3><p style="font-size:14.5px">فروش به یک هسته حدود ۱٬۳۰۰ مشتری قدیمی و پرتکرار وابسته است که ۸۷٪ درآمد اپل شهریور را می‌سازند. کانال‌ها پخش پیام دارند، اما ارتباط شخصی و اندازه‌گیری ندارند.</p></div>
+    <div class="card"><h3>مسئله‌ها</h3><p style="font-size:14.5px">جذب ‎−۶۷٪، ریزش خریداران عمده، افت پلی‌استیشن، سایت بدون آنالیتیکس و سبد، و پروموشن بدون قاعده. شوک قطعی اینترنت (۱۸ دی تا ۵ خرداد) هنوز جبران نشده است.</p></div>
+    <div class="card"><h3>فرصت‌ها</h3><p style="font-size:14.5px">۷٬۱۰۰ مشتری قابل بازگشت با داده تماس، رویداد GTA، اصلاح قیمت ردیفی PS، خرید دوم مشتریان جدید، و رشد اشتراک‌ها (ChatGPT Plus: ۳ ← ۱۷ در یک ماه).</p></div>
+  </div>
+
+  <details class="more" style="margin-top:18px">
+    <summary>تحقیقات بیرونی: رقبا، کانال‌ها و الگوهای قابل انطباق</summary>
+    <div>
+      <div class="tbl"><table>
+        <thead><tr><th>موضوع</th><th>یافته</th><th>کاربرد برای GiftCard.ir</th></tr></thead>
+        <tbody>
+          <tr><td>قطعی اینترنت ۱۴۰۴–۱۴۰۵ <span class="tag r">RESEARCH</span></td><td>از ۱۸ دی ۱۴۰۴ تا ۵ خرداد ۱۴۰۵؛ فروش آنلاین حدود ۸۰٪ افت کرد</td><td>توضیح‌دهنده شوک فروش؛ کانال جایگزین داخلی (بله، پیامک) لازم است</td></tr>
+          <tr><td>استفاده ایرانیان از پیام‌رسان‌ها <span class="tag r">RESEARCH</span></td><td>اینستاگرام ۵۰٫۶٪، تلگرام ۳۹٫۳٪، واتس‌اپ ۳۳٫۳٪، ایتا ۲۸٫۹٪، روبیکا ۲۸٫۵٪، بله ۹٫۷٪ (شهریور ۱۴۰۳)</td><td>اینستاگرام برای کشف؛ تلگرام و بله برای ارتباط شخصی و بازگشت</td></tr>
+          <tr><td>رقبای داخلی <span class="tag r">RESEARCH</span></td><td>gamecode.ir: جستجو، سبد، کیف پول، GA4. giftmax.ir: باشگاه و امتیاز، کیف پول، معرفی دوستان، سبد (بررسی صفحه اصلی، ۱۴ مهر ۱۴۰۵)</td><td>سبد، کیف پول و امتیاز اکنون استاندارد بازار است</td></tr>
+          <tr><td>GTA VI <span class="tag r">RESEARCH</span></td><td>عرضه ۱۹ نوامبر ۲۰۲۶ (۲۸ آبان ۱۴۰۵) برای PS5 و Xbox Series؛ قیمت نسخه استاندارد ‎$۷۹٫۹۹</td><td>بسته ۸۰ دلاری آماده و پیش‌فروش</td></tr>
+          <tr><td>ماندگاری و هزینه جذب <span class="tag r">RESEARCH</span></td><td>جذب مشتری جدید ۵ تا ۲۵ برابر گران‌تر از نگهداشت؛ ۵٪ افزایش ماندگاری، ۲۵ تا ۹۵٪ افزایش سود (Bain به نقل HBR)</td><td>اولویت فصل با بازگرداندن و تکرار خرید</td></tr>
+          <tr><td>شخصی‌سازی <span class="tag r">RESEARCH</span></td><td>شخصی‌سازی معمولاً ۱۰ تا ۱۵٪ افزایش درآمد می‌دهد؛ ۷۱٪ مشتریان آن را انتظار دارند (McKinsey)</td><td>پیشنهاد بر اساس برند، مبلغ و چرخه خرید هر مشتری</td></tr>
+          <tr><td>آنالیتیکس <span class="tag r">RESEARCH</span></td><td>Universal Analytics از ۱۰ تیر ۱۴۰۲ پردازش داده را متوقف کرده است</td><td>نصب GA4 و رویدادهای خرید، اقدام هفته اول</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+</section>
+
+<section id="s3">
+  <div class="sec-head"><div class="k">۳ · بینش فروش و مشتری</div><h2>رشد قیمتی، کوچک شدن واقعی، و پایه‌ای که پیر می‌شود</h2></div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+      <h3>روند فروش ماهانه</h3>
+      <div class="tabs" role="tablist" id="trend-tabs">
+        <button role="tab" aria-selected="false" data-k="rev">درآمد تومانی</button>
+        <button role="tab" aria-selected="true" data-k="usdeq">معادل دلاری</button>
+        <button role="tab" aria-selected="false" data-k="units">تعداد کارت</button>
+      </div>
+    </div>
+    <div class="basis" id="trend-basis">معادل دلاری (درآمد ÷ قیمت هر دلار کارت‌های آمریکایی همان ماه) · فروردین ۱۴۰۴ تا شهریور ۱۴۰۵ · منبع: Gozaresh 17 Mah + Forooshe shahrivar 1405 <span class="tag d">DATA</span></div>
+    <div class="chart" id="c-trend"></div>
+    <p class="insight">ناحیه خاکستری، دوره قطعی اینترنت است (۱۸ دی ۱۴۰۴ تا ۵ خرداد ۱۴۰۵). از خرداد، معادل دلاری به حدود ‎$۱۳۰ تا ۱۵۲ هزار در ماه برگشته و <b>از تیر به بعد ثابت مانده است</b>: نه ادامه بهبود، نه افت. درآمد تومانی شهریور (۳۰٫۷ میلیارد) رکورد است، ولی تنها به‌دلیل افزایش ۱۸ درصدی قیمت هر دلار در یک ماه.</p>
+  </div>
+
+  <div class="grid2" style="margin-top:18px">
+    <div class="card">
+      <h3>مشتری جدید در هر ماه</h3>
+      <div class="basis">مشتریان یکتا بر اساس اولین خرید در ۱۳ فایل برند · فروردین ۱۴۰۲ تا شهریور ۱۴۰۵ <span class="tag d">DATA</span></div>
+      <div class="chart" id="c-new"></div>
+      <p class="insight">میانگین ماهانه: <b>۵۲۴ (۱۴۰۲) ← ۳۰۳ (۱۴۰۳) ← ۲۳۸ (۱۴۰۴) ← ۱۷۰ (۱۴۰۵)</b>. کاهش پیش از قطعی اینترنت شروع شده؛ یعنی مسئله ساختاری است، نه فقط شوک.</p>
+    </div>
+    <div class="card">
+      <h3>مشتری جدید در برابر بازگشتی · اپل آمریکا</h3>
+      <div class="basis">سهم از مشتریان، سفارش‌ها و درآمد · شهریور ۱۴۰۵ · ۱٬۸۴۰ مشتری، ۴٬۰۷۶ سفارش، ۱۷٫۵ میلیارد تومان <span class="tag d">DATA</span></div>
+      <div class="legend"><span><i style="background:var(--s3)"></i>جدید (اولین خرید در شهریور)</span><span><i style="background:var(--s1)"></i>بازگشتی</span></div>
+      <div class="chart" id="c-nvr"></div>
+      <p class="insight">مشتری جدید در ماه اول ۱٫۳۳ سفارش با ارزش ۲٫۹ میلیون تومان می‌دهد؛ بازگشتی ۲٫۳۱ سفارش با ۴٫۴ میلیون. <b>هر مشتری بازگشتی در ماه ۲٫۶ برابر مشتری جدید درآمد دارد.</b></p>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:18px">
+    <div class="card">
+      <h3>سهم برندها از درآمد فصل</h3>
+      <div class="basis">درصد درآمد تومانی · تیر تا شهریور ۱۴۰۵ <span class="tag d">DATA</span></div>
+      <div class="chart" id="c-brand"></div>
+      <p class="insight">اپل و پلی‌استیشن ۹۰٪ درآمدند. در شهریور نسبت به شهریور ۱۴۰۴ تعداد کارت اپل ‎−۱۷٪، پلی‌استیشن ‎−۳۷٪ و استیم ‎−۴۴٪ بوده است. کارت‌های ۱۰ تا ۴۰ دلاری PS آمریکا از ۱٬۳۵۷ به ۶۸۴ کارت در ماه رسیده‌اند (‎−۵۰٪).</p>
+    </div>
+    <div class="card">
+      <h3>آخرین خرید مشتریان چه زمانی بوده؟</h3>
+      <div class="basis">تعداد مشتری بر اساس روزهای گذشته از آخرین خرید تا ۳۱ شهریور ۱۴۰۵ · ۳۴٬۸۴۹ مشتری <span class="tag d">DATA</span></div>
+      <div class="chart" id="c-rec"></div>
+      <p class="insight">فقط <b>۳٬۶۷۲ مشتری (۱۰٫۵٪)</b> در ۹۰ روز اخیر خرید کرده‌اند. ۳٬۵۳۴ نفر بین ۳ ماه تا یک سال پیش خریده‌اند؛ این‌ها ارزان‌ترین منبع رشد فصل‌اند.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>بخش‌بندی رفتاری مشتریان (RFM) و اقدام هر بخش</h3>
+    <div class="basis">R = روز از آخرین خرید، F = تعداد سفارش، M = مبلغ کل · مشتریان یکتای ۱۳ فایل · درآمد شهریور فقط برای اپل آمریکا قابل اندازه‌گیری است <span class="tag d">DATA</span></div>
+    <div class="tbl"><table>
+      <thead><tr><th>بخش</th><th>تعریف</th><th class="n">مشتری</th><th class="n">سهم خرید تاریخی</th><th class="n">سهم درآمد اپل شهریور</th><th>فرصت → اقدام</th><th>کانال</th><th>KPI</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td><b>Power · خریدار عمده فعال</b></td><td>۵۰+ سفارش، خرید در ۹۰ روز اخیر؛ چرخه ۱۷ روز</td><td class="n">۷۵۸</td><td class="n">۳۶٫۳٪</td><td class="n">۵۰٫۲٪</td><td>حفظ و افزایش سهم کیف پول → مدیر حساب، قیمت پلکانی شفاف، سفارش عمده</td><td>تلفن، تلگرام مستقیم</td><td>سفارش ماهانه هر حساب</td></tr>
+        <tr class="hl"><td><b>Lapsed Power · عمده خاموش</b></td><td>۵۰+ سفارش، ۹۱ تا ۷۳۰ روز بی‌خرید</td><td class="n">۵۵۷</td><td class="n">۱۸٫۱٪</td><td class="n">۰</td><td>بزرگ‌ترین نشت → تماس شخصی، علت‌یابی، بازگرداندن قیمت پلکانی ۳۰ روزه</td><td>تلفن فروش، تلگرام</td><td>نرخ بازگشت ۲۰–۲۵٪</td></tr>
+        <tr><td><b>Champions</b></td><td>۱۰+ سفارش، خرید در ۶۰ روز اخیر؛ چرخه ۵۴ روز</td><td class="n">۱٬۲۸۲</td><td class="n">۱۳٫۹٪</td><td class="n">۳۷٫۵٪</td><td>تکرار بیشتر → یادآوری روز ۴۵ کارت همیشگی، پیشنهاد «دو خرید در ۷ روز»</td><td>ربات تلگرام، پیامک</td><td>فاصله خرید</td></tr>
+        <tr><td><b>Loyal</b></td><td>۴+ سفارش، خرید در ۱۲۰ روز اخیر؛ چرخه ۹۸ روز</td><td class="n">۱٬۱۴۷</td><td class="n">۵٫۶٪</td><td class="n">۵٫۴٪</td><td>خرید برند دوم → فقط ۱۰٫۸٪ مشتریان از ۲ برند یا بیشتر می‌خرند</td><td>پیامک، ایمیل</td><td>برند به ازای مشتری</td></tr>
+        <tr><td><b>New</b></td><td>اولین خرید از تیر ۱۴۰۵</td><td class="n">۶۷۰</td><td class="n">۱٫۰٪</td><td class="n">۶٫۱٪</td><td>خرید دوم → سری خوش‌آمد، اعتبار کارمزد سفارش دوم، راهنمای ریجن</td><td>پیامک، تلگرام</td><td>خرید دوم در ۳۰ روز</td></tr>
+        <tr><td><b>Promising / Recent one-time</b></td><td>۱ تا ۳ سفارش، خرید در ۱۲۰ روز اخیر</td><td class="n">۴۰۷</td><td class="n">۰٫۴٪</td><td class="n">۰٫۹٪</td><td>تبدیل به Loyal → پیشنهاد کارت مکمل</td><td>پیامک</td><td>سفارش سوم</td></tr>
+        <tr><td><b>At-risk</b></td><td>۴+ سفارش، ۱۲۱ تا ۳۶۵ روز بی‌خرید؛ چرخه ۷۴ روز</td><td class="n">۱٬۴۶۹</td><td class="n">۶٫۶٪</td><td class="n">۰</td><td>بازگرداندن → پیشنهاد شخصی روی کارت همیشگی در ۱٫۵ برابر چرخه</td><td>پیامک، تلگرام، بله</td><td>بازگشت ۱۲–۱۵٪</td></tr>
+        <tr><td><b>Occasional</b></td><td>۱ تا ۳ سفارش، ۴ تا ۱۲ ماه بی‌خرید</td><td class="n">۱٬۱۶۷</td><td class="n">۰٫۷٪</td><td class="n">۰</td><td>رویدادمحور → GTA، بلک‌فرایدی، یلدا</td><td>پیامک</td><td>تبدیل کمپین</td></tr>
+        <tr><td><b>Dormant</b></td><td>۱ تا ۲ سال بی‌خرید</td><td class="n">۵٬۰۷۳</td><td class="n">۷٫۴٪</td><td class="n">۰</td><td>بازگشت کم‌هزینه → محصولات جدید (ChatGPT، تلگرام پرمیوم)</td><td>پیامک، ایمیل</td><td>بازگشت ۳–۴٪</td></tr>
+        <tr><td><b>Lost</b></td><td>بیش از ۲ سال بی‌خرید</td><td class="n">۲۲٬۳۱۹</td><td class="n">۹٫۹٪</td><td class="n">۰</td><td>فقط در رویدادهای بزرگ؛ پاک‌سازی و اخذ رضایت</td><td>پیامک انبوه</td><td>بازگشت ۰٫۷–۱٪</td></tr>
+      </tbody>
+    </table></div>
+    <p class="insight"><b>تمرکز:</b> ۱٪ مشتریان ۲۸٫۳٪ سفارش‌ها و ۴۰٫۰٪ خرید تاریخی، و ۱۰٪ مشتریان ۷۰٫۶٪ سفارش‌ها را ساخته‌اند <span class="tag d">DATA</span>. حساب‌هایی با بیش از ۸۰۰ سفارش احتمالاً فروشنده یا کسب‌وکارند <span class="tag a">ASSUMPTION</span> و باید برنامه جدا داشته باشند. مبلغ تاریخی اسمی است و خریدهای قدیمی را کمتر از واقع نشان می‌دهد؛ برای همین معیار اصلی ارزش، تعداد سفارش است.</p>
+  </div>
+
+  <details class="more" style="margin-top:18px">
+    <summary>کوهورت‌ها، خرید دوم و هم‌پوشانی برندها</summary>
+    <div>
+      <div class="tbl"><table>
+        <thead><tr><th>سال اولین خرید</th><th class="n">مشتری</th><th class="n">فقط یک خرید</th><th class="n">فعال در تابستان ۱۴۰۵</th><th class="n">سفارش به ازای مشتری</th></tr></thead>
+        <tbody>
+          <tr><td>۱۴۰۰*</td><td class="n">۷٬۳۸۷</td><td class="n">۲۶٫۰٪</td><td class="n">۱۵٫۱٪</td><td class="n">۲۵٫۸</td></tr>
+          <tr><td>۱۴۰۱</td><td class="n">۱۳٬۶۶۳</td><td class="n">۴۸٫۸٪</td><td class="n">۶٫۲٪</td><td class="n">۷٫۲</td></tr>
+          <tr><td>۱۴۰۲</td><td class="n">۶٬۲۹۱</td><td class="n">۵۷٫۵٪</td><td class="n">۵٫۶٪</td><td class="n">۶٫۱</td></tr>
+          <tr><td>۱۴۰۳</td><td class="n">۳٬۶۳۴</td><td class="n">۵۵٫۹٪</td><td class="n">۷٫۹٪</td><td class="n">۵٫۱</td></tr>
+          <tr><td>۱۴۰۴</td><td class="n">۲٬۸۵۱</td><td class="n">۶۰٫۰٪</td><td class="n">۱۲٫۱٪</td><td class="n">۳٫۲</td></tr>
+          <tr><td>۱۴۰۵ (۶ ماه)</td><td class="n">۱٬۰۲۳</td><td class="n">۶۳٫۴٪</td><td class="n">۷۵٫۴٪</td><td class="n">۲٫۱</td></tr>
+        </tbody>
+      </table></div>
+      <p class="basis">* کوهورت ۱۴۰۰ فقط دی تا اسفند ۱۴۰۰ و مشتریان قدیمی‌تری است که اولین خرید ثبت‌شده‌شان به ۱۱ دی ۱۴۰۰ بریده شده. ۶۰۷ مشتری کوهورت ۱۴۰۰ هنوز ۴۴٫۵٪ درآمد اپل شهریور را می‌سازند.</p>
+      <ul style="margin:0;padding-inline-start:18px;display:grid;gap:6px;font-size:14.5px">
+        <li><b>خرید دوم:</b> از مشتریان جدید بهار ۱۴۰۴، ۴۵٫۸٪ و از مشتریان جدید تابستان ۱۴۰۴، ۳۵٫۶٪ تاکنون خرید دوم داشته‌اند. مشتریان جدید تابستان ۱۴۰۵: ۳۲٫۲٪ <span class="tag d">DATA</span></li>
+        <li><b>فاصله خرید:</b> میانه ۴۷ روز (چارک‌ها ۱۶ و ۱۱۳ روز)؛ Power ۱۷، Champions ۵۴، At-risk ۷۴، Loyal ۹۸ روز. پیام بازگشت باید بر اساس چرخه هر بخش زمان‌بندی شود.</li>
+        <li><b>هم‌پوشانی برند:</b> ۱۰٫۸٪ مشتریان از ۲ برند یا بیشتر می‌خرند. ۸۹۴ نفر (۲۸٫۷٪) از خریداران ایکس‌باکس از اپل آمریکا هم خریده‌اند؛ فقط ۱۲٫۷٪ خریداران اپل از برند دیگری خرید کرده‌اند.</li>
+        <li><b>دسته ضعیف:</b> ۹۱٫۶٪ خریداران گوگل‌پلی فقط یک بار خریده‌اند؛ در شهریور ‎−۵۹٪ تعداد نسبت به پارسال.</li>
+        <li><b>دسته رو به رشد:</b> ChatGPT Plus از ۳ فروش در مرداد به ۱۷ در شهریور (۸۵ میلیون تومان)؛ تلگرام پرمیوم و استار ۶۸ فروش در شهریور.</li>
+        <li><b>پاسخ به پروموشن:</b> داده سفارش با کد تخفیف در فایل‌ها وجود ندارد؛ اثر پروموشن‌های گذشته <b>قابل اندازه‌گیری نیست</b>.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<section id="s4">
+  <div class="sec-head"><div class="k">۴ · سناریوهای رشد</div><h2>مبنا ← ‎+۳۰٪ ← ‎+۴۰٪ ← ‎+۶۰٪</h2>
+    <p>هدف‌ها روی <b>معادل دلاری</b> و <b>تعداد سفارش</b> تعریف شده‌اند تا تورم ارزی رشد ساختگی نسازد. مبنا: تیر تا شهریور ۱۴۰۵. دوره سنجش: آبان تا دی ۱۴۰۵.</p></div>
+
+  <div class="note"><b>مدل:</b> درآمد = مشتری فعال × تکرار خرید × ارزش سفارش. مبنا: ۵٬۵۷۰ مشتری فعال <span class="tag a">ASSUMPTION</span> × ۳٫۴۵ سفارش در فصل × ‎$۲۱٫۶ = ‎$۴۱۵٫۷ هزار <span class="tag d">DATA</span>. داده ترافیک و نرخ تبدیل وجود ندارد، پس مدل «ترافیک × تبدیل» در این فصل قابل محاسبه نیست و ساختن آن جزو کارهای ماه اول است.</div>
+
+  <div class="grid2" style="margin-top:18px">
+    <div class="card">
+      <h3>هدف فصل در هر سناریو</h3>
+      <div class="basis">معادل دلاری (هزار دلار) و سفارش · مبنا در برابر سناریوها · «ظرفیت فعلی» = اهرم‌ها در سطحی که شواهد امروز پشتیبانی می‌کند <span class="tag a">ASSUMPTION</span></div>
+      <div class="legend"><span><i style="background:var(--s1)"></i>معادل دلاری</span><span><i style="background:var(--s2)"></i>سفارش</span></div>
+      <div class="chart" id="c-scen"></div>
+    </div>
+    <div class="card">
+      <h3>مسیر ماهانه معادل دلاری</h3>
+      <div class="basis">هزار دلار در ماه · مبنا: میانگین تیر–شهریور ۱۴۰۵ (‎$۱۳۸٫۶ هزار) · آذر با GTA و بلک‌فرایدی اوج می‌گیرد <span class="tag a">ASSUMPTION</span></div>
+      <div class="legend"><span><i style="background:var(--prior)"></i>مبنا</span><span><i style="background:var(--s3)"></i>A ‎+۳۰٪</span><span><i style="background:var(--s4)"></i>B ‎+۴۰٪</span><span><i style="background:var(--s8)"></i>C ‎+۶۰٪</span></div>
+      <div class="chart" id="c-traj"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>اعداد لازم برای هر سناریو</h3>
+    <div class="tbl"><table id="t-req">
+      <thead><tr><th>شاخص</th><th class="n">مبنا</th><th class="n">A ‎+۳۰٪</th><th class="n">B ‎+۴۰٪</th><th class="n">C ‎+۶۰٪</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="basis">تومان با قیمت ثابت شهریور (۲۳۵٬۳۴۴ تومان هر دلار) محاسبه شده؛ با افزایش نرخ، عدد تومانی بالاتر می‌رود بدون اینکه رشد واقعی باشد. مشتری فعال و جذب برای کل کسب‌وکار با ضریب پوشش ۶۶٫۸٪ برآورد شده‌اند <span class="tag a">ASSUMPTION</span>.</p>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+      <h3>رشد از کجا می‌آید؟ اجزای رشد</h3>
+      <div class="tabs" role="tablist" id="blk-tabs">
+        <button role="tab" aria-selected="false" data-k="CAP">ظرفیت فعلی</button>
+        <button role="tab" aria-selected="true" data-k="A">A ‎+۳۰٪</button>
+        <button role="tab" aria-selected="false" data-k="B">B ‎+۴۰٪</button>
+        <button role="tab" aria-selected="false" data-k="C">C ‎+۶۰٪</button>
+      </div>
+    </div>
+    <div class="basis">سهم هر اهرم از معادل دلاری مبنا (٪) · آبشار از مبنا تا هدف · رنگ = نوع اثر · هر عدد از «داده × فرض» در ستون مبنا ساخته شده</div>
+    <div class="legend" id="blk-legend"></div>
+    <div class="chart" id="c-blocks"></div>
+    <div class="tbl"><table id="t-blocks">
+      <thead><tr><th>اهرم</th><th>نوع اثر</th><th class="n">دلار</th><th class="n">٪ مبنا</th><th class="n">سفارش</th><th>مبنای محاسبه</th><th>قابلیت تحقق</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="insight" id="blk-insight"></p>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>تلاش، زیرساخت، ریسک و وابستگی هر سناریو</h3>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>A ‎+۳۰٪ · تعهد</th><th>B ‎+۴۰٪ · کششی</th><th>C ‎+۶۰٪ · غیرقابل تعهد</th></tr></thead>
+      <tbody>
+        <tr><td><b>تلاش</b></td><td>تیم موجود + یک مسئول CRM تمام‌وقت + یک نیروی فروش برای حساب‌های عمده</td><td>A + توسعه‌دهنده برای سبد و ربات تلگرام + بودجه تبلیغ GTA</td><td>B + بودجه جذب ۲٫۵ برابری، همکاری با اینفلوئنسرهای گیم، تیم پشتیبانی شیفت شب</td></tr>
+        <tr><td><b>زیرساخت</b></td><td>GA4 و رویداد خرید، خروجی یکپارچه مشتری، پیامک بخش‌بندی‌شده</td><td>A + سبد چندکالایی تا هفته ۸ + ربات تلگرام نسخه ۱</td><td>B + پروفایل مشتری کامل، شخصی‌سازی سایت، برنامه وفاداری</td></tr>
+        <tr><td><b>ریسک اصلی</b></td><td>تکیه یک‌سوم رشد ناخالص به GTA؛ تأخیر احتمالی عرضه</td><td>سبد چندکالایی روی پلتفرم قدیمی دیر برسد</td><td>رشد تخفیف‌محور و فرسایش حاشیه؛ ۱۵٪ بالاتر از بهترین فصل ثبت‌شده</td></tr>
+        <tr><td><b>وابستگی</b></td><td>موجودی کارت PS و Xbox؛ ثبات دسترسی اینترنت</td><td>ظرفیت توسعه؛ تأیید سیاست احراز هویت</td><td>ثبات نرخ ارز؛ جذب کانال جدید؛ داده بهای تمام‌شده</td></tr>
+        <tr><td><b>رشد پایدار (بدون GTA)</b></td><td id="sus-A">—</td><td id="sus-B">—</td><td id="sus-C">—</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section id="s5">
+  <div class="sec-head"><div class="k">۵ · معماری رشد درآمد</div><h2>شش بلوک رشد و قاعده اجرای هر کدام</h2>
+    <p>هر بلوک به یک نتیجه تجاری، یک KPI، یک مسئول و یک زمان متصل است. مسئول‌ها نقش‌اند، نه نام؛ تا تعیین افراد.</p></div>
+
+  <div class="tabs" role="tablist" id="arch-tabs" style="margin-bottom:14px">
+    <button role="tab" aria-selected="true" data-k="a1">A · بازگرداندن</button>
+    <button role="tab" aria-selected="false" data-k="a2">B · پروموشن</button>
+    <button role="tab" aria-selected="false" data-k="a3">C · تلگرام و بله</button>
+    <button role="tab" aria-selected="false" data-k="a4">D · لایه AI</button>
+    <button role="tab" aria-selected="false" data-k="a5">E · سایت و UX</button>
+    <button role="tab" aria-selected="false" data-k="a6">F · کمپین GTA</button>
+  </div>
+
+  <div class="card arch" id="a1">
+    <h3>A · بازگرداندن و ری‌تارگتینگ از روی داده مشتری</h3>
+    <p class="basis">زمان‌بندی بر اساس چرخه خرید هر بخش؛ پیشنهاد روی «کارت همیشگی» همان مشتری (ستون کارت رایج در فایل‌ها) <span class="tag d">DATA</span></p>
+    <div class="tbl"><table>
+      <thead><tr><th>چه کسی</th><th class="n">تعداد</th><th>چرا</th><th>چه زمانی</th><th>کانال</th><th>پیشنهاد</th><th>KPI و هدف A/B</th></tr></thead>
+      <tbody>
+        <tr><td><b>Lapsed Power</b> · ۹۱ تا ۱۸۰ روز</td><td class="n">۸۶</td><td>تازه خاموش؛ احتمالاً اثر قطعی اینترنت</td><td>هفته ۳ و ۴</td><td>تماس تلفنی فروش + تلگرام</td><td>بازگشت به قیمت پلکانی قبلی برای ۳۰ روز؛ پرسش علت</td><td>بازگشت ۳۵٪ / ۴۰٪</td></tr>
+        <tr><td><b>Lapsed Power</b> · ۱۸۱ تا ۷۳۰ روز</td><td class="n">۴۷۱</td><td>۱۸٪ خرید تاریخی؛ تا ‎$۳۹ هزار در ماه پتانسیل</td><td>هفته ۴ تا ۶</td><td>تلگرام و پیامک شخصی، سپس تماس</td><td>همان؛ به‌علاوه سفارش عمده با تحویل اولویت‌دار</td><td>بازگشت ۱۷٪ / ۲۲٪</td></tr>
+        <tr><td><b>At-risk</b></td><td class="n">۱٬۴۶۹</td><td>۴+ سفارش؛ ۱٫۵ برابر چرخه گذشته</td><td>هفته ۵ تا ۸، هر هفته یک موج</td><td>پیامک + تلگرام + بله</td><td>حذف کارمزد یا کارت ۱ دلاری هدیه روی کارت همیشگی؛ اعتبار ۷ روزه</td><td>بازگشت ۱۲٪ / ۱۵٪</td></tr>
+        <tr><td><b>Occasional</b></td><td class="n">۱٬۱۶۷</td><td>خریدار موقعیتی</td><td>GTA (هفته ۵)، بلک‌فرایدی (هفته ۷)، یلدا (هفته ۱۱)</td><td>پیامک</td><td>پیشنهاد رویدادی، بدون تخفیف عمیق</td><td>تبدیل کمپین ۳٪</td></tr>
+        <tr><td><b>Dormant</b></td><td class="n">۵٬۰۷۳</td><td>۱ تا ۲ سال؛ هزینه تماس پایین</td><td>هفته ۶ و ۱۰</td><td>پیامک + ایمیل</td><td>معرفی محصولات جدید و راهنمای ریجن</td><td>بازگشت ۳٪ / ۴٪</td></tr>
+        <tr><td><b>Lost</b></td><td class="n">۲۲٬۳۱۹</td><td>بیش از ۲ سال؛ بیشتر خریداران ۱۴۰۱</td><td>فقط هفته ۵ و ۷</td><td>پیامک انبوه با لغو اشتراک</td><td>GTA و بلک‌فرایدی</td><td>بازگشت ۰٫۷٪ / ۱٪</td></tr>
+        <tr><td><b>بازدیدکننده بدون خرید</b></td><td class="n">نامعلوم</td><td>آنالیتیکس فعال نیست</td><td>پس از نصب GA4 (هفته ۳)</td><td>ری‌تارگتینگ یکتانت (کد آن روی سایت هست)</td><td>راهنمای خرید اول</td><td>تبدیل بازدید به خرید</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">قاعده: هر موج ۱۰٪ گروه کنترل بدون پیام دارد تا اثر واقعی (نه خریدی که به‌هرحال انجام می‌شد) اندازه‌گیری شود. مشتری‌ای که در ۱۴ روز اخیر خرید کرده، پیام بازگشت نمی‌گیرد.</p>
+  </div>
+
+  <div class="card arch" id="a2" hidden>
+    <h3>B · سیستم پروموشن به جای تخفیف پراکنده</h3>
+    <p class="basis">چون بهای تمام‌شده موجود نیست، پیشنهادها به‌جای تخفیف درصدی عمیق، روی <b>کارمزد، هدیه کم‌ارزش و قیمت پلکانی</b> تکیه می‌کنند. هر پیشنهاد با سقف بودجه و گروه کنترل اجرا می‌شود <span class="tag a">ASSUMPTION</span></p>
+    <div class="tbl"><table>
+      <thead><tr><th>پروموشن</th><th>مخاطب</th><th>محصول</th><th>پیشنهاد</th><th>زمان</th><th>مسئول</th><th>KPI</th><th>بازخورد</th><th>قاعده ادامه / تغییر / توقف</th></tr></thead>
+      <tbody>
+        <tr><td><b>خرید دوم</b></td><td>New</td><td>کارت اول همان برند</td><td>حذف کارمزد سفارش دوم در ۱۴ روز</td><td>دائم از هفته ۴</td><td>CRM</td><td>خرید دوم ۳۰ روزه</td><td>هفتگی</td><td>ادامه اگر ‎+۸ واحد درصد نسبت به کنترل؛ توقف اگر زیر ‎+۳</td></tr>
+        <tr><td><b>دو خرید در یک هفته</b></td><td>Champions، Loyal</td><td>کارت همیشگی</td><td>خرید دوم در ۷ روز: کارت ۱ دلاری هدیه</td><td>هفته ۵ تا ۱۰، دو‌هفته در میان</td><td>CRM</td><td>سفارش به ازای مشتری</td><td>هفتگی</td><td>ادامه اگر هزینه هدیه زیر ۵٪ درآمد اضافه</td></tr>
+        <tr><td><b>آستانه سبد</b></td><td>همه</td><td>۲+ کارت</td><td>بالای ‎$۵۰ بدون کارمزد</td><td>پس از سبد (هفته ۸)</td><td>محصول</td><td>ارزش سفارش، کارت در سفارش</td><td>هفتگی</td><td>ادامه اگر ارزش سفارش ‎+۵٪ و تعداد سفارش افت نکند</td></tr>
+        <tr><td><b>بسته GTA</b></td><td>گیمرها</td><td>PSN/Xbox ‎$۸۰</td><td>بسته آماده ۷۵+۵ یا ۵۰+۲۵+۵؛ تحویل فوری تضمینی</td><td>هفته ۴ تا ۱۰</td><td>بازاریابی</td><td>فروش بسته</td><td>روزانه در هفته عرضه</td><td>مقیاس اگر ۲۰۰+ در ۱۰ روز اول</td></tr>
+        <tr><td><b>سطوح خریدار عمده</b></td><td>Power</td><td>همه</td><td>قیمت پلکانی شفاف ماهانه</td><td>از هفته ۴</td><td>فروش</td><td>سهم کیف پول</td><td>ماهانه</td><td>ادامه اگر سفارش هر حساب ‎+۸٪</td></tr>
+        <tr><td><b>بازگشت</b></td><td>At-risk، Dormant</td><td>کارت همیشگی</td><td>حذف کارمزد ۷ روزه</td><td>موجی، هفته ۵ تا ۱۰</td><td>CRM</td><td>نرخ بازگشت</td><td>هر موج</td><td>توقف اگر بازگشت کمتر از ۱٫۵ برابر کنترل</td></tr>
+        <tr><td><b>فلش رویدادی</b></td><td>Occasional، Lost</td><td>استار تلگرام، کارت ۱–۵ دلاری</td><td>۴۸ ساعت</td><td>بلک‌فرایدی (۶ آذر)، یلدا (۳۰ آذر)</td><td>بازاریابی</td><td>سفارش، مشتری جدید</td><td>پس از رویداد</td><td>تکرار فقط اگر ۳۰٪ خریداران مشتری جدید یا بازگشتی باشند</td></tr>
+        <tr><td><b>تمدید اشتراک</b></td><td>خریداران تلگرام پرمیوم، اسپاتیفای، PS Plus، ChatGPT</td><td>همان اشتراک</td><td>یادآوری ۵ روز مانده؛ تمدید با یک کلیک</td><td>دائم از هفته ۶</td><td>CRM</td><td>نرخ تمدید</td><td>ماهانه</td><td>ادامه اگر نرخ تمدید ‎+۱۰ واحد درصد</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">ضد هم‌نوع‌خواری: پیشنهاد به مشتری‌ای که طبق چرخه‌اش به‌زودی خرید می‌کرد (Power با چرخه ۱۷ روز) فقط به‌صورت پاداش پس از خرید داده می‌شود، نه تخفیف قبل از خرید. سقف کل بودجه پروموشن فصل: درصد مشخصی از درآمد اضافه که مدیریت تعیین می‌کند.</p>
+  </div>
+
+  <div class="card arch" id="a3" hidden>
+    <h3>C · تلگرام و بله: از کانال پخش به کانال فروش شخصی</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>بخش</th><th>اقدام</th><th>زمان</th><th>KPI</th></tr></thead>
+      <tbody>
+        <tr><td><b>عضوگیری</b></td><td>دعوت به کانال در صفحه تأیید سفارش و پیامک تحویل؛ کد ورود به ربات</td><td>هفته ۲</td><td>عضو جدید هفتگی، سهم خریداران عضو</td></tr>
+        <tr><td><b>ساختار محتوا</b></td><td>۳ نوع پست: قیمت روز و موجودی، راهنمای ریجن و استفاده، پیشنهاد محدود. حداکثر ۲ پیشنهاد در هفته</td><td>هفته ۳</td><td>کلیک به سایت از هر پست</td></tr>
+        <tr><td><b>ربات نسخه ۱</b></td><td>خرید دوباره کارت قبلی، وضعیت سفارش، یادآوری تمدید، لیست انتظار GTA</td><td>هفته ۴ تا ۷</td><td>سفارش از ربات</td></tr>
+        <tr><td><b>پیشنهاد شخصی</b></td><td>پیام خصوصی بر اساس بخش RFM و کارت همیشگی</td><td>هفته ۶</td><td>تبدیل پیام به خرید</td></tr>
+        <tr><td><b>بله به‌عنوان پشتیبان</b></td><td>کانال و ربات مشابه در بله (پیام‌رسان داخلی) و پیامک برای زمان قطعی</td><td>هفته ۳</td><td>درصد مشتریان قابل دسترس از کانال داخلی</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">تلگرام با وجود محدودیت دسترسی، ۳۹٫۳٪ ایرانیان از آن استفاده می‌کنند <span class="tag r">RESEARCH</span>. در قطعی دی تا خرداد، فروش ۸۴٪ افت کرد؛ داشتن کانال داخلی و پیامک، بیمه درآمد است. پرداخت همیشه در سایت انجام می‌شود؛ ربات فقط لینک پرداخت شخصی می‌سازد.</p>
+  </div>
+
+  <div class="card arch" id="a4" hidden>
+    <h3>D · لایه هوش مصنوعی؛ فقط آنچه درآمد می‌سازد</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>ابتکار</th><th>نوع</th><th>کاربرد تجاری</th><th>داده لازم</th><th>KPI</th></tr></thead>
+      <tbody>
+        <tr><td>بخش‌بندی و امتیاز ریزش</td><td><span class="chip good"><i></i>Quick Win</span></td><td>فهرست هفتگی مشتریانی که از ۱٫۵ برابر چرخه خود گذشته‌اند</td><td>خروجی فعلی مشتری (موجود)</td><td>نرخ بازگشت</td></tr>
+        <tr><td>تولید متن پیام و کمپین</td><td><span class="chip good"><i></i>Quick Win</span></td><td>نسخه‌های مختلف پیامک و پست برای آزمون A/B</td><td>راهنمای لحن برند</td><td>نرخ کلیک</td></tr>
+        <tr><td>دستیار پشتیبانی و فروش</td><td><span class="chip good"><i></i>Quick Win</span></td><td>پاسخ به سؤالات تکراری ریجن، استفاده و تحویل در تلگرام؛ ارجاع به خرید</td><td>پرسش‌های پشتیبانی</td><td>زمان پاسخ، خرید پس از گفتگو</td></tr>
+        <tr><td>پیشنهاد کارت بعدی</td><td><span class="chip mon"><i></i>Next Step</span></td><td>«کارت بعدی شما» بر اساس برند، مبلغ و تاریخ</td><td>تاریخچه سفارش در سطح سفارش</td><td>خرید از پیشنهاد</td></tr>
+        <tr><td>دستیار انتخاب هدیه</td><td><span class="chip mon"><i></i>Next Step</span></td><td>کمک به خریدار هدیه برای انتخاب برند، کشور و مبلغ؛ کاهش خطای ریجن</td><td>کاتالوگ با برچسب ریجن</td><td>تبدیل مشتری جدید</td></tr>
+        <tr><td>پروموشن شخصی پویا</td><td><span class="chip mon"><i></i>Next Step</span></td><td>نوع پیشنهاد (هدیه، کارمزد، بسته) بر اساس پاسخ قبلی</td><td>نتیجه موج‌های ماه ۲</td><td>درآمد اضافه هر ریال پروموشن</td></tr>
+        <tr><td>پروفایل یکپارچه مشتری</td><td><span class="chip imp"><i></i>Infrastructure</span></td><td>یک شناسه برای همه برندها و کانال‌ها</td><td>خروجی همه برندها (PSN آمریکا و استیم موجود نیست)</td><td>پوشش پروفایل</td></tr>
+        <tr><td>شخصی‌سازی سایت</td><td><span class="chip imp"><i></i>Infrastructure</span></td><td>صفحه اول متفاوت برای مشتری بازگشتی</td><td>رویدادهای سایت</td><td>تبدیل بازگشتی‌ها</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card arch" id="a5" hidden>
+    <h3>E · سایت و تجربه کاربر؛ اولویت با تبدیل، نه بازطراحی ظاهری</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>حوزه</th><th>وضع فعلی <span class="tag r">RESEARCH</span></th><th>اصلاح</th><th>اثر</th><th>تلاش</th><th>اولویت</th></tr></thead>
+      <tbody>
+        <tr><td>اندازه‌گیری</td><td>فقط Universal Analytics (متوقف)</td><td>GA4 + رویداد مشاهده، شروع خرید، پرداخت، موفقیت</td><td>بالا</td><td>کم</td><td><span class="chip crit"><i></i>۱</span></td></tr>
+        <tr><td>اولین خرید</td><td>تأیید تلفن همراه و ثابت الزامی</td><td>آزمون: خرید اول تا ‎$۲۵ بدون تلفن ثابت با سقف ریسک</td><td>بالا</td><td>متوسط</td><td><span class="chip crit"><i></i>۱</span></td></tr>
+        <tr><td>مشتری بازگشتی</td><td>انتخاب دوباره از ۶۱۶ گزینه</td><td>دکمه «خرید دوباره» و کارت‌های اخیر پس از ورود</td><td>بالا</td><td>کم</td><td><span class="chip crit"><i></i>۱</span></td></tr>
+        <tr><td>کشف و جستجو</td><td>بدون جستجو و صفحه محصول</td><td>جستجو؛ صفحه هر برند و کشور (برای سئو هم)</td><td>متوسط</td><td>متوسط</td><td><span class="chip imp"><i></i>۲</span></td></tr>
+        <tr><td>انتخاب کالا</td><td>خطای ریجن مرجوع نمی‌شود</td><td>راهنمای «ریجن اکانت شما کدام است؟» کنار هر برند</td><td>متوسط</td><td>کم</td><td><span class="chip imp"><i></i>۲</span></td></tr>
+        <tr><td>سبد و باندل</td><td>یک کارت در هر سفارش</td><td>سبد چندکالایی، بسته‌های آماده</td><td>بالا</td><td>زیاد</td><td><span class="chip imp"><i></i>۲</span></td></tr>
+        <tr><td>نشت ترافیک</td><td>لینک آمازون و ریزر به gamecode.ir</td><td>تعیین تکلیف: اگر سایت دیگری است، فروش در سایت خودی</td><td>نامعلوم</td><td>کم</td><td><span class="chip imp"><i></i>۲</span></td></tr>
+        <tr><td>اعتماد</td><td>نماد اعتماد هست؛ نظر مشتری نیست</td><td>نمایش زمان تحویل واقعی، تعداد فروش، نظر خریداران</td><td>متوسط</td><td>کم</td><td><span class="chip mon"><i></i>۳</span></td></tr>
+        <tr><td>پروفایل</td><td>فقط موبایل و ایمیل</td><td>ریجن اکانت، برندهای مورد علاقه، رضایت پیام</td><td>متوسط</td><td>متوسط</td><td><span class="chip mon"><i></i>۳</span></td></tr>
+        <tr><td>موبایل و اپ</td><td>صفحه ۴۷۵ کیلوبایتی؛ اپ اندروید ۱٫۰</td><td>سبک‌سازی صفحه؛ وب‌اپ به جای فایل APK</td><td>متوسط</td><td>متوسط</td><td><span class="chip mon"><i></i>۳</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card arch" id="a6" hidden>
+    <h3>F · کمپین GTA VI</h3>
+    <div class="tbl"><table>
+      <tbody>
+        <tr><th>هدف</th><td>فروش ۶۵۰ بسته (A) تا ۷۰۰ (B) و جذب گیمرهای جدید؛ تبدیل خریدار GTA به خریدار دائم PSN/Xbox <span class="tag a">ASSUMPTION</span></td></tr>
+        <tr><th>مخاطب</th><td>حدود ۳٬۷۰۰ خریدار یکتای ایکس‌باکس و PSN سایر کشورها با داده تماس <span class="tag d">DATA</span>؛ خریداران PSN آمریکا (فایل مشتری ندارد — خروجی بگیرید)؛ ۸۹۴ مشتری اپل که ایکس‌باکس هم خریده‌اند؛ گیمرهای جدید از اینستاگرام</td></tr>
+        <tr><th>پیشنهاد</th><td>«بسته آماده GTA» ‎$۸۰ برای PSN و Xbox آمریکا، تحویل فوری تضمینی، راهنمای ساخت اکانت ریجن آمریکا؛ پس از عرضه: PS Plus و اعتبار درون‌بازی</td></tr>
+        <tr><th>ایده خلاق</th><td>«شب عرضه، اعتبارت آماده است»: شمارش معکوس تا ۲۸ آبان؛ تمرکز روی بی‌دغدغگی ریجن و تحویل، نه تخفیف</td></tr>
+        <tr><th>کانال‌ها</th><td>اینستاگرام (کشف)، کانال و ربات تلگرام (لیست انتظار)، بله، پیامک به بخش‌ها، ری‌تارگتینگ یکتانت پس از GA4</td></tr>
+        <tr><th>صفحه فرود</th><td>صفحه اختصاصی: بسته‌ها، قیمت روز تومانی، راهنمای ریجن، پرسش‌های رایج، ثبت در لیست انتظار</td></tr>
+        <tr><th>ری‌تارگتینگ</th><td>بازدیدکننده بدون خرید: ۲۴ ساعت بعد پیام راهنما؛ عضو لیست انتظار: پیام روز عرضه؛ خریدار GTA: پیشنهاد PS Plus در روز ۷ و اعتبار درون‌بازی در روز ۳۰</td></tr>
+        <tr><th>KPI</th><td>عضو لیست انتظار، فروش بسته، سهم مشتری جدید از خریداران، خرید دوم خریداران GTA در ۳۰ روز، موجودی ناکافی (باید صفر باشد)</td></tr>
+        <tr><th>زمان‌بندی</th><td>هفته ۱–۳: تأمین موجودی و صفحه فرود · هفته ۴–۵: پیش‌فروش و لیست انتظار · ۲۸ آبان (هفته ۶): عرضه · هفته ۷–۱۰: PS Plus، بلک‌فرایدی، اعتبار درون‌بازی</td></tr>
+        <tr><th>فرض‌های باز</th><td>تاریخ عرضه ممکن است دوباره عقب بیفتد؛ تعداد خریداران PSN آمریکا نامعلوم است؛ موجودی و قیمت خرید کارت ۷۵ و ۱۰۰ دلاری باید تأیید شود</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<style>
+.flow{display:grid;grid-template-columns:repeat(10,minmax(150px,1fr));gap:8px;overflow-x:auto;padding-bottom:6px}
+.stage{background:var(--sunk);border-radius:10px;padding:12px;display:grid;gap:6px;align-content:start;font-size:12.5px;line-height:1.7;position:relative}
+.stage h4{font-size:14px;display:flex;gap:6px;align-items:baseline}
+.stage h4 span{color:var(--accent);font-weight:800}
+.stage dl{margin:0;display:grid;gap:4px}
+.stage dt{color:var(--muted);font-size:11px;font-weight:700}
+.stage dd{margin:0}
+.stage .opp{color:var(--accent-ink);font-weight:700}
+.stage.leak{box-shadow:inset 0 3px 0 var(--crit)}
+.matrix td.c{text-align:center}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.dot.half{background:transparent;border:2px solid var(--accent)}
+.fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.fields ul{margin:0;padding-inline-start:18px;display:grid;gap:4px;font-size:14px}
+@media (max-width:900px){.fields{grid-template-columns:1fr}}
+</style>
+<section id="s6">
+  <div class="sec-head"><div class="k">۶ · جریان کشف و چرخ درآمد</div><h2>مسیر مشتری از دیده شدن تا معرفی دوستان</h2>
+    <p>نوار قرمز بالای هر مرحله = جایی که امروز بیشترین درآمد از دست می‌رود.</p></div>
+  <div class="card">
+    <h3>جریان کشف و درآمد</h3>
+    <div class="basis">برای هر مرحله: اقدام مشتری / اقدام کسب‌وکار / داده / KPI / فرصت رشد</div>
+    <div class="flow">
+      <div class="stage"><h4><span>۱</span>آگاهی</h4><dl><dt>مشتری</dt><dd>نیاز به اعتبار اپل، PSN یا اشتراک</dd><dt>کسب‌وکار</dt><dd>محتوای راهنما در اینستاگرام؛ GTA</dd><dt>داده</dt><dd>دسترسی، ذخیره</dd><dt>KPI</dt><dd>جستجوی برند</dd></dl><div class="opp">رویداد GTA</div></div>
+      <div class="stage leak"><h4><span>۲</span>ترافیک</h4><dl><dt>مشتری</dt><dd>ورود از گوگل، اینستاگرام، تلگرام</dd><dt>کسب‌وکار</dt><dd>UTM روی همه لینک‌ها</dd><dt>داده</dt><dd>منبع ورود (امروز ندارد)</dd><dt>KPI</dt><dd>بازدید به تفکیک کانال</dd></dl><div class="opp">GA4 · صفحه برند برای سئو</div></div>
+      <div class="stage leak"><h4><span>۳</span>کشف</h4><dl><dt>مشتری</dt><dd>پیدا کردن برند و کشور</dd><dt>کسب‌وکار</dt><dd>جستجو، دسته‌بندی</dd><dt>داده</dt><dd>جستجوها</dd><dt>KPI</dt><dd>نرخ رسیدن به انتخاب</dd></dl><div class="opp">جستجو به جای ۶۱۶ گزینه</div></div>
+      <div class="stage"><h4><span>۴</span>انتخاب</h4><dl><dt>مشتری</dt><dd>انتخاب مبلغ و ریجن</dd><dt>کسب‌وکار</dt><dd>راهنمای ریجن، بسته آماده</dd><dt>داده</dt><dd>کالای دیده‌شده</dd><dt>KPI</dt><dd>افزودن به سفارش</dd></dl><div class="opp">دستیار انتخاب هدیه</div></div>
+      <div class="stage leak"><h4><span>۵</span>خرید</h4><dl><dt>مشتری</dt><dd>تأیید موبایل و تلفن ثابت، پرداخت</dd><dt>کسب‌وکار</dt><dd>کاهش اصطکاک با سقف ریسک</dd><dt>داده</dt><dd>شروع و پایان پرداخت</dd><dt>KPI</dt><dd>تبدیل، پرداخت ناموفق</dd></dl><div class="opp">خرید اول بدون تلفن ثابت</div></div>
+      <div class="stage"><h4><span>۶</span>پروفایل</h4><dl><dt>مشتری</dt><dd>دریافت کد</dd><dt>کسب‌وکار</dt><dd>ثبت ریجن، برند، رضایت پیام، تلگرام</dd><dt>داده</dt><dd>پروفایل</dd><dt>KPI</dt><dd>پوشش پروفایل</dd></dl><div class="opp">عضویت ربات در صفحه تحویل</div></div>
+      <div class="stage leak"><h4><span>۷</span>خرید دوم</h4><dl><dt>مشتری</dt><dd>نیاز دوباره</dd><dt>کسب‌وکار</dt><dd>سری خوش‌آمد، اعتبار کارمزد</dd><dt>داده</dt><dd>روز از خرید اول</dd><dt>KPI</dt><dd>خرید دوم ۳۰ روزه</dd></dl><div class="opp">۶۰٪ هرگز برنمی‌گردند</div></div>
+      <div class="stage"><h4><span>۸</span>تکرار</h4><dl><dt>مشتری</dt><dd>خرید بر اساس چرخه</dd><dt>کسب‌وکار</dt><dd>یادآوری روز ۴۵، خرید دوباره</dd><dt>داده</dt><dd>چرخه هر مشتری</dd><dt>KPI</dt><dd>سفارش به ازای مشتری</dd></dl><div class="opp">دو خرید در یک هفته</div></div>
+      <div class="stage leak"><h4><span>۹</span>وفاداری</h4><dl><dt>مشتری</dt><dd>خرید عمده و منظم</dd><dt>کسب‌وکار</dt><dd>سطوح قیمت، مدیر حساب</dd><dt>داده</dt><dd>سهم کیف پول</dd><dt>KPI</dt><dd>ماندگاری Power</dd></dl><div class="opp">۵۵۷ عمده خاموش</div></div>
+      <div class="stage"><h4><span>۱۰</span>معرفی</h4><dl><dt>مشتری</dt><dd>معرفی به دوستان و هم‌بازی‌ها</dd><dt>کسب‌وکار</dt><dd>کد معرف با اعتبار برای هر دو</dd><dt>داده</dt><dd>کد معرف</dd><dt>KPI</dt><dd>مشتری جدید از معرفی</dd></dl><div class="opp">رقبا دارند؛ ما نداریم</div></div>
+    </div>
+    <h4 style="margin-top:8px">نقطه اثر کانال‌ها و سیستم‌ها</h4>
+    <div class="tbl"><table class="matrix">
+      <thead><tr><th>کانال / سیستم</th><th>آگاهی</th><th>ترافیک</th><th>کشف</th><th>انتخاب</th><th>خرید</th><th>پروفایل</th><th>خرید دوم</th><th>تکرار</th><th>وفاداری</th><th>معرفی</th></tr></thead>
+      <tbody id="t-matrix"></tbody>
+    </table></div>
+    <p class="basis"><span class="dot"></span> نقش اصلی · <span class="dot half"></span> نقش پشتیبان</p>
+  </div>
+
+  <div class="grid2" style="margin-top:18px">
+    <div class="card">
+      <h3>چرخ درآمد</h3>
+      <div class="basis">هر دور چرخ، داده بیشتر و پیشنهاد دقیق‌تر می‌سازد؛ سرعت چرخ را «فاصله خرید» نشان می‌دهد (امروز میانه ۴۷ روز)</div>
+      <div class="chart" id="c-wheel"></div>
+    </div>
+    <div class="card">
+      <h3>چرا چرخ امروز کند است</h3>
+      <ul style="margin:0;padding-inline-start:18px;display:grid;gap:8px;font-size:14.5px">
+        <li><b>داده ← شخصی‌سازی قطع است:</b> داده مشتری فقط به‌صورت خروجی خلاصه وجود دارد و به هیچ پیام خودکاری وصل نیست.</li>
+        <li><b>پروموشن ← خرید اندازه‌گیری نمی‌شود:</b> کد تخفیف و کانال در داده سفارش ثبت نمی‌شود.</li>
+        <li><b>ماندگاری ← معرفی وجود ندارد:</b> مشتریان قدیمی وفادارند (کوهورت ۱۴۰۰: ۲۵٫۸ سفارش برای هر مشتری) اما هیچ سازوکار معرفی ندارند.</li>
+        <li><b>جذب ← داده:</b> بدون آنالیتیکس، منبع مشتری جدید معلوم نیست.</li>
+      </ul>
+      <p class="insight">اولین گام چرخ، اتصال <b>خروجی مشتری ← بخش‌بندی هفتگی ← پیامک و تلگرام</b> است. هزینه پایین است و نیازی به پلتفرم جدید ندارد.</p>
+    </div>
+  </div>
+</section>
+
+<section id="s7">
+  <div class="sec-head"><div class="k">۷ · زیرساخت و سیستم برند</div><h2>آنچه باید ساخته شود تا رشد تکرارپذیر شود</h2></div>
+  <div class="card">
+    <h3>زیرساخت دیجیتال</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>جزء</th><th>حداقل لازم در این فصل</th><th>امکان تجاری</th><th>هفته</th></tr></thead>
+      <tbody>
+        <tr><td>ردیابی و آنالیتیکس</td><td>GA4 + GTM، رویداد خرید سمت سرور، UTM استاندارد، ثبت کد تخفیف و کانال در هر سفارش</td><td>اندازه‌گیری تبدیل و اثر کمپین</td><td>۱–۳</td></tr>
+        <tr><td>خروجی سفارش</td><td>جدول سفارش‌ها: شناسه سفارش، مشتری، زمان، اقلام، مبلغ، کد تخفیف، کانال</td><td>کوهورت، خرید دوم و پروموشن واقعی</td><td>۱–۲</td></tr>
+        <tr><td>CRM و اتوماسیون</td><td>بخش‌بندی هفتگی + پنل پیامک + ربات تلگرام/بله؛ بعداً یک ابزار CRM</td><td>بازگرداندن و تکرار</td><td>۲–۷</td></tr>
+        <tr><td>سایت</td><td>خرید دوباره، جستجو، راهنمای ریجن، سپس سبد</td><td>تبدیل و ارزش سفارش</td><td>۲–۹</td></tr>
+        <tr><td>تلگرام و بله</td><td>کانال با تقویم محتوا، ربات نسخه ۱، کانال پشتیبان داخلی</td><td>بازگشت و تبدیل</td><td>۲–۸</td></tr>
+        <tr><td>اینستاگرام</td><td>۳ پست و ۵ استوری در هفته: راهنما، قیمت روز، GTA</td><td>کشف و جذب</td><td>۳–۱۲</td></tr>
+        <tr><td>تیک‌تاک</td><td>در این فصل توصیه نمی‌شود؛ ویدیوهای کوتاه اینستاگرام همان نقش را دارند</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>پروفایل مشتری: فقط فیلدهای مفید</h3>
+    <div class="fields">
+      <div><h4>۱ · داده ضروری سایت</h4><ul><li>موبایل تأییدشده، ایمیل، نام</li><li>ریجن اکانت هر پلتفرم (Apple، PSN، Xbox)</li><li>برندهای مورد علاقه</li><li>رضایت دریافت پیامک، تلگرام، ایمیل</li><li>شناسه تلگرام یا بله</li><li>نوع مشتری: شخصی / کسب‌وکار</li></ul><p class="basis" style="margin-top:8px">امکان: پیشنهاد درست بدون خطای ریجن؛ پیام قانونی</p></div>
+      <div><h4>۲ · رفتار ثبت خودکار</h4><ul><li>سفارش‌ها: زمان، اقلام، مبلغ، کد تخفیف</li><li>چرخه خرید و روز از آخرین خرید</li><li>کالاها و برندهای دیده‌شده، جستجوها</li><li>پرداخت ناموفق و رها کردن خرید</li><li>کانال و UTM ورود؛ دستگاه</li><li>پاسخ به پیام‌ها و پروموشن‌ها</li></ul><p class="basis" style="margin-top:8px">امکان: زمان‌بندی پیام، امتیاز ریزش، پیشنهاد کارت بعدی</p></div>
+      <div><h4>۳ · داده فروش و پشتیبانی</h4><ul><li>حجم ماهانه و نوع کسب‌وکار (حساب‌های عمده)</li><li>کنسول و دستگاه (PS5، Xbox، iPhone)</li><li>بازی‌های مورد علاقه (GTA)</li><li>مناسبت‌های هدیه</li><li>سابقه مشکل و شکایت</li><li>علت توقف خرید (از تماس بازگشت)</li></ul><p class="basis" style="margin-top:8px">امکان: برنامه عمده، کمپین رویدادی، جلوگیری از ریزش</p></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>سیستم برند: دامنه لازم</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>جزء</th><th>لازم است؟</th><th>خروجی این فصل</th></tr></thead>
+      <tbody>
+        <tr><td>استراتژی و جایگاه برند</td><td><span class="chip good"><i></i>بله</span></td><td>یک جمله: «سریع‌ترین و مطمئن‌ترین راه شارژ اکانت خارجی، بدون خطای ریجن»</td></tr>
+        <tr><td>شخصیت، صدا و لحن</td><td><span class="chip good"><i></i>بله</span></td><td>راهنمای یک‌صفحه‌ای: دقیق، خونسرد، کمک‌کننده؛ لحن متفاوت برای گیمرها و خریداران عمده</td></tr>
+        <tr><td>زبان برند و معماری پیام</td><td><span class="chip good"><i></i>بله</span></td><td>پیام اصلی + ۳ پیام پشتیبان: تحویل فوری، تضمین ریجن، پشتیبانی واقعی</td></tr>
+        <tr><td>UX Writing</td><td><span class="chip good"><i></i>بله</span></td><td>متن مراحل خرید، خطاها، تأیید هویت و پیام‌های تحویل</td></tr>
+        <tr><td>هویت بصری</td><td><span class="chip mon"><i></i>به‌روزرسانی</span></td><td>کیت قالب پست، بنر و صفحه فرود GTA؛ بازطراحی کامل در این فصل لازم نیست</td></tr>
+        <tr><td>سیستم شبکه اجتماعی و زبان کمپین</td><td><span class="chip good"><i></i>بله</span></td><td>تقویم محتوا، ۴ قالب پست، زبان کمپین GTA و بلک‌فرایدی</td></tr>
+        <tr><td>تجربه برند</td><td><span class="chip good"><i></i>بله</span></td><td>زمان تحویل، تضمین ریجن، پیگیری پس از خرید؛ این‌ها همان برند هستند</td></tr>
+        <tr><td>حرکت برند (Motion)</td><td><span class="chip mon"><i></i>سبک</span></td><td>چند قالب ویدیوی کوتاه برای اینستاگرام</td></tr>
+        <tr><td>صدای برند (Sound)</td><td><span class="chip imp"><i></i>فعلاً نه</span></td><td>محصول دیجیتال بدون تماس صوتی پرتکرار؛ اثر تجاری ندارد</td></tr>
+        <tr><td>رایحه برند (Scent)</td><td><span class="chip crit"><i></i>نه</span></td><td>فروشگاه فیزیکی وجود ندارد</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<style>
+.gantt{display:grid;grid-template-columns:200px repeat(12,minmax(34px,1fr));font-size:12px;min-width:760px}
+.gantt .h{font-weight:700;color:var(--ink2);text-align:center;padding:6px 2px;border-bottom:1px solid var(--hair)}
+.gantt .h small{display:block;font-weight:500;color:var(--muted);font-size:10.5px}
+.gantt .mh{grid-column:span 4;text-align:center;font-weight:800;padding:6px;border-bottom:1px solid var(--hair);font-size:12.5px}
+.gantt .lbl{padding:6px 8px;border-bottom:1px solid var(--hair);font-weight:600;line-height:1.5}
+.gantt .lbl small{display:block;font-weight:500;color:var(--muted)}
+.gantt .cell{border-bottom:1px solid var(--hair);border-inline-start:1px dashed var(--hair);position:relative;min-height:38px}
+.gantt .barx{position:absolute;inset-block:10px;border-radius:4px;opacity:.92}
+.gantt .ms{position:absolute;top:50%;width:12px;height:12px;transform:translate(50%,-50%) rotate(45deg);background:var(--ink);inset-inline-start:50%}
+.months{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.months .card ul{margin:0;padding-inline-start:18px;display:grid;gap:5px;font-size:14px}
+@media (max-width:900px){.months{grid-template-columns:1fr}}
+</style>
+<section id="s8">
+  <div class="sec-head"><div class="k">۸ · برنامه عملیاتی ۹۰ روزه</div><h2>سه ماه، دوازده هفته، چهارده بسته کاری</h2></div>
+  <div class="months">
+    <div class="card"><span class="chip mon"><i></i>ماه ۱ · ۱۹ مهر تا ۱۶ آبان</span><h3>پایه‌گذاری و کشف</h3><ul><li>GA4، رویداد خرید، خروجی سفارش</li><li>یکی‌سازی داده مشتری همه برندها</li><li>بخش‌بندی هفتگی و فهرست بازگشت</li><li>تماس با ۸۶ عمده تازه‌خاموش</li><li>آزمون قیمت PS میانی</li><li>آماده‌سازی موجودی و صفحه GTA</li><li>ثبت مبنای همه KPIها</li></ul></div>
+    <div class="card"><span class="chip imp"><i></i>ماه ۲ · ۱۷ آبان تا ۱۴ آذر</span><h3>فعال‌سازی و آزمایش</h3><ul><li>عرضه GTA (۲۸ آبان) و بلک‌فرایدی (۶ آذر)</li><li>موج‌های بازگشت At-risk و Dormant</li><li>پروموشن خرید دوم و دو خرید در هفته</li><li>ربات تلگرام نسخه ۱، دستیار پشتیبانی AI</li><li>آزمون اولین خرید بدون تلفن ثابت</li><li>برنامه سطوح خریداران عمده</li></ul></div>
+    <div class="card"><span class="chip good"><i></i>ماه ۳ · ۱۵ آذر تا ۱۲ دی</span><h3>مقیاس و بهینه‌سازی</h3><ul><li>مقیاس برندگان، توقف آزمون‌های ضعیف</li><li>سبد چندکالایی و آستانه سبد</li><li>یلدا (۳۰ آذر) با فلش رویدادی</li><li>یادآوری تمدید اشتراک‌ها</li><li>پیشنهاد کارت بعدی (نسخه قاعده‌محور)</li><li>جمع‌بندی و برنامه فصل بعد</li></ul></div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>نقشه ۱۲ هفته</h3>
+    <div class="basis">هفته ۱ = ۱۹ تا ۲۵ مهر ۱۴۰۵ · ◆ نقطه عطف: عرضه GTA (هفته ۶)، بلک‌فرایدی (هفته ۷)، یلدا (هفته ۱۱)</div>
+    <div class="tbl"><div class="gantt" id="gantt"></div></div>
+  </div>
+
+  <details class="more" style="margin-top:18px" open>
+    <summary>بسته‌های کاری: مسئول، وابستگی، KPI و قاعده تصمیم</summary>
+    <div class="tbl"><table id="t-wp">
+      <thead><tr><th>بسته کاری</th><th>فعالیت</th><th>هدف</th><th>مسئول</th><th>زمان</th><th>وابستگی</th><th>KPI</th><th>بازخورد</th><th>قاعده تصمیم</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </details>
+</section>
+
+<section id="s9">
+  <div class="sec-head"><div class="k">۹ · سیستم آزمایش رشد</div><h2>دوازده آزمایش، مرتب‌شده بر اساس اثر × اطمینان × سهولت</h2>
+    <p>امتیاز هر عامل از ۱ تا ۱۰؛ سهولت = عکس تلاش. پنج آزمایش اول باید در ماه اول شروع شوند.</p></div>
+  <div class="card">
+    <div class="tbl"><table id="t-exp">
+      <thead><tr><th class="n">ICE</th><th>آزمایش</th><th>فرضیه</th><th>بخش هدف</th><th>اهرم</th><th>آزمون و کنترل</th><th>KPI اصلی</th><th>مدت</th><th>آستانه موفقیت</th><th>تصمیم بعدی</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </div>
+</section>
+
+<style>
+.tree{display:grid;gap:14px}
+.tree .root{justify-self:center;background:var(--ink);color:var(--surface);border-radius:10px;padding:10px 20px;font-weight:800;text-align:center}
+.tree .root small{display:block;font-weight:500;opacity:.8;font-size:12px}
+.tree .lvl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tree .node{background:var(--sunk);border-radius:10px;padding:12px;display:grid;gap:6px;align-content:start}
+.tree .node h4{display:flex;justify-content:space-between;gap:8px}
+.tree .node ul{margin:0;padding-inline-start:16px;font-size:13px;display:grid;gap:3px}
+.tree .node .v{font-size:12px;color:var(--muted)}
+.answers{display:grid;gap:12px;counter-reset:q}
+.answers .qa{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:18px 22px;display:grid;gap:8px}
+.answers .qa h3{font-size:16.5px}
+.answers .qa ol,.answers .qa ul{margin:0;padding-inline-start:20px;display:grid;gap:5px;font-size:14.5px}
+.src li{font-size:13.5px;line-height:1.8}
+@media (max-width:900px){.tree .lvl{grid-template-columns:1fr}}
+</style>
+<section id="s10">
+  <div class="sec-head"><div class="k">۱۰ · داشبورد KPI و سیستم مدیریت</div><h2>درخت KPI و جلسه هفتگی رشد</h2></div>
+  <div class="card">
+    <h3>درخت KPI</h3>
+    <div class="basis">ستاره شمالی: معادل دلاری درآمد فصل، با دو شاخص هم‌وزن «تعداد سفارش» و «مشتری فعال». عدد مبنا زیر هر شاخص؛ «—» یعنی امروز قابل اندازه‌گیری نیست.</div>
+    <div class="tree">
+      <div class="root">معادل دلاری درآمد · سفارش · مشتری فعال<small>مبنا: ‎$۴۱۵٫۷ هزار · ≈ ۱۹٬۲۲۰ سفارش · ≈ ۵٬۵۷۰ مشتری (فصل)</small></div>
+      <div class="lvl">
+        <div class="node"><h4>مشتری فعال <span class="v">۳٬۷۲۱ در ۱۳ فایل</span></h4><ul><li>مشتری جدید: ۲۲۳ در ماه</li><li>بازگشتی: ۹۰٪ مشتریان اپل شهریور</li><li>بازگشته (Reactivated): —</li><li>نرخ تکرار ۳۰ روزه مشتری جدید: —</li><li>ماندگاری Power: ۷۵۸ از ۱٬۳۱۵</li></ul></div>
+        <div class="node"><h4>تکرار خرید <span class="v">۳٫۴۵ سفارش در فصل</span></h4><ul><li>سفارش به ازای مشتری در ماه: ۲٫۲۲ (اپل)</li><li>فاصله خرید: میانه ۴۷ روز</li><li>تبدیل پروموشن: —</li><li>تبدیل تلگرام: —</li><li>تمدید اشتراک: —</li></ul></div>
+        <div class="node"><h4>ارزش سفارش <span class="v">‎$۲۱٫۶</span></h4><ul><li>کارت در هر سفارش: ۱٫۱۰</li><li>فروش متقابل: ۱۰٫۸٪ مشتریان چندبرندی</li><li>سهم بسته‌ها: —</li><li>قیمت هر دلار نسبت به معیار: ماهانه</li></ul></div>
+      </div>
+      <div class="lvl">
+        <div class="node"><h4>ترافیک و کشف</h4><ul><li>بازدید به تفکیک کانال: —</li><li>جستجوی داخلی: —</li><li>کلیک از اینستاگرام به خرید: —</li></ul></div>
+        <div class="node"><h4>تبدیل</h4><ul><li>نرخ تبدیل سایت: —</li><li>ریزش در تأیید هویت: —</li><li>پرداخت ناموفق: —</li><li>تبدیل با کمک AI: —</li></ul></div>
+        <div class="node"><h4>سلامت</h4><ul><li>سهم ۱۰٪ مشتریان از سفارش: ۷۰٫۶٪</li><li>سهم پلی‌استیشن میانی: ۶۸۴ کارت در ماه</li><li>هزینه پروموشن ÷ درآمد اضافه: —</li></ul></div>
+      </div>
+    </div>
+    <p class="note">از عمد حذف شده: تعداد عضو کانال، لایک، بازدید پست و درآمد تومانی بدون نرخ. این‌ها می‌توانند بالا بروند بدون اینکه فروش واقعی رشد کند.</p>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>داشبورد هفتگی مدیریت (قالب)</h3>
+    <div class="basis">هر یکشنبه، ۳۰ دقیقه · یک صفحه · مالک: مدیر رشد · اعداد این قالب نمونه‌ای از مبنا و هدف A هستند، نه نتیجه واقعی</div>
+    <div class="tbl"><table>
+      <thead><tr><th>شاخص</th><th class="n">این هفته</th><th class="n">هدف هفته (A)</th><th class="n">فاصله</th><th>چه اتفاقی افتاد؟</th><th>چرا؟</th><th>چه کار کرد / نکرد؟</th><th>هفته بعد چه کنیم؟</th></tr></thead>
+      <tbody>
+        <tr><td>معادل دلاری درآمد</td><td class="n">…</td><td class="n">‎$۴۱٫۶ هزار</td><td class="n">…</td><td colspan="4" rowspan="6" style="color:var(--muted)">برای هر شاخص خارج از ±۱۰٪ هدف: یک علت (داده)، یک اقدام (مسئول + مهلت). اقدام‌های هفته قبل اول بررسی می‌شوند.</td></tr>
+        <tr><td>سفارش</td><td class="n">…</td><td class="n">۱٬۹۲۲</td><td class="n">…</td></tr>
+        <tr><td>مشتری جدید</td><td class="n">…</td><td class="n">۷۷</td><td class="n">…</td></tr>
+        <tr><td>مشتری بازگشته (از فهرست‌ها)</td><td class="n">…</td><td class="n">طبق موج</td><td class="n">…</td></tr>
+        <tr><td>خرید دوم ۳۰ روزه</td><td class="n">…</td><td class="n">۴۰٪</td><td class="n">…</td></tr>
+        <tr><td>آزمایش‌های فعال و نتیجه</td><td class="n">…</td><td class="n">—</td><td class="n">…</td></tr>
+      </tbody>
+    </table></div>
+    <p class="basis">هدف هفتگی A = هدف فصل ÷ ۱۳ هفته (‎$۵۴۰٫۵ هزار و ۲۴٬۹۸۶ سفارش)؛ مشتری جدید = ۲۲۳ × ۱٫۵ ≈ ۳۳۵ در ماه در ۱۳ فایل ≈ ۷۷ در هفته <span class="tag a">ASSUMPTION</span>. در هفته‌های عرضه GTA و بلک‌فرایدی هدف هفته بالاتر تنظیم می‌شود.</p>
+  </div>
+</section>
+
+<section id="s11">
+  <div class="sec-head"><div class="k">۱۱ · ریسک، وابستگی و داده ناقص</div><h2>چه چیزی می‌تواند برنامه را متوقف کند</h2></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>ریسک‌ها</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>ریسک</th><th>اثر</th><th>پیشگیری</th></tr></thead>
+        <tbody>
+          <tr><td><span class="chip crit"><i></i>بالا</span> قطع دوباره اینترنت</td><td>فروش ‎−۸۰٪ (تجربه دی تا خرداد)</td><td>کانال بله و پیامک؛ فهرست تماس به‌روز</td></tr>
+          <tr><td><span class="chip crit"><i></i>بالا</span> جهش نرخ ارز</td><td>افت تقاضا (مهر و دی ۱۴۰۴)</td><td>هدف دلاری؛ به‌روزرسانی روزانه قیمت</td></tr>
+          <tr><td><span class="chip imp"><i></i>متوسط</span> تأخیر یا افت تقاضای GTA</td><td>تا ۱۳٪ از رشد A</td><td>اهرم‌های پایدار مستقل از GTA؛ پیش‌خرید محدود موجودی</td></tr>
+          <tr><td><span class="chip imp"><i></i>متوسط</span> کمبود موجودی PS/Xbox</td><td>از دست رفتن فروش اوج</td><td>تعهد تأمین قبل از هفته ۴</td></tr>
+          <tr><td><span class="chip imp"><i></i>متوسط</span> تقلب پس از ساده‌سازی احراز هویت</td><td>زیان مالی</td><td>سقف مبلغ، فقط خرید اول، پایش روزانه</td></tr>
+          <tr><td><span class="chip imp"><i></i>متوسط</span> فرسایش حاشیه با تخفیف</td><td>رشد بدون سود</td><td>پیشنهاد غیرنقدی، گروه کنترل، سقف بودجه</td></tr>
+          <tr><td><span class="chip mon"><i></i>کم</span> ظرفیت توسعه پلتفرم قدیمی</td><td>تأخیر سبد و ربات</td><td>ترتیب: ردیابی ← خرید دوباره ← سبد</td></tr>
+          <tr><td><span class="chip mon"><i></i>کم</span> وابستگی به چند حساب عمده</td><td>نوسان شدید درآمد</td><td>مدیر حساب؛ برنامه سطوح</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <h3>داده ناقص: چه، چرا، چگونه</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>داده</th><th>چرا مهم است</th><th>چگونه جمع شود</th></tr></thead>
+        <tbody>
+          <tr><td>فایل مشتری PSN آمریکا و استیم</td><td>۳۲٪ درآمد؛ مخاطب اصلی GTA</td><td>همان خروجی EDelivery برای این برندها؛ هفته ۱</td></tr>
+          <tr><td>جدول سفارش‌ها (هر سفارش یک ردیف)</td><td>نرخ تکرار واقعی، اثر پروموشن، کوهورت دقیق</td><td>خروجی پایگاه داده؛ هفته ۱–۲</td></tr>
+          <tr><td>بهای تمام‌شده هر کالا</td><td>سودآوری پروموشن و قیمت</td><td>از واحد مالی، ماهانه</td></tr>
+          <tr><td>ترافیک و تبدیل</td><td>مدل ترافیک × تبدیل</td><td>GA4؛ از هفته ۳</td></tr>
+          <tr><td>آمار تلگرام و اینستاگرام</td><td>سهم کانال از فروش</td><td>آمار داخلی + UTM و کد اختصاصی</td></tr>
+          <tr><td>تأیید معنی «کارمزد درگاه»</td><td>مبنای شمارش سفارش</td><td>تأیید واحد مالی</td></tr>
+          <tr><td>سابقه پروموشن‌ها</td><td>کدام پیشنهاد واقعاً کار کرده</td><td>ثبت در تقویم پروموشن از هفته ۲</td></tr>
+          <tr><td>علت ترک خریداران عمده</td><td>طراحی پیشنهاد بازگشت</td><td>تماس فروش در هفته ۳ و ۴</td></tr>
+        </tbody>
+      </table></div>
+      <p class="basis">تعارض‌های ثبت‌شده: نام فایل‌ها «۱۴۰۰» است اما داده از ۱۱ دی ۱۴۰۰ شروع می‌شود؛ معنی ستون «مبلغ رایج» روشن نیست و استفاده نشد؛ ۷ کلید تکراری درون فایل‌ها حذف شد.</p>
+    </div>
+  </div>
+</section>
+
+<section id="s12">
+  <div class="sec-head"><div class="k">۱۲ · تصمیمات فوری مدیریت</div><h2>پاسخ به شش پرسش مدیریت</h2></div>
+  <div class="answers">
+    <div class="qa"><h3>۱. کجا درآمد از دست می‌رود؟</h3><ul>
+      <li><b>خریداران عمده خاموش:</b> ۵۵۷ حساب، ۱۸٪ خرید تاریخی؛ تا ‎$۳۹ هزار در ماه پتانسیل.</li>
+      <li><b>مشتری جدید که برنمی‌گردد:</b> ۶۰ تا ۶۳٪ کوهورت‌های ۱۴۰۴ و ۱۴۰۵ یک‌بار خرید.</li>
+      <li><b>جذبی که خاموش شده:</b> ۱۷۰ مشتری جدید در ماه در برابر ۵۲۴ در ۱۴۰۲.</li>
+      <li><b>کارت‌های میانی پلی‌استیشن:</b> حدود ۶۷۰ کارت در ماه کمتر از تابستان ۱۴۰۴.</li>
+      <li><b>سایت:</b> بدون آنالیتیکس، با تأیید تلفن ثابت، بدون سبد و خرید دوباره؛ و ارجاع آمازون و ریزر به سایت دیگر.</li></ul></div>
+    <div class="qa"><h3>۲. پنج اهرم با بیشترین اثر در ۹۰ روز</h3><ol>
+      <li>کمپین GTA با بسته ۸۰ دلاری (یک‌باره، ‎+۱۲٫۵٪ در A)</li>
+      <li>بازگرداندن خریداران عمده، At-risk و خفته‌ها (‎+۹٫۳٪)</li>
+      <li>تکرار خرید مشتریان فعال و سهم کیف پول عمده‌ها (‎+۷٫۸٪)</li>
+      <li>سبد چندکالایی و بسته‌ها (‎+۵٪ ارزش سفارش)</li>
+      <li>اصلاح قیمت PS میانی و جذب از GTA (‎+۵٫۵٪)</li></ol></div>
+    <div class="qa"><h3>۳. چه ترکیبی ‎۳۰، ۴۰ و ۶۰٪ را می‌سازد؟</h3><p id="ans3" style="font-size:14.5px"></p></div>
+    <div class="qa"><h3>۴. زیرساخت فوری</h3><ul>
+      <li>GA4 و رویداد خرید؛ ثبت کانال و کد تخفیف در هر سفارش</li>
+      <li>خروجی سفارش‌محور و فایل مشتری PSN آمریکا و استیم</li>
+      <li>بخش‌بندی هفتگی + پیامک + ربات تلگرام و بله</li>
+      <li>دکمه خرید دوباره، سپس سبد چندکالایی</li></ul></div>
+    <div class="qa"><h3>۵. تصمیم‌هایی که امروز لازم است</h3><ol>
+      <li>تعهد رسمی به سناریو A (‎+۳۰٪ دلاری و سفارش)؛ B به‌عنوان هدف کششی؛ C کنار گذاشته شود.</li>
+      <li>تعریف هدف‌ها به دلار و سفارش، نه تومان.</li>
+      <li>تأیید آزمون خرید اول بدون تلفن ثابت با سقف ‎$۲۵.</li>
+      <li>تأیید آزمون قیمت PS میانی و پیش‌خرید موجودی GTA.</li>
+      <li>سقف بودجه پروموشن و الزام گروه کنترل برای هر پیشنهاد.</li>
+      <li>تعیین مسئول CRM تمام‌وقت و یک نیروی فروش برای حساب‌های عمده.</li>
+      <li>جلسه هفتگی رشد با داشبورد یک‌صفحه‌ای.</li></ol></div>
+    <div class="qa"><h3>۶. ده اقدام هفته آینده</h3><ol>
+      <li>نصب GA4 و GTM؛ تعریف رویداد خرید (توسعه)</li>
+      <li>گرفتن خروجی مشتری PSN آمریکا و استیم و جدول سفارش‌ها (فنی)</li>
+      <li>ساخت فهرست ۸۶ عمده تازه‌خاموش و شروع تماس (فروش)</li>
+      <li>تأیید موجودی و قیمت خرید کارت‌های ۷۵ و ۱۰۰ دلاری PSN/Xbox (تأمین)</li>
+      <li>طراحی صفحه فرود و لیست انتظار GTA (بازاریابی)</li>
+      <li>مقایسه قیمت ۱۰ تا ۴۰ دلاری PS با سه رقیب (تجاری)</li>
+      <li>نوشتن قواعد پروموشن و گروه کنترل (CRM)</li>
+      <li>راه‌اندازی کانال پشتیبان در بله (شبکه اجتماعی)</li>
+      <li>تعیین تکلیف لینک‌های gamecode.ir (مدیریت)</li>
+      <li>ثبت مبنای همه KPIها در داشبورد هفتگی (مدیر رشد)</li></ol></div>
+  </div>
+
+  <details class="more" style="margin-top:18px" open>
+    <summary>منابع بیرونی</summary>
+    <div><ol class="src">
+      <li><a href="https://en.wikipedia.org/wiki/2026_Internet_blackout_in_Iran" target="_blank" rel="noopener">2026 Internet blackout in Iran · Wikipedia</a></li>
+      <li><a href="https://www.news4jax.com/news/world/2026/01/20/internet-shutdown-squeezes-irans-ailing-businesses-already-hurt-by-crashing-currency/" target="_blank" rel="noopener">Internet shutdown squeezes Iran's ailing businesses · AP</a></li>
+      <li><a href="https://www.zoomit.ir/tech-iran/427380-most-used-social-media-by-iranian-users/" target="_blank" rel="noopener">نظرسنجی ایسپا درباره پیام‌رسان‌ها · زومیت</a></li>
+      <li><a href="https://www.pcgamesn.com/grand-theft-auto-vi/gta-6-release-date" target="_blank" rel="noopener">GTA 6 release date · PCGamesN</a></li>
+      <li><a href="https://arynews.tv/take-two-prices-grand-theft-auto-vi-at-79-99" target="_blank" rel="noopener">Take-Two prices GTA VI at $79.99 · ARY News</a></li>
+      <li><a href="https://support.google.com/analytics/answer/11583528?hl=en" target="_blank" rel="noopener">Universal Analytics sunset · Google</a></li>
+      <li><a href="https://hbr.org/2014/10/the-value-of-keeping-the-right-customers" target="_blank" rel="noopener">The Value of Keeping the Right Customers · HBR</a></li>
+      <li><a href="https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/the-value-of-getting-personalization-right-or-wrong-is-multiplying" target="_blank" rel="noopener">The value of getting personalization right · McKinsey</a></li>
+      <li>صفحه اصلی giftcard.ir، gamecode.ir و giftmax.ir · بررسی HTML در ۱۴ مهر ۱۴۰۵</li>
+      <li><a href="https://digiato.com/promoted/buy-a-cheap-gift-card-from-a-reputable-site" target="_blank" rel="noopener">رپورتاژ رقبای گیفت کارت · دیجیاتو</a></li>
+    </ol></div>
+  </details>
+  <footer style="margin-top:36px;padding-top:16px;border-top:1px solid var(--hair);font-size:12.5px;color:var(--muted)">منابع داده: ۱۶ فایل اکسل پوشه sales mehran files · تحلیل ۱۴ مهر ۱۴۰۵</footer>
+</section>
+</main>
+</div>
+<button class="printbtn" type="button" onclick="window.print()">چاپ / ذخیره PDF</button>
+
+<script>
+const D = {"months": ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند", "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور"], "rev": [15.463, 15.051, 14.986, 16.39, 19.17, 19.524, 15.682, 17.853, 22.68, 10.62, 16.811, 6.714, 4.902, 9.998, 21.433, 28.573, 26.565, 30.717], "units": [8124, 9121, 8495, 8761, 9708, 9002, 6342, 8046, 9300, 4209, 5415, 2172, 1496, 2800, 6588, 7503, 6892, 6696], "usdeq": [148958, 175692, 173644, 178963, 206196, 190657, 139923, 159831, 185163, 74691, 101175, 38285, 28718, 53609, 116775, 152155, 133065, 130520], "rate": [103808, 85667, 86303, 91583, 92970, 102404, 112076, 111699, 122487, 142185, 166158, 175368, 170692, 186500, 183541, 187789, 199640, 235344], "new_keys": [140201, 140202, 140203, 140204, 140205, 140206, 140207, 140208, 140209, 140210, 140211, 140212, 140301, 140302, 140303, 140304, 140305, 140306, 140307, 140308, 140309, 140310, 140311, 140312, 140401, 140402, 140403, 140404, 140405, 140406, 140407, 140408, 140409, 140410, 140411, 140412, 140501, 140502, 140503, 140504, 140505, 140506], "new_series": [777, 492, 557, 603, 592, 524, 454, 535, 446, 471, 422, 418, 389, 363, 387, 356, 349, 310, 255, 232, 239, 222, 238, 294, 266, 351, 360, 351, 352, 216, 164, 215, 247, 115, 179, 35, 52, 89, 212, 267, 192, 211], "recency": {"≤۳۰ روز": 1992, "۳۱–۹۰": 1680, "۹۱–۱۸۰": 1036, "۱۸۱–۳۶۵": 2498, "۱–۲ سال": 5324, ">۲ سال": 22319}, "brand_share": [["Apple", 59.4], ["PlayStation", 30.6], ["Steam", 4.7], ["Xbox", 1.2], ["Nintendo", 0.9], ["Telegram", 0.8], ["Roblox", 0.7], ["سایر", 1.8]], "segments": {"At-risk": {"cust": 1469.0, "orders": 23240.0, "amt": 29985999180.0, "med_n": 12.0, "med_rec": 272.0, "shah": 0.0, "shah_c": 0.0, "apple": 0.9, "files": 1.36, "cust%": 4.22, "amt%": 6.65, "orders%": 6.5, "shah%": 0.0, "aov": 1290275.35}, "Champions": {"cust": 1282.0, "orders": 32713.0, "amt": 62774716960.0, "med_n": 23.0, "med_rec": 20.0, "shah": 6553954710.0, "shah_c": 834.0, "apple": 0.97, "files": 1.42, "cust%": 3.68, "amt%": 13.92, "orders%": 9.16, "shah%": 37.46, "aov": 1918953.23}, "Dormant (1-2y)": {"cust": 5073.0, "orders": 34476.0, "amt": 33475796095.0, "med_n": 2.0, "med_rec": 535.0, "shah": 0.0, "shah_c": 0.0, "apple": 0.77, "files": 1.18, "cust%": 14.56, "amt%": 7.42, "orders%": 9.65, "shah%": 0.0, "aov": 970988.4}, "Lapsed power buyers": {"cust": 557.0, "orders": 67127.0, "amt": 81560315695.0, "med_n": 77.0, "med_rec": 334.0, "shah": 0.0, "shah_c": 0.0, "apple": 0.98, "files": 1.61, "cust%": 1.6, "amt%": 18.08, "orders%": 18.79, "shah%": 0.0, "aov": 1215015.06}, "Lost (>2y)": {"cust": 22319.0, "orders": 75131.0, "amt": 44856562590.0, "med_n": 1.0, "med_rec": 1343.0, "shah": 0.0, "shah_c": 0.0, "apple": 0.68, "files": 1.07, "cust%": 64.04, "amt%": 9.95, "orders%": 21.03, "shah%": 0.0, "aov": 597044.66}, "Loyal": {"cust": 1147.0, "orders": 16171.0, "amt": 25128957950.0, "med_n": 9.0, "med_rec": 75.0, "shah": 941429300.0, "shah_c": 177.0, "apple": 0.93, "files": 1.32, "cust%": 3.29, "amt%": 5.57, "orders%": 4.53, "shah%": 5.38, "aov": 1553952.01}, "New": {"cust": 670.0, "orders": 1197.0, "amt": 4528565060.0, "med_n": 1.0, "med_rec": 37.0, "shah": 1060031200.0, "shah_c": 241.0, "apple": 0.8, "files": 1.02, "cust%": 1.92, "amt%": 1.0, "orders%": 0.34, "shah%": 6.06, "aov": 3783262.37}, "Occasional (2-3)": {"cust": 491.0, "orders": 1170.0, "amt": 2072084240.0, "med_n": 2.0, "med_rec": 283.0, "shah": 0.0, "shah_c": 0.0, "apple": 0.81, "files": 1.13, "cust%": 1.41, "amt%": 0.46, "orders%": 0.33, "shah%": 0.0, "aov": 1771012.17}, "One-time 4-12m": {"cust": 676.0, "orders": 676.0, "amt": 1028643190.0, "med_n": 1.0, "med_rec": 283.5, "shah": 0.0, "shah_c": 0.0, "apple": 0.72, "files": 1.0, "cust%": 1.94, "amt%": 0.23, "orders%": 0.19, "shah%": 0.0, "aov": 1521661.52}, "Power buyers (B2B-like)": {"cust": 758.0, "orders": 104558.0, "amt": 163883240340.0, "med_n": 88.0, "med_rec": 16.0, "shah": 8788130410.0, "shah_c": 533.0, "apple": 0.99, "files": 1.73, "cust%": 2.18, "amt%": 36.34, "orders%": 29.26, "shah%": 50.23, "aov": 1567390.73}, "Promising (2-3)": {"cust": 293.0, "orders": 719.0, "amt": 1485149040.0, "med_n": 2.0, "med_rec": 71.0, "shah": 153876430.0, "shah_c": 55.0, "apple": 0.86, "files": 1.15, "cust%": 0.84, "amt%": 0.33, "orders%": 0.2, "shah%": 0.88, "aov": 2065575.86}, "Recent one-time": {"cust": 114.0, "orders": 114.0, "amt": 228880300.0, "med_n": 1.0, "med_rec": 110.0, "shah": 0.0, "shah_c": 0.0, "apple": 0.76, "files": 1.0, "cust%": 0.33, "amt%": 0.05, "orders%": 0.03, "shah%": 0.0, "aov": 2007721.93}}, "cohorts": {"1400": {"cust": 7387, "one": 26.0, "act": 15.1, "opc": 25.8}, "1401": {"cust": 13663, "one": 48.8, "act": 6.2, "opc": 7.2}, "1402": {"cust": 6291, "one": 57.5, "act": 5.6, "opc": 6.1}, "1403": {"cust": 3634, "one": 55.9, "act": 7.9, "opc": 5.1}, "1404": {"cust": 2851, "one": 60.0, "act": 12.1, "opc": 3.2}, "1405": {"cust": 1023, "one": 63.4, "act": 75.4, "opc": 2.1}}, "model": {"base": {"usd": 415739, "units": 21091, "orders": 19220, "active": 5570, "freq": 3.4504101481564966, "aov": 21.630513875188136, "rev_toman": 85860000000.0, "rate": 235344}, "scen": {"CAP": {"assump": {"target": 0, "lp": 0.15, "ar": 0.1, "do": 0.02, "lo": 0.005, "freq": 0.06, "pw": 0.05, "new": 0.3, "ps": 0.2, "gta": 300, "aov": 0.02}, "blocks": [{"name": "headwind", "usd": -41574, "orders": -1922, "kind": "risk", "basis": "ASSUMPTION: فصل پاییز ۱۴۰۴ ‎−۱۵٫۸٪؛ فرض مرکزی ‎−۱۰٪"}, {"name": "react_power", "usd": 10515, "orders": 568, "kind": "reactivation", "basis": "557 مشتری × 15% × $70/ماه × ۲ ماه × ۶۰٪ شدت"}, {"name": "react_atrisk", "usd": 11015, "orders": 509, "kind": "reactivation", "basis": "1469 × 10% × $33/ماه × ۱٫۵ ماه"}, {"name": "react_dormant", "usd": 7776, "orders": 360, "kind": "reactivation", "basis": "خفته 5,073×2%×$27 + ازدست‌رفته 22,319×0.5%×$22"}, {"name": "frequency", "usd": 11724, "orders": 542, "kind": "frequency", "basis": "6% سفارش بیشتر روی ۴۷٪ درآمدِ مشتریان بازگشتی غیرعمده"}, {"name": "power", "usd": 9354, "orders": 505, "kind": "frequency", "basis": "5% سهم کیف پول بیشتر از خریداران عمده (≈۴۵٪ درآمد)"}, {"name": "acquisition", "usd": 6813, "orders": 406, "kind": "acquisition", "basis": "670 مشتری جدید/فصل × 30% رشد × $17 × ۱٫۳۵"}, {"name": "ps_recovery", "usd": 6542, "orders": 368, "kind": "conversion", "basis": "بازگشت 20% از شکاف ۶۷۳ کارت/ماه PS میانی × $16.2"}, {"name": "gta", "usd": 24000, "orders": 300, "kind": "campaign", "basis": "300 خرید بسته GTA ‎$80 (یک‌باره)"}, {"name": "aov", "usd": 8315, "orders": 0, "kind": "aov", "basis": "2% افزایش ارزش سفارش با سبد چندکارتی و باندل"}], "usd_growth": 0.13104375581795308, "ord_growth": 0.08511955986762798, "sustainable": 0.07331522902590328, "target_usd": 415739, "target_ord": 19220.024193548386}, "A": {"assump": {"target": 0.3, "lp": 0.2, "ar": 0.12, "do": 0.03, "lo": 0.007, "freq": 0.09, "pw": 0.08, "new": 0.5, "ps": 0.35, "gta": 650, "aov": 0.05}, "blocks": [{"name": "headwind", "usd": -41574, "orders": -1922, "kind": "risk", "basis": "ASSUMPTION: فصل پاییز ۱۴۰۴ ‎−۱۵٫۸٪؛ فرض مرکزی ‎−۱۰٪"}, {"name": "react_power", "usd": 14020, "orders": 758, "kind": "reactivation", "basis": "557 مشتری × 20% × $70/ماه × ۲ ماه × ۶۰٪ شدت"}, {"name": "react_atrisk", "usd": 13218, "orders": 611, "kind": "reactivation", "basis": "1469 × 12% × $33/ماه × ۱٫۵ ماه"}, {"name": "react_dormant", "usd": 11297, "orders": 522, "kind": "reactivation", "basis": "خفته 5,073×3%×$27 + ازدست‌رفته 22,319×0.7%×$22"}, {"name": "frequency", "usd": 17586, "orders": 813, "kind": "frequency", "basis": "9% سفارش بیشتر روی ۴۷٪ درآمدِ مشتریان بازگشتی غیرعمده"}, {"name": "power", "usd": 14967, "orders": 809, "kind": "frequency", "basis": "8% سهم کیف پول بیشتر از خریداران عمده (≈۴۵٪ درآمد)"}, {"name": "acquisition", "usd": 11355, "orders": 677, "kind": "acquisition", "basis": "670 مشتری جدید/فصل × 50% رشد × $17 × ۱٫۳۵"}, {"name": "ps_recovery", "usd": 11448, "orders": 644, "kind": "conversion", "basis": "بازگشت 35% از شکاف ۶۷۳ کارت/ماه PS میانی × $16.2"}, {"name": "gta", "usd": 52000, "orders": 650, "kind": "campaign", "basis": "650 خرید بسته GTA ‎$80 (یک‌باره)"}, {"name": "aov", "usd": 20787, "orders": 0, "kind": "aov", "basis": "5% افزایش ارزش سفارش با سبد چندکارتی و باندل"}, {"name": "micro", "usd": 13224, "orders": 2204, "kind": "frequency", "basis": "2,204 سفارش کم‌مبلغ اضافه (کارت ۱ تا ۵ دلاری، استار تلگرام) × ‎$6"}], "usd_growth": 0.33272798558711114, "ord_growth": 0.2999996223696473, "sustainable": 0.2076495108710032, "target_usd": 540460.7000000001, "target_ord": 24986.031451612904}, "B": {"assump": {"target": 0.4, "lp": 0.25, "ar": 0.15, "do": 0.04, "lo": 0.01, "freq": 0.12, "pw": 0.12, "new": 0.8, "ps": 0.45, "gta": 700, "aov": 0.06}, "blocks": [{"name": "headwind", "usd": -41574, "orders": -1922, "kind": "risk", "basis": "ASSUMPTION: فصل پاییز ۱۴۰۴ ‎−۱۵٫۸٪؛ فرض مرکزی ‎−۱۰٪"}, {"name": "react_power", "usd": 17525, "orders": 947, "kind": "reactivation", "basis": "557 مشتری × 25% × $70/ماه × ۲ ماه × ۶۰٪ شدت"}, {"name": "react_atrisk", "usd": 16522, "orders": 764, "kind": "reactivation", "basis": "1469 × 15% × $33/ماه × ۱٫۵ ماه"}, {"name": "react_dormant", "usd": 15552, "orders": 719, "kind": "reactivation", "basis": "خفته 5,073×4%×$27 + ازدست‌رفته 22,319×1.0%×$22"}, {"name": "frequency", "usd": 23448, "orders": 1084, "kind": "frequency", "basis": "12% سفارش بیشتر روی ۴۷٪ درآمدِ مشتریان بازگشتی غیرعمده"}, {"name": "power", "usd": 22450, "orders": 1213, "kind": "frequency", "basis": "12% سهم کیف پول بیشتر از خریداران عمده (≈۴۵٪ درآمد)"}, {"name": "acquisition", "usd": 18168, "orders": 1083, "kind": "acquisition", "basis": "670 مشتری جدید/فصل × 80% رشد × $17 × ۱٫۳۵"}, {"name": "ps_recovery", "usd": 14719, "orders": 828, "kind": "conversion", "basis": "بازگشت 45% از شکاف ۶۷۳ کارت/ماه PS میانی × $16.2"}, {"name": "gta", "usd": 56000, "orders": 700, "kind": "campaign", "basis": "700 خرید بسته GTA ‎$80 (یک‌باره)"}, {"name": "aov", "usd": 24944, "orders": 0, "kind": "aov", "basis": "6% افزایش ارزش سفارش با سبد چندکارتی و باندل"}, {"name": "micro", "usd": 13632, "orders": 2272, "kind": "frequency", "basis": "2,272 سفارش کم‌مبلغ اضافه (کارت ۱ تا ۵ دلاری، استار تلگرام) × ‎$6"}], "usd_growth": 0.43629777336261455, "ord_growth": 0.39999949649286304, "sustainable": 0.3015978775144983, "target_usd": 582034.6, "target_ord": 26908.033870967738}, "C": {"assump": {"target": 0.6, "lp": 0.35, "ar": 0.2, "do": 0.05, "lo": 0.015, "freq": 0.16, "pw": 0.16, "new": 1.5, "ps": 0.6, "gta": 950, "aov": 0.08}, "blocks": [{"name": "headwind", "usd": -41574, "orders": -1922, "kind": "risk", "basis": "ASSUMPTION: فصل پاییز ۱۴۰۴ ‎−۱۵٫۸٪؛ فرض مرکزی ‎−۱۰٪"}, {"name": "react_power", "usd": 24535, "orders": 1326, "kind": "reactivation", "basis": "557 مشتری × 35% × $70/ماه × ۲ ماه × ۶۰٪ شدت"}, {"name": "react_atrisk", "usd": 22029, "orders": 1018, "kind": "reactivation", "basis": "1469 × 20% × $33/ماه × ۱٫۵ ماه"}, {"name": "react_dormant", "usd": 21278, "orders": 984, "kind": "reactivation", "basis": "خفته 5,073×5%×$27 + ازدست‌رفته 22,319×1.5%×$22"}, {"name": "frequency", "usd": 31264, "orders": 1445, "kind": "frequency", "basis": "16% سفارش بیشتر روی ۴۷٪ درآمدِ مشتریان بازگشتی غیرعمده"}, {"name": "power", "usd": 29933, "orders": 1617, "kind": "frequency", "basis": "16% سهم کیف پول بیشتر از خریداران عمده (≈۴۵٪ درآمد)"}, {"name": "acquisition", "usd": 34065, "orders": 2031, "kind": "acquisition", "basis": "670 مشتری جدید/فصل × 150% رشد × $17 × ۱٫۳۵"}, {"name": "ps_recovery", "usd": 19625, "orders": 1104, "kind": "conversion", "basis": "بازگشت 60% از شکاف ۶۷۳ کارت/ماه PS میانی × $16.2"}, {"name": "gta", "usd": 76000, "orders": 950, "kind": "campaign", "basis": "950 خرید بسته GTA ‎$80 (یک‌باره)"}, {"name": "aov", "usd": 33259, "orders": 0, "kind": "aov", "basis": "8% افزایش ارزش سفارش با سبد چندکارتی و باندل"}, {"name": "micro", "usd": 17874, "orders": 2979, "kind": "frequency", "basis": "2,979 سفارش کم‌مبلغ اضافه (کارت ۱ تا ۵ دلاری، استار تلگرام) × ‎$6"}], "usd_growth": 0.6453279581660609, "ord_growth": 0.5999992447392946, "sustainable": 0.46252095665790316, "target_usd": 665182.4, "target_ord": 30752.03870967742}}, "inputs": {"power_m": 70.05831836821326, "champ_m": 33.39160203552434, "new_m": 16.772138751029225, "power_aov": 18.50588816862976}}};
+const M = D.model, B = M.base, SC = M.scen;
+const NS = 'http://www.w3.org/2000/svg';
+const fa = (v, d = 0) => new Intl.NumberFormat('fa-IR', { maximumFractionDigits: d, minimumFractionDigits: d }).format(v);
+const pct = (v, d = 1) => (v > 0 ? '‎+' : v < 0 ? '‎−' : '') + fa(Math.abs(v), d) + '٪';
+function el(tag, a, p) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in a) { if (k === 'text') e.textContent = a[k]; else e.setAttribute(k, a[k]); }
+  if (tag === 'text') {
+    const an = e.getAttribute('text-anchor') || 'start';
+    e.setAttribute('direction', 'rtl'); e.setAttribute('unicode-bidi', 'embed');
+    e.setAttribute('text-anchor', an === 'start' ? 'end' : an === 'end' ? 'start' : 'middle');
+  }
+  if (p) p.appendChild(e); return e;
+}
+function svg(id, h) {
+  const box = document.getElementById(id); box.innerHTML = '';
+  const w = Math.max(280, Math.floor(box.clientWidth));
+  const s = el('svg', { viewBox: `0 0 ${w} ${h}`, width: w, height: h, direction: 'ltr', role: 'img' }, box);
+  return { s, w, h };
+}
+const tip = document.createElement('div'); tip.className = 'tip'; document.body.appendChild(tip);
+function showTip(ev, html) {
+  tip.innerHTML = html; tip.style.opacity = 1;
+  const r = tip.getBoundingClientRect(); let L = ev.clientX - r.width - 14; if (L < 8) L = ev.clientX + 14;
+  let T = ev.clientY + 14; if (T + r.height > innerHeight - 8) T = ev.clientY - r.height - 14;
+  tip.style.left = L + 'px'; tip.style.top = T + 'px';
+}
+const hideTip = () => { tip.style.opacity = 0; };
+function hov(node, html) { node.addEventListener('mousemove', ev => showTip(ev, html)); node.addEventListener('mouseleave', hideTip); }
+function nice(x) { const p = Math.pow(10, Math.floor(Math.log10(x))); const n = x / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p; }
+function ticks(max, n = 4) { const st = nice(max / n); const hi = Math.ceil(max / st) * st; const t = []; for (let v = 0; v <= hi + 1e-9; v += st) t.push(v); return { hi, t }; }
+
+/* generic vertical bar chart, RTL: first item on the right */
+function vbars(id, h, vals, labels, o = {}) {
+  const { s, w } = svg(id, h); const P = { t: 18, r: 46, b: o.b || 40, l: 8 };
+  const pw = w - P.l - P.r, ph = h - P.t - P.b, n = vals.length, st = pw / n;
+  const x = i => P.l + pw - (i + 0.5) * st; const T = ticks(Math.max(...vals)); const y = v => P.t + ph - v / T.hi * ph;
+  if (o.band) el('rect', { x: x(o.band[1]) - st / 2, y: P.t, width: st * (o.band[1] - o.band[0] + 1), height: ph, style: 'fill:var(--sunk)' }, s);
+  const g = el('g', { class: 'grid' }, s);
+  T.t.forEach(v => { el('line', { x1: P.l, x2: P.l + pw, y1: y(v), y2: y(v) }, g); el('text', { x: P.l + pw + 6, y: y(v) + 4, text: (o.yfmt || fa)(v) }, s); });
+  const bw = Math.max(3, st * (o.bw || 0.64));
+  vals.forEach((v, i) => {
+    const col = typeof o.col === 'function' ? o.col(i) : (o.col || 'var(--s1)');
+    const r = el('rect', { x: x(i) - bw / 2, y: y(v), width: bw, height: Math.max(0, y(0) - y(v)), rx: 2, style: `fill:${col}` }, s);
+    if (o.tip) hov(r, o.tip(i));
+    if (o.labelAt && o.labelAt.includes(i)) el('text', { x: x(i), y: y(v) - 6, 'text-anchor': 'middle', class: 'lab', text: (o.vfmt || fa)(v) }, s);
+  });
+  el('line', { x1: P.l, x2: P.l + pw, y1: y(0), y2: y(0), class: 'base' }, s);
+  const every = o.every || Math.ceil(54 / st);
+  labels.forEach((l, i) => { if (l && (i % every === 0 || (o.forceLab && o.forceLab.includes(i)))) el('text', { x: x(i), y: P.t + ph + 16, 'text-anchor': 'middle', text: l }, s); });
+  if (o.sub) o.sub.forEach(([i, t]) => el('text', { x: x(i), y: P.t + ph + 33, 'text-anchor': 'middle', class: 'lab', text: t }, s));
+  return { s, x, y, st, P, pw, ph };
+}
+/* horizontal bars, labels on the right */
+function hbars(id, rows, o = {}) {
+  const rh = o.rh || 28, h = rows.length * rh + 8; const { s, w } = svg(id, h);
+  const lw = o.lw || 110, pr = w - lw, pl = 46, max = o.max || Math.max(...rows.map(r => r[1]));
+  const X = v => pr - v / max * (pr - pl);
+  rows.forEach((r, i) => {
+    const yc = 4 + i * rh + rh / 2;
+    el('text', { x: w - 2, y: yc + 4, 'text-anchor': 'end', class: 'lab', text: r[0] }, s);
+    const b = el('rect', { x: X(r[1]), y: yc - 8, width: pr - X(r[1]), height: 16, rx: 2, style: `fill:${r[2] || 'var(--s1)'}` }, s);
+    el('text', { x: X(r[1]) - 6, y: yc + 4, 'text-anchor': 'end', text: (o.fmt || fa)(r[1]) }, s);
+    if (r[3]) hov(b, r[3]);
+  });
+  el('line', { x1: pr, x2: pr, y1: 2, y2: h - 2, class: 'base' }, s);
+}
+
+/* 1 · trend */
+const TR = {
+  rev: { v: D.rev, f: v => fa(v, 1), u: 'میلیارد تومان', basis: 'درآمد تومانی (میلیارد) · فروردین ۱۴۰۴ تا شهریور ۱۴۰۵ · منبع: Gozaresh 17 Mah + Forooshe shahrivar 1405' },
+  usdeq: { v: D.usdeq.map(x => x / 1000), f: v => fa(v, 1), u: 'هزار دلار', basis: 'معادل دلاری (درآمد ÷ قیمت هر دلار کارت‌های آمریکایی همان ماه، هزار دلار) · فروردین ۱۴۰۴ تا شهریور ۱۴۰۵ · منبع: Gozaresh 17 Mah + Forooshe shahrivar 1405' },
+  units: { v: D.units, f: v => fa(v), u: 'کارت', basis: 'تعداد کارت فروخته‌شده · فروردین ۱۴۰۴ تا شهریور ۱۴۰۵ · منبع: Gozaresh 17 Mah + Forooshe shahrivar 1405' }
+};
+let trendK = 'usdeq';
+function cTrend() {
+  const t = TR[trendK];
+  document.getElementById('trend-basis').innerHTML = t.basis + ' <span class="tag d">DATA</span>';
+  const yr = i => (i < 12 ? '۱۴۰۴' : '۱۴۰۵');
+  const mx = t.v.indexOf(Math.max(...t.v));
+  vbars('c-trend', 280, t.v, D.months, {
+    band: [9, 13], every: 1, labelAt: [mx, 17], vfmt: t.f, b: 48, sub: [[0, '۱۴۰۴'], [12, '۱۴۰۵']],
+    col: i => i >= 15 ? 'var(--s1)' : 'color-mix(in srgb, var(--s1) 55%, var(--surface))',
+    tip: i => `<b>${D.months[i]} ${yr(i)}</b><br>درآمد: ${fa(D.rev[i], 2)} میلیارد تومان<br>معادل دلاری: ${fa(D.usdeq[i])} دلار<br>کارت: ${fa(D.units[i])}<br>قیمت هر دلار: ${fa(D.rate[i])} تومان`
+  });
+}
+/* 2 · new customers */
+function cNew() {
+  const k = D.new_keys, v = D.new_series;
+  const MS = ['فرو', 'ارد', 'خرد', 'تیر', 'مرد', 'شهر', 'مهر', 'آبا', 'آذر', 'دی', 'بهم', 'اسف'];
+  const lab = k.map(x => x % 100 === 1 ? (Math.floor(x / 100) + '').replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]) : '');
+  const F = vbars('c-new', 240, v, lab, { every: 1, bw: 0.7, col: i => k[i] >= 140504 ? 'var(--s3)' : 'var(--s1)', tip: i => `<b>${MS[k[i] % 100 - 1]} ${fa(Math.floor(k[i] / 100))}</b><br>مشتری جدید: ${fa(v[i])}` });
+  const AV = { 1402: 524, 1403: 303, 1404: 238, 1405: 170 };
+  Object.entries(AV).forEach(([yy, a]) => {
+    const idx = k.map((x, i) => [x, i]).filter(([x]) => Math.floor(x / 100) == yy).map(([, i]) => i);
+    const x1 = F.x(idx[0]) + F.st / 2, x2 = F.x(idx[idx.length - 1]) - F.st / 2;
+    el('line', { x1, x2, y1: F.y(a), y2: F.y(a), style: 'stroke:var(--ink);stroke-width:1.5' }, F.s);
+    el('text', { x: (x1 + x2) / 2, y: F.y(a) - 6, 'text-anchor': 'middle', class: 'lab', text: 'میانگین ' + fa(a) }, F.s);
+  });
+}
+/* 3 · new vs returning */
+function cNvr() {
+  const rows = [['مشتریان', 180, 1660, 'نفر'], ['سفارش‌ها', 240, 3836, 'سفارش'], ['درآمد', 0.71, 16.79, 'میلیارد تومان']];
+  const rh = 40, h = rows.length * rh + 8; const { s, w } = svg('c-nvr', h); const lw = 70, pr = w - lw, pl = 4, pw = pr - pl;
+  rows.forEach((r, i) => {
+    const yc = 4 + i * rh + rh / 2, tot = r[1] + r[2], a = r[1] / tot, x1 = pr - a * pw;
+    el('text', { x: w - 2, y: yc + 4, 'text-anchor': 'end', class: 'lab', text: r[0] }, s);
+    const n1 = el('rect', { x: x1 + 1, y: yc - 11, width: Math.max(1, pr - x1 - 1), height: 22, rx: 2, style: 'fill:var(--s3)' }, s);
+    const n2 = el('rect', { x: pl, y: yc - 11, width: x1 - pl - 1, height: 22, rx: 2, style: 'fill:var(--s1)' }, s);
+    el('text', { x: x1 - 8, y: yc + 4, 'text-anchor': 'end', style: 'fill:#fff;font-weight:700;font-size:12px', text: 'بازگشتی ' + fa((1 - a) * 100, 1) + '٪' }, s);
+    el('text', { x: x1 - 4, y: yc - 16, 'text-anchor': 'start', class: 'lab', text: 'جدید ' + fa(a * 100, 1) + '٪' }, s);
+    hov(n1, `<b>جدید · ${r[0]}</b><br>${fa(r[1], r[1] < 10 ? 2 : 0)} ${r[3]}`); hov(n2, `<b>بازگشتی · ${r[0]}</b><br>${fa(r[2], r[2] < 100 ? 2 : 0)} ${r[3]}`);
+  });
+}
+/* 4 · brand share, 5 · recency */
+const BRF = { Apple: 'اپل', PlayStation: 'پلی‌استیشن', Steam: 'استیم', Xbox: 'ایکس‌باکس', Nintendo: 'نینتندو', Telegram: 'تلگرام', Roblox: 'روبلاکس' };
+function cBrand() { hbars('c-brand', D.brand_share.map(([k, v]) => [BRF[k] || k, v, k === 'Apple' ? 'var(--s1)' : k === 'PlayStation' ? 'var(--s2)' : 'var(--prior)', `<b>${BRF[k] || k}</b><br>${fa(v, 1)}٪ درآمد فصل`]), { fmt: v => fa(v, 1) + '٪', lw: 90 }); }
+function cRec() {
+  const e = Object.entries(D.recency);
+  vbars('c-rec', 230, e.map(x => x[1]), e.map(x => x[0]), { every: 1, labelAt: [0, 1, 2, 3, 4, 5], col: i => i < 2 ? 'var(--s3)' : i < 4 ? 'var(--s4)' : 'var(--prior)', tip: i => `<b>${e[i][0]}</b><br>${fa(e[i][1])} مشتری` });
+}
+</script>
+
+<script>
+/* ---------- growth model views ---------- */
+const BL = { headwind: 'فصل و بازار (پاییز)', react_power: 'بازگشت خریداران عمده', react_atrisk: 'بازگشت مشتریان در معرض ریزش', react_dormant: 'بازگشت خفته‌ها و ازدست‌رفته‌ها',
+  frequency: 'تکرار خرید مشتریان فعال', power: 'سهم کیف پول خریداران عمده', acquisition: 'جذب مشتری جدید', ps_recovery: 'بازگشت حجم PS میانی (قیمت)',
+  gta: 'کمپین GTA (یک‌باره)', aov: 'سبد چندکالایی و بسته', micro: 'سفارش کم‌مبلغ (تکرار)' };
+const KIND = { risk: ['فصل و بازار', 'var(--neg)'], reactivation: ['بازگشت (Reactivation)', 'var(--s1)'], frequency: ['تکرار (Frequency)', 'var(--s3)'],
+  acquisition: ['جذب (Acquisition)', 'var(--s2)'], conversion: ['تبدیل و قیمت (Conversion)', 'var(--s7)'], campaign: ['کمپین یک‌باره', 'var(--s4)'], aov: ['ارزش سفارش (AOV)', 'var(--s5)'] };
+const RATE_LBL = { ok: ['قابل دستیابی', 'good'], st: ['کششی', 'mon'], hd: ['دشوار', 'crit'], un: ['نامطمئن', 'imp'], ev: ['سطح شواهد', 'good'], as: ['فرض', 'mon'] };
+const RATING = {
+  CAP: k => k === 'headwind' ? 'as' : 'ev',
+  A: k => ({ headwind: 'as', acquisition: 'st', ps_recovery: 'st', gta: 'un', aov: 'st' }[k] || 'ok'),
+  B: k => ({ headwind: 'as', gta: 'un' }[k] || 'st'),
+  C: k => ({ headwind: 'as', gta: 'un', micro: 'st' }[k] || 'hd')
+};
+const PH = { A: [15, 45, 30], B: [22, 58, 40], C: [35, 85, 60] };
+const MB = B.usd / 3 / 1000;
+function derived(k) {
+  const sc = SC[k], a = sc.assump, t = a.target;
+  const tu = B.usd * (1 + t), to = B.orders * (1 + t);
+  const fo = sc.blocks.filter(b => ['frequency', 'power', 'micro'].includes(b.name)).reduce((s, b) => s + b.orders, 0);
+  const fu = fo / B.orders, act = to / (B.freq * (1 + fu));
+  const react = (557 * a.lp + 1469 * a.ar + 5073 * a.do + 22319 * a.lo) / 0.668;
+  const nw = 670 * (1 + a.new) / 0.668;
+  return { tu, to, act, freq: to / act, aov: tu / to, react, nw, units: to * 6696 / 6102, toman: tu * B.rate / 1e9 };
+}
+function tReq() {
+  const d = { A: derived('A'), B: derived('B'), C: derived('C') };
+  const rows = [
+    ['معادل دلاری فصل (هزار دلار)', fa(B.usd / 1000, 1), k => fa(d[k].tu / 1000, 1)],
+    ['تومان با نرخ ثابت شهریور (میلیارد)', fa(B.usd * B.rate / 1e9, 1), k => fa(d[k].toman, 1)],
+    ['سفارش فصل', fa(B.orders), k => fa(d[k].to)],
+    ['کارت فصل', fa(B.units), k => fa(d[k].units)],
+    ['مشتری فعال لازم', fa(B.active), k => fa(d[k].act)],
+    ['سفارش به ازای مشتری فعال', fa(B.freq, 2), k => fa(d[k].freq, 2)],
+    ['ارزش هر سفارش (دلار)', fa(B.aov, 1), k => fa(d[k].aov, 1)],
+    ['مشتری بازگشته از فهرست‌ها', '—', k => fa(d[k].react)],
+    ['مشتری جدید فصل (کل کسب‌وکار)', fa(670 / 0.668), k => fa(d[k].nw)],
+    ['آبان (هزار دلار)', fa(MB, 1), k => fa(MB * (1 + PH[k][0] / 100), 1) + ' <small>(' + pct(PH[k][0], 0) + ')</small>'],
+    ['آذر (هزار دلار)', fa(MB, 1), k => fa(MB * (1 + PH[k][1] / 100), 1) + ' <small>(' + pct(PH[k][1], 0) + ')</small>'],
+    ['دی (هزار دلار)', fa(MB, 1), k => fa(MB * (1 + PH[k][2] / 100), 1) + ' <small>(' + pct(PH[k][2], 0) + ')</small>']
+  ];
+  document.querySelector('#t-req tbody').innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td class="n">${r[1]}</td>${['A', 'B', 'C'].map(k => `<td class="n">${r[2](k)}</td>`).join('')}</tr>`).join('');
+  ['A', 'B', 'C'].forEach(k => { document.getElementById('sus-' + k).textContent = pct(SC[k].sustainable * 100) + ' دلاری؛ GTA ' + pct((SC[k].usd_growth - SC[k].sustainable) * 100); });
+  const a = SC.A, b = SC.B, c = SC.C;
+  document.getElementById('ans3').innerHTML = `<b>A (‎+۳۰٪):</b> هر ۹ اهرم بالاتر از سطح شواهد امروز + ۶۵۰ بسته GTA؛ مدل ${pct(a.usd_growth * 100)} دلاری و ${pct(a.ord_growth * 100)} سفارش می‌دهد، که ${pct(a.sustainable * 100)} آن بدون GTA پایدار است. <b>B (‎+۴۰٪):</b> A + سبد چندکالایی تا هفته ۸، بازگشت ۲۵٪ عمده‌ها، ۸۰٪ رشد جذب؛ ${pct(b.usd_growth * 100)} دلاری. <b>C (‎+۶۰٪):</b> بازگشت ۳۵٪ عمده‌ها، ۲٫۵ برابر جذب، ۹۵۰ بسته GTA، ‎+۸٪ ارزش سفارش؛ همه اهرم‌ها در سطح «دشوار». ${pct(c.usd_growth * 100)} دلاری فقط روی کاغذ؛ تعهد نشود. بدون هیچ اقدامی، فرض فصل پاییز ‎−۱۰٪ است؛ با اهرم‌ها در سطح شواهد فعلی، رشد حدود ${pct(SC.CAP.usd_growth * 100)} است.`;
+}
+function cScen() {
+  const ks = [['مبنا', null], ['ظرفیت فعلی', 'CAP'], ['A', 'A'], ['B', 'B'], ['C', 'C']];
+  const usd = ks.map(([, k]) => (k ? B.usd * (1 + SC[k].usd_growth) : B.usd) / 1000);
+  const ord = ks.map(([, k]) => k ? B.orders * (1 + SC[k].ord_growth) : B.orders);
+  const h = 250, { s, w } = svg('c-scen', h), gap = 22, pw = (w - gap) / 2, P = { t: 26, b: 40 }, ph = h - P.t - P.b;
+  [[usd, 'معادل دلاری (هزار دلار)', 'var(--s1)', v => fa(v)], [ord, 'سفارش', 'var(--s2)', v => fa(v)]].forEach(([vals, title, col, f], pi) => {
+    const right = w - pi * (pw + gap), left = right - pw, st = pw / vals.length, mx = Math.max(...vals) * 1.12, y = v => P.t + ph - v / mx * ph;
+    el('text', { x: right - 2, y: 14, 'text-anchor': 'end', class: 'lab', text: title }, s);
+    vals.forEach((v, i) => {
+      const cx = right - (i + 0.5) * st, bw = Math.min(34, st * 0.6);
+      const r = el('rect', { x: cx - bw / 2, y: y(v), width: bw, height: P.t + ph - y(v), rx: 2, style: `fill:${i === 0 ? 'var(--prior)' : col}` }, s);
+      el('text', { x: cx, y: y(v) - 5, 'text-anchor': 'middle', class: 'lab', text: f(v) }, s);
+      el('text', { x: cx, y: P.t + ph + 16, 'text-anchor': 'middle', text: ks[i][0] }, s);
+      if (i) el('text', { x: cx, y: P.t + ph + 32, 'text-anchor': 'middle', style: 'font-size:11px', text: pct((v / vals[0] - 1) * 100, 0) }, s);
+      hov(r, `<b>${ks[i][0]}</b><br>${title}: ${f(v)}`);
+    });
+    el('line', { x1: left, x2: right, y1: P.t + ph, y2: P.t + ph, class: 'base' }, s);
+  });
+}
+function cTraj() {
+  const labels = ['تیر', 'مرداد', 'شهریور', 'آبان', 'آذر', 'دی'], act = D.usdeq.slice(15, 18).map(v => v / 1000);
+  const h = 250, { s, w } = svg('c-traj', h), P = { t: 14, r: 46, b: 36, l: 40 }, pw = w - P.l - P.r, ph = h - P.t - P.b;
+  const st = pw / 6, x = i => P.l + pw - (i + 0.5) * st, mx = 280, y = v => P.t + ph - v / mx * ph;
+  const g = el('g', { class: 'grid' }, s);
+  [0, 50, 100, 150, 200, 250].forEach(v => { el('line', { x1: P.l, x2: P.l + pw, y1: y(v), y2: y(v) }, g); el('text', { x: P.l + pw + 6, y: y(v) + 4, text: fa(v) }, s); });
+  el('rect', { x: x(5) - st / 2, y: P.t, width: st * 3, height: ph, style: 'fill:var(--sunk)' }, s);
+  el('text', { x: x(4), y: P.t + 12, 'text-anchor': 'middle', text: 'دوره هدف' }, s);
+  labels.forEach((l, i) => el('text', { x: x(i), y: P.t + ph + 18, 'text-anchor': 'middle', class: i > 2 ? 'lab' : '', text: l }, s));
+  const line = (vals, col, dash, name) => {
+    let d = ''; vals.forEach((v, i) => { if (v == null) return; d += (d ? 'L' : 'M') + x(i) + ',' + y(v); });
+    el('path', { d, style: `fill:none;stroke:${col};stroke-width:2.25;${dash ? 'stroke-dasharray:5 4;' : ''}` }, s);
+    vals.forEach((v, i) => { if (v == null || i < 2) return; const c = el('circle', { cx: x(i), cy: y(v), r: 4.5, style: `fill:${col};stroke:var(--surface);stroke-width:2` }, s); hov(c, `<b>${name} · ${labels[i]}</b><br>${fa(v, 1)} هزار دلار`); });
+  };
+  line([...act, MB, MB, MB].map((v, i) => i < 2 ? v : v), 'var(--prior)', false, 'مبنا');
+  [['A', 'var(--s3)'], ['B', 'var(--s4)'], ['C', 'var(--s8)']].forEach(([k, col]) => line([null, null, act[2], ...PH[k].map(p => MB * (1 + p / 100))], col, true, 'سناریو ' + k));
+  el('text', { x: x(1), y: y(act[1]) + 18, 'text-anchor': 'middle', text: 'واقعی' }, s);
+}
+let blkK = 'A';
+function cBlocks() {
+  const sc = SC[blkK], bl = sc.blocks, tot = B.usd;
+  const steps = bl.map(b => ({ n: BL[b.name], v: b.usd / tot * 100, kind: b.kind, b }));
+  const h = 300, { s, w } = svg('c-blocks', h), P = { t: 18, r: 44, b: 70, l: 8 }, pw = w - P.l - P.r, ph = h - P.t - P.b;
+  const n = steps.length + 2, st = pw / n, x = i => P.l + pw - (i + 0.5) * st;
+  let run = 100, lo = 100, hi = 100; steps.forEach(t => { run += t.v; lo = Math.min(lo, run); hi = Math.max(hi, run); });
+  const ymin = 80, ymax = Math.ceil((hi + 5) / 10) * 10, y = v => P.t + ph - (v - ymin) / (ymax - ymin) * ph;
+  const g = el('g', { class: 'grid' }, s);
+  for (let v = ymin; v <= ymax; v += 10) { el('line', { x1: P.l, x2: P.l + pw, y1: y(v), y2: y(v) }, g); el('text', { x: P.l + pw + 6, y: y(v) + 4, text: fa(v) }, s); }
+  const bw = Math.max(8, st * 0.62);
+  const bar = (i, a, b, col, lab, sub, tipH) => {
+    const r = el('rect', { x: x(i) - bw / 2, y: y(Math.max(a, b)), width: bw, height: Math.max(1, Math.abs(y(a) - y(b))), rx: 2, style: `fill:${col}` }, s);
+    el('text', { x: x(i), y: y(Math.max(a, b)) - 5, 'text-anchor': 'middle', class: 'lab', text: lab }, s);
+    const words = sub.split(' '); const half = Math.ceil(words.length / 2);
+    el('text', { x: x(i), y: P.t + ph + 14, 'text-anchor': 'middle', style: 'font-size:10.5px', text: words.slice(0, half).join(' ') }, s);
+    el('text', { x: x(i), y: P.t + ph + 27, 'text-anchor': 'middle', style: 'font-size:10.5px', text: words.slice(half).join(' ') }, s);
+    if (tipH) hov(r, tipH);
+  };
+  bar(0, ymin, 100, 'var(--prior)', '۱۰۰', 'مبنا تابستان', `<b>مبنا</b><br>${fa(B.usd)} دلار`);
+  run = 100;
+  steps.forEach((t, i) => { const a = run; run += t.v; bar(i + 1, a, run, KIND[t.kind][1], pct(t.v), t.n, `<b>${t.n}</b><br>${fa(t.b.usd)} دلار · ${fa(t.b.orders)} سفارش<br>${t.b.basis}`); });
+  bar(n - 1, ymin, run, 'var(--ink)', fa(run, 1), 'هدف مدل‌شده', `<b>نتیجه مدل</b><br>${pct(sc.usd_growth * 100)} دلاری · ${pct(sc.ord_growth * 100)} سفارش`);
+  el('line', { x1: P.l, x2: P.l + pw, y1: y(100), y2: y(100), style: 'stroke:var(--ink2);stroke-width:1;opacity:.5' }, s);
+  document.getElementById('blk-legend').innerHTML = Object.values(KIND).map(([n, c]) => `<span><i style="background:${c}"></i>${n}</span>`).join('');
+  document.querySelector('#t-blocks tbody').innerHTML = bl.map(b => { const r = RATE_LBL[RATING[blkK](b.name)]; return `<tr><td>${BL[b.name]}</td><td>${KIND[b.kind][0]}</td><td class="n">${fa(b.usd)}</td><td class="n">${pct(b.usd / tot * 100)}</td><td class="n">${fa(b.orders)}</td><td>${b.basis} <span class="tag a">ASSUMPTION</span></td><td><span class="chip ${r[1]}"><i></i>${r[0]}</span></td></tr>`; }).join('')
+    + `<tr class="hl"><td><b>جمع</b></td><td></td><td class="n"><b>${fa(bl.reduce((s, b) => s + b.usd, 0))}</b></td><td class="n"><b>${pct(sc.usd_growth * 100)}</b></td><td class="n"><b>${fa(bl.reduce((s, b) => s + b.orders, 0))}</b></td><td colspan="2">رشد سفارش: ${pct(sc.ord_growth * 100)} · پایدار (بدون GTA): ${pct(sc.sustainable * 100)}</td></tr>`;
+  const gtaShare = (sc.blocks.find(b => b.name === 'gta').usd) / sc.blocks.filter(b => b.usd > 0).reduce((s, b) => s + b.usd, 0) * 100;
+  const msg = { CAP: 'با اهرم‌ها در سطحی که شواهد امروز پشتیبانی می‌کند، رشد حدود ' + pct(sc.usd_growth * 100) + ' است. فاصله تا ‎+۳۰٪ باید با اجرای قوی‌تر پر شود؛ هیچ اهرم منفردی کافی نیست.',
+    A: 'GTA ' + fa(gtaShare, 0) + '٪ رشد ناخالص را می‌سازد؛ اگر عرضه عقب بیفتد، A به حدود ' + pct((sc.usd_growth - sc.blocks.find(b => b.name === 'gta').usd / tot) * 100) + ' می‌رسد. بقیه اهرم‌ها از داده مشتری می‌آیند و هزینه رسانه کمی دارند.',
+    B: 'B با A فرق ساختاری ندارد، فقط هر اهرم را یک پله بالاتر می‌برد. نقطه حساس: سبد چندکالایی (‎+۶٪ ارزش سفارش) روی پلتفرم قدیمی.',
+    C: 'C جذب ۲٫۵ برابری و بازگشت یک‌سوم عمده‌ها را فرض می‌کند؛ هر دو بیش از هر الگوی موجود در داده‌اند. نتیجه ۱۵٪ بالاتر از بهترین فصل ثبت‌شده است.' };
+  document.getElementById('blk-insight').innerHTML = msg[blkK];
+}
+</script>
+
+<script>
+/* ---------- flow matrix & flywheel ---------- */
+const MX = [['سایت', [1, 2, 2, 2, 2, 2, 1, 1, 1, 1]], ['تلگرام و بله', [1, 1, 0, 1, 0, 1, 2, 2, 2, 1]], ['اینستاگرام', [2, 2, 1, 0, 0, 0, 0, 0, 0, 1]],
+  ['تیک‌تاک (این فصل نه)', [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], ['CRM و پیامک', [0, 0, 0, 0, 0, 1, 2, 2, 2, 1]], ['پروفایل مشتری', [0, 0, 0, 1, 0, 2, 2, 2, 1, 1]],
+  ['پروموشن', [0, 1, 0, 1, 1, 0, 2, 2, 1, 2]], ['ری‌تارگتینگ (یکتانت)', [0, 2, 1, 1, 0, 0, 1, 0, 0, 0]], ['AI', [0, 0, 1, 2, 0, 1, 1, 2, 1, 0]]];
+function tMatrix() {
+  document.getElementById('t-matrix').innerHTML = MX.map(([n, v]) => `<tr><td>${n}</td>${v.map(x => `<td class="c">${x === 2 ? '<span class="dot" title="نقش اصلی"></span>' : x === 1 ? '<span class="dot half" title="نقش پشتیبان"></span>' : ''}</td>`).join('')}</tr>`).join('');
+}
+function cWheel() {
+  const N = [['جذب', 'مشتری جدید/ماه'], ['داده مشتری', 'پوشش پروفایل'], ['شخصی‌سازی', 'پیام بر اساس بخش'], ['پروموشن', 'درآمد اضافه ÷ هزینه'],
+    ['خرید', 'سفارش'], ['ماندگاری', 'خرید دوم ۳۰ روزه'], ['خرید تکراری', 'فاصله خرید'], ['معرفی', 'مشتری از معرفی']];
+  const box = document.getElementById('c-wheel'); const W = Math.max(280, Math.min(box.clientWidth, 520));
+  const { s, w } = svg('c-wheel', W * 0.92); const h = W * 0.92, cx = w / 2, cy = h / 2, R = Math.min(w, h) * 0.36, nr = Math.max(30, R * 0.3);
+  el('circle', { cx, cy, r: R, style: 'fill:none;stroke:var(--hair);stroke-width:14' }, s);
+  const pos = i => { const a = -Math.PI / 2 + i * 2 * Math.PI / N.length; return [cx + R * Math.cos(a), cy + R * Math.sin(a), a]; };
+  N.forEach((_, i) => {
+    const a1 = -Math.PI / 2 + (i + 0.28) * 2 * Math.PI / N.length, a2 = -Math.PI / 2 + (i + 0.72) * 2 * Math.PI / N.length;
+    const [x1, y1, x2, y2] = [cx + R * Math.cos(a1), cy + R * Math.sin(a1), cx + R * Math.cos(a2), cy + R * Math.sin(a2)];
+    el('path', { d: `M${x1},${y1} A${R},${R} 0 0 1 ${x2},${y2}`, style: 'fill:none;stroke:var(--accent);stroke-width:2.5' }, s);
+    const ah = 7, ang = a2 + Math.PI / 2;
+    el('path', { d: `M${x2},${y2} l${-ah * Math.cos(ang - 0.5)},${-ah * Math.sin(ang - 0.5)} M${x2},${y2} l${-ah * Math.cos(ang + 0.5)},${-ah * Math.sin(ang + 0.5)}`, style: 'stroke:var(--accent);stroke-width:2.5;fill:none' }, s);
+  });
+  N.forEach(([t, k], i) => {
+    const [x, y] = pos(i);
+    const c = el('circle', { cx: x, cy: y, r: nr, style: `fill:${i === 0 || i === 7 ? 'var(--accent-soft)' : 'var(--surface)'};stroke:var(--accent);stroke-width:1.5` }, s);
+    el('text', { x, y: y + 1, 'text-anchor': 'middle', style: 'fill:var(--ink);font-weight:800;font-size:12px', text: t }, s);
+    el('text', { x, y: y + 16, 'text-anchor': 'middle', style: 'font-size:9.5px', text: k }, s);
+    hov(c, `<b>${t}</b><br>KPI: ${k}`);
+  });
+  el('text', { x: cx, y: cy - 4, 'text-anchor': 'middle', style: 'fill:var(--ink);font-weight:800;font-size:14px', text: 'چرخ درآمد' }, s);
+  el('text', { x: cx, y: cy + 16, 'text-anchor': 'middle', text: 'سرعت: فاصله خرید ۴۷ روز' }, s);
+}
+/* ---------- roadmap ---------- */
+const WP = [
+  ['ردیابی و اندازه‌گیری', 'GA4، GTM، رویداد خرید، UTM، ثبت کد تخفیف و کانال در سفارش', 'دیده شدن قیف و اثر کمپین', 'مدیر محصول دیجیتال', 1, 3, 'دسترسی توسعه', '۹۵٪ سفارش‌ها با منبع', 'روزانه در هفته ۳', 'تبلیغ پولی فقط وقتی GA4 با سفارش‌ها کمتر از ۵٪ اختلاف دارد', 'var(--s1)'],
+  ['داده مشتری و بخش‌بندی', 'خروجی همه برندها + PSN آمریکا و استیم، شناسه یکتا، RFM هفتگی', 'فهرست‌های عملیاتی', 'تحلیلگر داده / CRM', 1, 2, 'خروجی EDelivery', 'پوشش ۱۰۰٪ درآمد', 'هفتگی', 'اگر خروجی PSN آمریکا تا هفته ۲ نرسید، GTA با فایل‌های موجود اجرا شود', 'var(--s1)'],
+  ['بازگرداندن خریداران عمده', 'تماس با ۸۶ + ۴۷۱ حساب، علت‌یابی، قیمت پلکانی ۳۰ روزه', 'بازگشت ۲۰٪', 'فروش حساب‌های کلیدی', 3, 8, 'فهرست بسته ۲', 'نرخ بازگشت، سفارش هر حساب', 'هفتگی', 'اگر بازگشت تماس‌های هفته ۳ زیر ۱۰٪: تغییر پیشنهاد', 'var(--s3)'],
+  ['موج‌های بازگشت', 'At-risk، Dormant، Lost با پیامک، تلگرام و بله؛ ۱۰٪ کنترل', 'بازگشت ۱۲٪ / ۳٪ / ۰٫۷٪', 'CRM', 5, 10, 'پنل پیامک، رضایت ارتباط', 'بازگشت در برابر کنترل', 'پس از هر موج', 'ادامه اگر ≥ ۱٫۵ برابر کنترل', 'var(--s3)'],
+  ['سیستم پروموشن', 'تقویم، قواعد، سقف بودجه، گروه کنترل', 'رشد بدون فرسایش حاشیه', 'مدیر تجاری', 2, 12, 'داده بهای تمام‌شده', 'درآمد اضافه ÷ هزینه پیشنهاد', 'هفتگی', 'توقف پیشنهادی که اثرش با کنترل تفاوت ندارد', 'var(--s3)'],
+  ['آزمون قیمت PS میانی', 'مقایسه با رقبا؛ کاهش محدود روی ۱۰ و ۲۰ دلاری', 'بازگشت ۳۵٪ شکاف', 'مدیر قیمت‌گذاری', 2, 5, 'قیمت رقبا', 'کارت PS میانی در هفته', 'هفتگی', 'دائمی اگر حجم ‎+۲۰٪ و دلار ردیف افت نکند', 'var(--s7)'],
+  ['کمپین GTA', 'موجودی، صفحه فرود، لیست انتظار، عرضه، پس از عرضه', '۶۵۰ بسته', 'مدیر بازاریابی', 1, 10, 'موجودی PSN/Xbox', 'بسته فروخته‌شده', 'روزانه در هفته ۵ تا ۷', 'اگر ۱۰ روز اول زیر ۲۰۰ بسته: انتقال بودجه به بازگشت', 'var(--s4)'],
+  ['تلگرام و بله', 'ساختار محتوا، عضوگیری، ربات نسخه ۱، کانال پشتیبان', 'کانال فروش شخصی', 'شبکه اجتماعی + توسعه', 2, 8, 'بسته ۲', 'سفارش از تلگرام', 'هفتگی', 'ادامه ربات اگر تا هفته ۱۰ ≥ ۵٪ سفارش بازگشتی‌ها', 'var(--s3)'],
+  ['اصلاحات فوری سایت', 'خرید دوباره، جستجو، راهنمای ریجن، آزمون تأیید ساده', 'تبدیل و تکرار', 'مدیر محصول', 2, 9, 'بسته ۱', 'تبدیل، ریزش در احراز', 'هفتگی', 'توقف آزمون احراز اگر تقلب از آستانه مالی بگذرد', 'var(--s7)'],
+  ['سبد چندکالایی و بسته', 'سبد، آستانه سبد، بسته‌های آماده', '‎+۵٪ ارزش سفارش', 'توسعه', 3, 8, 'ظرفیت توسعه', 'کارت در هر سفارش', 'هفتگی پس از هفته ۸', 'اگر تا هفته ۶ آماده نشد: بسته‌های تک‌کالایی', 'var(--s7)'],
+  ['برنامه خریداران عمده', 'سطوح قیمت، مدیر حساب، سفارش عمده', '‎+۸٪ سهم کیف پول', 'فروش', 3, 8, 'بسته ۲', 'سفارش هر حساب Power', 'ماهانه', 'ادامه اگر ماندگاری Power ≥ ۹۵٪', 'var(--s3)'],
+  ['لایه AI سریع', 'امتیاز ریزش، متن کمپین، دستیار پشتیبانی تلگرام', 'سرعت و دقت پیام', 'محصول / داده', 4, 10, 'بسته ۲، پرسش‌های پشتیبانی', 'زمان پاسخ، خرید پس از گفتگو', 'دو هفته یک بار', 'گسترش دستیار اگر ≥ ۳۰٪ پرسش‌ها بدون انسان حل شود', 'var(--s7)'],
+  ['محتوا و برند', 'راهنمای لحن، معماری پیام، متن مراحل خرید، قالب اینستاگرام', 'اعتماد و کشف', 'مسئول برند', 2, 6, '—', 'کلیک به سایت از اینستاگرام', 'ماهانه', 'قالب‌های کم‌کلیک در ماه ۳ حذف شوند', 'var(--s5)'],
+  ['جلسه رشد هفتگی', 'داشبورد یک‌صفحه‌ای و تصمیم هفتگی', 'انضباط اجرا', 'مدیرعامل / مدیر رشد', 1, 12, 'بسته ۱', 'درصد اقدام‌های انجام‌شده', 'هفتگی', 'هر شاخص خارج از ±۱۰٪ هدف یک اقدام با مسئول دارد', 'var(--prior)']];
+const WEEKS = ['۱۹–۲۵ مهر', '۲۶ مهر–۲ آبان', '۳–۹ آبان', '۱۰–۱۶ آبان', '۱۷–۲۳ آبان', '۲۴–۳۰ آبان', '۱–۷ آذر', '۸–۱۴ آذر', '۱۵–۲۱ آذر', '۲۲–۲۸ آذر', '۲۹ آذر–۵ دی', '۶–۱۲ دی'];
+const MILE = { 6: 'عرضه GTA · ۲۸ آبان', 7: 'بلک‌فرایدی · ۶ آذر', 11: 'یلدا · ۳۰ آذر' };
+function gantt() {
+  let h = '<div class="lbl"></div><div class="mh" style="background:var(--mon-bg)">ماه ۱ · پایه‌گذاری</div><div class="mh" style="background:var(--imp-bg)">ماه ۲ · فعال‌سازی</div><div class="mh" style="background:var(--good-bg)">ماه ۳ · مقیاس</div>';
+  h += '<div class="lbl">بسته کاری</div>' + WEEKS.map((w, i) => `<div class="h">ه${fa(i + 1)}<small>${w}</small></div>`).join('');
+  h += '<div class="lbl">نقطه عطف</div>' + WEEKS.map((_, i) => `<div class="cell">${MILE[i + 1] ? `<span class="ms" title="${MILE[i + 1]}"></span>` : ''}</div>`).join('');
+  WP.forEach((r, j) => {
+    h += `<div class="lbl">${fa(j + 1)}. ${r[0]}<small>${r[3]}</small></div>`;
+    for (let wk = 1; wk <= 12; wk++) h += `<div class="cell">${wk >= r[4] && wk <= r[5] ? `<span class="barx" style="background:${r[10]};inset-inline:${wk === r[4] ? 4 : 0}px ${wk === r[5] ? 4 : 0}px"></span>` : ''}</div>`;
+  });
+  const g = document.getElementById('gantt'); g.innerHTML = h;
+  g.querySelectorAll('.ms').forEach(m => { m.addEventListener('mousemove', ev => showTip(ev, `<b>${m.title}</b>`)); m.addEventListener('mouseleave', hideTip); });
+  document.querySelector('#t-wp tbody').innerHTML = WP.map((r, j) => `<tr><td><b>${fa(j + 1)}. ${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td class="n">هفته ${fa(r[4])}–${fa(r[5])}</td><td>${r[6]}</td><td>${r[7]}</td><td>${r[8]}</td><td>${r[9]}</td></tr>`).join('');
+}
+/* ---------- experiments ---------- */
+const EX = [
+  ['تماس شخصی با عمده‌های تازه‌خاموش', 'توقف بخشی از آن‌ها به قطعی یا قیمت مربوط است؛ تماس و قیمت قبلی بازشان می‌گرداند', 'Lapsed Power ۹۱–۱۸۰ روز (۸۶)', 'بازگشت', 'نیمی تماس، نیمی بدون تماس', 'نرخ بازگشت ۳۰ روزه', '۴ هفته', '≥ ۲۵٪ و ۲ برابر کنترل', 'گسترش به ۴۷۱ حساب دیگر', 9, 7, 8],
+  ['قیمت PS ۱۰ و ۲۰ دلاری', 'بازگشت مزیت قیمتی، حجم ردیف میانی را برمی‌گرداند', 'خریداران PS', 'تبدیل / قیمت', 'کاهش ۳٪ دو هفته؛ کنترل: ردیف ۳۰–۴۰ دلاری و دو هفته قبل', 'کارت در هفته', '۲ هفته', 'حجم ‎+۲۰٪ و دلار ردیف ≥ مبنا', 'دائمی و گسترش به ۲۵–۴۰ دلاری', 8, 6, 9],
+  ['بسته GTA در برابر کارت‌های جدا', 'بسته آماده ۸۰ دلاری خرید را ساده و تبدیل را بیشتر می‌کند', 'گیمرهای PS و Xbox', 'کمپین / AOV', 'دو صفحه فرود A/B', 'تبدیل صفحه، فروش بسته', '۳ هفته', 'تبدیل بسته ≥ ۱٫۳ برابر', 'بسته برای بازی‌های بعدی', 9, 6, 6],
+  ['خرید اول بدون تلفن ثابت (تا ‎$۲۵)', 'تأیید تلفن ثابت مانع اصلی خرید اول است', 'بازدیدکننده جدید', 'تبدیل', '۵۰٪ ترافیک جدید بدون تلفن ثابت', 'تبدیل خرید اول، نرخ تقلب', '۴ هفته', 'تبدیل ‎+۲۰٪ با تقلب زیر آستانه', 'سقف را به ‎$۵۰ ببرید', 8, 5, 5],
+  ['موج بازگشت At-risk: نوع پیشنهاد', 'هدیه کوچک بیشتر از تخفیف برمی‌گرداند', 'At-risk (۱٬۴۶۹)', 'بازگشت', 'سه گروه: کارت ۱ دلاری / حذف کارمزد / فقط یادآوری + ۱۰٪ کنترل', 'بازگشت ۱۴ روزه', '۲ هفته', 'برنده ≥ ۱٫۵ برابر کنترل', 'برنده برای Dormant', 7, 6, 8],
+  ['اعتبار کارمزد سفارش دوم', 'مشوق کوچک خرید دوم را از ۳۲٪ به ۴۰٪+ می‌رساند', 'New', 'تکرار', '۵۰٪ جدیدها با اعتبار', 'خرید دوم ۳۰ روزه', '۶ هفته', '‎+۸ واحد درصد', 'دائمی در سری خوش‌آمد', 6, 7, 8],
+  ['یادآوری روز ۴۵ کارت همیشگی', 'یادآوری در زمان چرخه، فاصله خرید را کم می‌کند', 'Champions', 'تکرار', '۵۰٪ با یادآوری', 'فاصله خرید', '۶ هفته', 'فاصله ‎−۱۰٪', 'گسترش به Loyal', 6, 7, 8],
+  ['دکمه خرید دوباره', 'بازگشتی‌ها سریع‌تر و بیشتر می‌خرند', 'مشتریان واردشده', 'تکرار / تبدیل', 'پیش و پس از راه‌اندازی', 'سفارش به ازای بازگشتی', '۴ هفته', '‎+۵٪', 'پیشنهاد کارت بعدی', 7, 6, 6],
+  ['یادآوری تمدید اشتراک', 'یادآوری ۵ روز مانده، تمدید را بالا می‌برد', 'خریداران اشتراک', 'تکرار', '۵۰٪ با یادآوری', 'نرخ تمدید', '۸ هفته', '‎+۱۰ واحد درصد', 'خودکار دائمی', 4, 8, 9],
+  ['دو خرید در ۷ روز', 'هدیه پس از خرید دوم، تکرار را بالا می‌برد', 'Champions و Loyal', 'تکرار', '۵۰٪ پیشنهاد', 'سفارش به ازای مشتری', '۴ هفته', '‎+۸٪ با هزینه زیر ۵٪', 'دوهفته در میان', 5, 5, 8],
+  ['پیامک رویدادی به Lost', 'رویداد بزرگ دلیل کافی برای بازگشت است', 'Lost (۲۲٬۳۱۹)', 'بازگشت', '۲۰٪ نمونه، سپس کل', 'بازگشت، لغو اشتراک', '۲ هفته', 'بازگشت ≥ ۰٫۵٪ و لغو زیر ۲٪', 'تکرار در یلدا', 4, 4, 9],
+  ['دستیار AI پشتیبانی تلگرام', 'پاسخ فوری به پرسش ریجن، خرید را تکمیل می‌کند', 'پرسش‌کنندگان', 'تبدیل', 'ساعات شب با دستیار', 'خرید پس از گفتگو', '۴ هفته', '≥ ۳۰٪ حل بدون انسان', 'گسترش به همه ساعات', 4, 5, 5]];
+function tExp() {
+  const rows = EX.map(r => ({ r, s: r[9] * r[10] * r[11] })).sort((a, b) => b.s - a.s);
+  document.querySelector('#t-exp tbody').innerHTML = rows.map(({ r, s }, i) => `<tr${i < 5 ? ' class="hl"' : ''}><td class="n"><b>${fa(s)}</b><br><small style="color:var(--muted)">${fa(r[9])}×${fa(r[10])}×${fa(r[11])}</small></td><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td><td>${r[7]}</td><td>${r[8]}</td></tr>`).join('');
+}
+/* ---------- tabs, toc, render ---------- */
+function tabs(id, cb) {
+  const t = document.getElementById(id);
+  t.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { t.querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', x === b)); cb(b.dataset.k); }));
+}
+tabs('trend-tabs', k => { trendK = k; cTrend(); });
+tabs('blk-tabs', k => { blkK = k; cBlocks(); });
+let archK = 'a1';
+const showArch = () => document.querySelectorAll('.arch').forEach(c => c.hidden = c.id !== archK);
+tabs('arch-tabs', k => { archK = k; showArch(); });
+showArch();
+const links = [...document.querySelectorAll('#toc a')];
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-30% 0px -60% 0px' });
+document.querySelectorAll('main section').forEach(s => io.observe(s));
+function renderAll() { cTrend(); cNew(); cNvr(); cBrand(); cRec(); cScen(); cTraj(); cBlocks(); cWheel(); }
+tReq(); tMatrix(); gantt(); tExp(); renderAll();
+let lw = innerWidth, tm; addEventListener('resize', () => { if (innerWidth === lw) return; lw = innerWidth; clearTimeout(tm); tm = setTimeout(renderAll, 150); });
+addEventListener('beforeprint', () => { document.querySelectorAll('details').forEach(d => d.open = true); document.querySelectorAll('.arch').forEach(c => c.hidden = false); });
+addEventListener('afterprint', showArch);
+</script>
+<style>
+@media print{
+  body{background:#fff;padding:0;font-size:11.5pt}
+  .side,.printbtn,.tip,.tabs{display:none!important}
+  .shell{display:block}
+  section{padding-block:16px 0}
+  .card,.kpi,.qa,.stage,.verdict{break-inside:avoid}
+}
+</style>
+</body>
+</html>
